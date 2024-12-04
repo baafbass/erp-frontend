@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import {Routes,Route} from 'react-router-dom'
 
-function App() {
+import HomePage from './pages/HomePage';
+import Birim from './pages/kontrolT/Birim/birim'
+import Dil from './pages/kontrolT/Dil/dil'
+import Firma from './pages/kontrolT/Firma/firma'
+import IsMerkezi from './pages/kontrolT/IsMerkezi/isMerkezi'
+import MaliyetMerkezi from './pages/kontrolT/MaliyetMerkezi/maliyetMerkezi'
+import Malzeme from './pages/kontrolT/Malzeme/malzeme'
+import Operasyon from './pages/kontrolT/Operasyon/operasyon'
+import Rota from './pages/kontrolT/Rota/rota'
+import Sehir from './pages/kontrolT/Sehir/sehir'
+import Ulke from './pages/kontrolT/Ulke/ulke'
+import UrunAgaci from './pages/kontrolT/UrunAgaci/urunAgaci'
+
+
+function App(){
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+   <Routes>
+   <Route path='/' element={<HomePage/>}/>
+   
+   <Route path='/birim' element={<Birim/>}/>
+   <Route path='/dil' element={<Dil/>}/>
+   <Route path='/firma' element={<Firma/>}/>
+   <Route path='/is-merkezi' element={<IsMerkezi/>}/>
+   <Route path='/maliyet-merkezi' element={<MaliyetMerkezi/>}/>
+   <Route path='/malzeme' element={<Malzeme/>}/>
+   <Route path='/operasyon' element={<Operasyon/>}/>
+   <Route path='/rota' element={<Rota/>}/>
+   <Route path='/sehir' element={<Sehir/>}/>
+   <Route path='/ulke' element={<Ulke/>}/>
+   <Route path='/urun-agaci' element={<UrunAgaci/>}/>
+   </Routes>
   );
-}
+};
 
 export default App;
