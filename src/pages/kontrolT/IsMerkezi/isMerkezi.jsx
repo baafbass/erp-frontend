@@ -1,8 +1,5 @@
-
 const IsMerkezi = () => {
-	return (
-         <>IsMerkezi Sayfasi</>
-		)
-}
+  return <h1>İş Merkezi</h1>;
+};
 
 export default IsMerkezi;

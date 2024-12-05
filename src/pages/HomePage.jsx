@@ -1,9 +1,69 @@
-import React from 'react'
+import React from "react";
+import "./HomePage.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 
 const HomePage = () => {
-	return (
-        <h1>Uygulamanın Ana sayfası</h1>
-		)
+  const kontrolTabloItems = [
+    { href: "/firma", label: "Firma" },
+    { href: "/birim", label: "Birim" },
+    { href: "/dil", label: "Dil" },
+    { href: "/malzeme", label: "Malzeme Tipi" },
+    { href: "/ulke", label: "Ülke" },
+    { href: "/maliyetmerkezi", label: "Maliyet Merkezi" },
+    { href: "/sehir", label: "Şehir" },
+    { href: "/urunagaci", label: "Ürün Ağacı" },
+    { href: "/rota", label: "Rota Tipi" },
+    { href: "/ismerkezi", label: "İş Merkezi Tipi" },
+    { href: "/operasyon", label: "Operasyon Tipi" },
+  ];
+
+  const anaTabloItems = [
+    { href: "/materyal", label: "Materyal" },
+    { href: "/maliyetmerkezi", label: "Maliyet Merkezi" },
+    { href: "/ismerkezi", label: "İş Merkezi" },
+    { href: "/urunagaci", label: "Ürün Ağacı" },
+    { href: "/rotayonetimi", label: "Rota Yönetimi" },
+  ];
+
+  const closePage = () => {
+    window.close();
+  };
+
+  return (
+    <div className="homepage">
+      <div className="navbar">
+        <h1 className="title">Ana Ekran</h1>
+        <button className="close-button" onClick={closePage}>
+          <FontAwesomeIcon icon={faTimes} />
+        </button>
+      </div>
+      <div className="container">
+        <div className="grid">
+          <div className="section">
+            <h2 className="section-title">Kontrol Tabloları</h2>
+            <div className="button-grid">
+              {kontrolTabloItems.map((item, index) => (
+                <a key={index} href={item.href} className="button">
+                  {item.label}
+                </a>
+              ))}
+            </div>
+          </div>
+          <div className="section">
+            <h2 className="section-title">Ana Tablolar</h2>
+            <div className="button-grid">
+              {anaTabloItems.map((item, index) => (
+                <a key={index} href={item.href} className="button">
+                  {item.label}
+                </a>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default HomePage;
