@@ -12,8 +12,16 @@ import Rota from "./pages/kontrolT/Rota/rota";
 import Sehir from "./pages/kontrolT/Sehir/sehir";
 import Ulke from "./pages/kontrolT/Ulke/ulke";
 import UrunAgaci from "./pages/kontrolT/UrunAgaci/urunAgaci";
+
 import FirmaOlustur from "./pages/kontrolT/Firma/components/firmaOlusturma";
 import FirmaGuncelle from "./pages/kontrolT/Firma/components/firmaGuncelleme";
+
+import SehirOlustur from "./pages/kontrolT/Sehir/sehirolustur";
+import UrunAgaciOlustur from "./pages/kontrolT/UrunAgaci/urunAgaciolustur";
+import RotaOlustur from "./pages/kontrolT/Rota/rotaolustur";
+import IsMerkeziOlustur from "./pages/kontrolT/IsMerkezi/isMerkeziolustur";
+import OperasyonOlustur from "./pages/kontrolT/Operasyon/operasyonolustur";
+
 
 function App() {
   return (
@@ -30,9 +38,18 @@ function App() {
       <Route path="/rota" element={<Rota />} />
       <Route path="/sehir" element={<Sehir />} />
       <Route path="/ulke" element={<Ulke />} />
+        
       <Route path="/urun-agaci" element={<UrunAgaci />} />
       <Route path="/firma-olustur" element={<FirmaOlustur />} />
       <Route path="/firma-guncelle/:firma_kodu" element={<FirmaGuncelle/>}/>
+
+      <Route path="/sehirolustur" element={<SehirOlustur />} />
+      <Route path="/urunAgaciolustur" element={<UrunAgaciOlustur />} />
+      <Route path="/rotaolustur" element={<RotaOlustur />} />
+      <Route path="/isMerkeziolustur" element={<IsMerkeziOlustur />} />
+      <Route path="/operasyonolustur" element={<OperasyonOlustur />} />
+
+
     </Routes>
   );
 }
