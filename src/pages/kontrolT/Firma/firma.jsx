@@ -1,42 +1,67 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState,useEffect } from "react";
+import { Link,useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEdit, faTrash, faPlus } from "@fortawesome/free-solid-svg-icons";
+import {useAxios} from '../../../shared/hooks/axios-hook';
+import FirmaSilme from './components/firmaSilme'
 
 const FirmaPage = () => {
-  const [companies, setCompanies] = useState([
-    {
-      kod: "COM001",
-      ad: "Acme Inc.",
-      adres1: "123 Main St.",
-      adres2: "Suite 456",
-      sehirKodu: "NYC",
-      ulkeKodu: "USA",
-    },
-    {
-      kod: "COM002",
-      ad: "Globex Corporation",
-      adres1: "789 Park Ave.",
-      adres2: "Floor 10",
-      sehirKodu: "LON",
-      ulkeKodu: "UK",
-    },
-    {
-      kod: "COM003",
-      ad: "Stark Industries",
-      adres1: "555 Technology Dr.",
-      adres2: "Building A",
-      sehirKodu: "SFO",
-      ulkeKodu: "USA",
-    },
-  ]);
+  const [companies, setCompanies] = useState([]);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [selectedCompany, setSelectedCompany] = useState(null);
+
+  const axios = useAxios();
+  const navigate = useNavigate();
+
+  const getAllFirma = async () =>{
+    try{
+      const response = await axios.get('/firma');
+      if(response.data.status==="OK"){
+        setCompanies(response.data.firmalar);
+      }
+    } catch(error){
+      console.log("Error",error.message);
+    }
+  }
+
+  useEffect(()=>{
+    getAllFirma();
+  },[])
+
+  const handleEdit = (firma_kodu) => {
+   navigate(`/firma-guncelle/${firma_kodu}`)
+  }
+
+  const handleDelete = async () => {
+   try{
+     const response = await axios.delete(`/firma/${selectedCompany}`);
+     if(response.data.status === "OK"){
+      setCompanies((prevCompanies)=>prevCompanies.filter((company)=> company.COMCODE !== selectedCompany));
+     }
+   } catch(error){
+    console.error("Error Deleting company",error.message);
+   } finally {
+      setOpenDialog(false);
+    }
+  }
+  
+
+  const handleOpenDialog = (firma_kodu) => {
+    setSelectedCompany(firma_kodu);
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+    setSelectedCompany(null);
+  };
 
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-start pt-8">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-6xl">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-gray-800">Firma Bilgileri</h1>
-          <Link to="/firmaolustur">
+          <Link to="/firma-olustur">
             <button className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300 flex items-center">
               <FontAwesomeIcon icon={faPlus} className="mr-2" />
               Yeni Firma Oluştur
@@ -59,18 +84,20 @@ const FirmaPage = () => {
             <tbody>
               {companies.map((company, index) => (
                 <tr key={index} className="border-b">
-                  <td className="px-4 py-2">{company.kod}</td>
-                  <td className="px-4 py-2">{company.ad}</td>
-                  <td className="px-4 py-2">{company.adres1}</td>
-                  <td className="px-4 py-2">{company.adres2}</td>
-                  <td className="px-4 py-2">{company.sehirKodu}</td>
-                  <td className="px-4 py-2">{company.ulkeKodu}</td>
+                  <td className="px-4 py-2">{company.COMCODE}</td>
+                  <td className="px-4 py-2">{company.COMTEXT}</td>
+                  <td className="px-4 py-2">{company.ADDRESS1}</td>
+                  <td className="px-4 py-2">{company.ADDRESS2}</td>
+                  <td className="px-4 py-2">{company.CITYCODE}</td>
+                  <td className="px-4 py-2">{company.COUNTRYCODE}</td>
                   <td className="px-4 py-2 flex justify-center space-x-2">
-                    <button className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-1 px-2 rounded-lg transition-colors duration-300 flex items-center">
+                
+                    <button onClick={()=>handleEdit(company.COMCODE)} className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-1 px-2 rounded-lg transition-colors duration-300 flex items-center">
                       <FontAwesomeIcon icon={faEdit} className="mr-1" />
                       Düzenle
                     </button>
-                    <button className="bg-red-500 hover:bg-red-700 text-white font-medium py-1 px-2 rounded-lg transition-colors duration-300 flex items-center">
+                  
+                    <button onClick={() => handleOpenDialog(company.COMCODE)} className="bg-red-500 hover:bg-red-700 text-white font-medium py-1 px-2 rounded-lg transition-colors duration-300 flex items-center">
                       <FontAwesomeIcon icon={faTrash} className="mr-1" />
                       Sil
                     </button>
@@ -81,6 +108,7 @@ const FirmaPage = () => {
           </table>
         </div>
       </div>
+      <FirmaSilme openDialog={openDialog} handleCloseDialog={handleCloseDialog} handleDelete={handleDelete}/>
     </div>
   );
 };

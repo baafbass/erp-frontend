@@ -1,7 +1,7 @@
 
 const Dil = () => {
 	return (
-         <>Dil Sayfasi</>
+         <>Dill Sayfasi</>
 		)
 }
 

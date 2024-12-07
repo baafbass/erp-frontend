@@ -1,27 +1,42 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
+import {useAxios} from '../../../../shared/hooks/axios-hook';
+
+const firmaFields = {
+  firma_kodu:'',
+  firma_adi:'',
+  firma_adresi_1:'',
+  firma_adresi_2:'',
+  sehir_kodu:'',
+  ulke_kodu:''
+}
 
 const FirmaOlustur = () => {
-  const [formData, setFormData] = useState({
-    kod: "",
-    ad: "",
-    adres1: "",
-    adres2: "",
-    sehirKodu: "",
-    ulkeKodu: "",
-  });
+
+  const [firmaData, setFirmaData] = useState(firmaFields);
+  const {firma_kodu,firma_adi,firma_adresi_1,firma_adresi_2,sehir_kodu,ulke_kodu} = firmaData;
+
+  const axios = useAxios();
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({
-      ...formData,
+    setFirmaData({
+      ...firmaData,
       [name]: value,
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Form data submitted:", formData);
+    try{
+     const response = await axios.post('/firma',firmaData);
+     if(response.data.status === "OK"){
+      navigate('/firma')
+     }
+    } catch(error) {
+      console.log("message:",error.message);
+    }
   };
 
   return (
@@ -34,15 +49,15 @@ const FirmaOlustur = () => {
           <div className="mb-4">
             <label
               className="block text-gray-700 font-medium mb-2"
-              htmlFor="kod"
+              htmlFor="firma_kodu"
             >
               Kod
             </label>
             <input
               type="text"
-              id="kod"
-              name="kod"
-              value={formData.kod}
+              id="firma_kodu"
+              name="firma_kodu"
+              value={firma_kodu}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg"
               required
@@ -51,15 +66,15 @@ const FirmaOlustur = () => {
           <div className="mb-4">
             <label
               className="block text-gray-700 font-medium mb-2"
-              htmlFor="ad"
+              htmlFor="firma_adi"
             >
               Ad
             </label>
             <input
               type="text"
-              id="ad"
-              name="ad"
-              value={formData.ad}
+              id="firma_adi"
+              name="firma_adi"
+              value={firma_adi}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg"
               required
@@ -68,15 +83,15 @@ const FirmaOlustur = () => {
           <div className="mb-4">
             <label
               className="block text-gray-700 font-medium mb-2"
-              htmlFor="adres1"
+              htmlFor="firma_adresi_1"
             >
               Adres 1
             </label>
             <input
               type="text"
-              id="adres1"
-              name="adres1"
-              value={formData.adres1}
+              id="firma_adresi_1"
+              name="firma_adresi_1"
+              value={firma_adresi_1}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg"
               required
@@ -85,15 +100,15 @@ const FirmaOlustur = () => {
           <div className="mb-4">
             <label
               className="block text-gray-700 font-medium mb-2"
-              htmlFor="adres2"
+              htmlFor="firma_adresi_2"
             >
               Adres 2
             </label>
             <input
               type="text"
-              id="adres2"
-              name="adres2"
-              value={formData.adres2}
+              id="firma_adresi_2"
+              name="firma_adresi_2"
+              value={firma_adresi_2}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg"
             />
@@ -101,15 +116,15 @@ const FirmaOlustur = () => {
           <div className="mb-4">
             <label
               className="block text-gray-700 font-medium mb-2"
-              htmlFor="sehirKodu"
+              htmlFor="sehir_kodu"
             >
               Şehir Kodu
             </label>
             <input
               type="text"
-              id="sehirKodu"
-              name="sehirKodu"
-              value={formData.sehirKodu}
+              id="sehir_kodu"
+              name="sehir_kodu"
+              value={sehir_kodu}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg"
               required
@@ -118,15 +133,15 @@ const FirmaOlustur = () => {
           <div className="mb-4">
             <label
               className="block text-gray-700 font-medium mb-2"
-              htmlFor="ulkeKodu"
+              htmlFor="ulke_Kodu"
             >
               Ülke Kodu
             </label>
             <input
               type="text"
-              id="ulkeKodu"
-              name="ulkeKodu"
-              value={formData.ulkeKodu}
+              id="ulke_kodu"
+              name="ulke_kodu"
+              value={ulke_kodu}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg"
               required
@@ -134,12 +149,12 @@ const FirmaOlustur = () => {
           </div>
           <div className="flex justify-between">
             <button
-              type="submit"
+              onClick={handleSubmit}
               className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300"
             >
               Firma Oluştur
             </button>
-            <Link to="/">
+            <Link to="/firma">
               <button className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300">
                 Listeye Dön
               </button>
