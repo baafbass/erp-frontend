@@ -13,6 +13,12 @@ import Sehir from "./pages/kontrolT/Sehir/sehir";
 import Ulke from "./pages/kontrolT/Ulke/ulke";
 import UrunAgaci from "./pages/kontrolT/UrunAgaci/urunAgaci";
 import FirmaOlustur from "./pages/kontrolT/Firma/firmaolustur";
+import SehirOlustur from "./pages/kontrolT/Sehir/sehirolustur";
+import UrunAgaciOlustur from "./pages/kontrolT/UrunAgaci/urunAgaciolustur";
+import RotaOlustur from "./pages/kontrolT/Rota/rotaolustur";
+import IsMerkeziOlustur from "./pages/kontrolT/IsMerkezi/isMerkeziolustur";
+import OperasyonOlustur from "./pages/kontrolT/Operasyon/operasyonolustur";
+
 
 function App() {
   return (
@@ -31,6 +37,13 @@ function App() {
       <Route path="/ulke" element={<Ulke />} />
       <Route path="/urunagaci" element={<UrunAgaci />} />
       <Route path="/firmaolustur" element={<FirmaOlustur />} />
+      <Route path="/sehirolustur" element={<SehirOlustur />} />
+      <Route path="/urunAgaciolustur" element={<UrunAgaciOlustur />} />
+      <Route path="/rotaolustur" element={<RotaOlustur />} />
+      <Route path="/isMerkeziolustur" element={<IsMerkeziOlustur />} />
+      <Route path="/operasyonolustur" element={<OperasyonOlustur />} />
+
+
     </Routes>
   );
 }
