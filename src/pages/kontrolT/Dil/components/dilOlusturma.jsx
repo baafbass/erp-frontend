@@ -51,8 +51,8 @@ const DilOlustur = () => {
             </label>
             <input
               type="text"
-              id="firma_adi"
-              name="firma_adi"
+              id="dil_kodu"
+              name="dil_kodu"
               value={dil_kodu}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg"
