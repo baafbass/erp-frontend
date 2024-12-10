@@ -2,40 +2,32 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAxios } from "../../../../shared/hooks/axios-hook";
 
-const birimFields = {
+const isMerkeziFields = {
   firma_kodu: "",
-  birim_kodu: "",
-  birim_adi: "",
-  ana_agirlik_birimi: "",
-  ana_birim_kodu: "",
+  is_merkezi: "",
+  is_merkezi_aciklamasi: "",
+  passif_mi: "",
 };
 
-const BirimGuncelle = () => {
-  const { birim_kodu } = useParams();
-  const [birimData, setBirimData] = useState(birimFields);
-  const {
-    firma_kodu,
-    // birim_kodu,
-    birim_adi,
-    ana_agirlik_birimi,
-    ana_birim_kodu,
-  } = birimData;
+const IsMerkeziGuncelle = () => {
+  const { firma_kodu, is_merkezi } = useParams();
+  const [isMerkeziData, setIsMerkeziData] = useState(isMerkeziFields);
+  const { is_merkezi_aciklamasi, passif_mi } = isMerkeziData;
 
   const axios = useAxios();
   const navigate = useNavigate();
 
-  const getBirim = async () => {
+  const getIsMerkezi = async () => {
     try {
-      const response = await axios.get(`/birim/${birim_kodu}`);
+      const response = await axios.get(`/isMerkezi/${is_merkezi}`);
       if (response.data.status === "OK") {
-        const birimData = response.data.birim;
+        const isMerkeziData = response.data.isMerkezi;
 
-        setBirimData({
-          birim_kodu: birimData.UNITCODE,
-          birim_adi: birimData.UNITTEXT,
-          ana_agirlik_birimi: birimData.ISMAINUNIT,
-          ana_birim_kodu: birimData.MAINUNITCODE,
-          firma_kodu: birimData.COMCODE,
+        setIsMerkeziData({
+          firma_kodu: isMerkeziData.COMCODE,
+          is_merkezi: isMerkeziData.DOCTYPE,
+          is_merkezi_aciklamasi: isMerkeziData.DOCTYPETEXT,
+          passif_mi: isMerkeziData.ISPASSIVE,
         });
       }
     } catch (error) {
@@ -44,13 +36,13 @@ const BirimGuncelle = () => {
   };
 
   useEffect(() => {
-    getBirim();
+    getIsMerkezi();
   }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setBirimData({
-      ...birimData,
+    setIsMerkeziData({
+      ...isMerkeziData,
       [name]: value,
     });
   };
@@ -58,9 +50,12 @@ const BirimGuncelle = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`/birim/${birim_kodu}`, birimData);
+      const response = await axios.put(
+        `/isMerkezi/${is_merkezi}`,
+        isMerkeziData
+      );
       if (response.data.status === "OK") {
-        navigate("/birim");
+        navigate("/isMerkezi");
       } else {
         alert("Güncelleme sırasında bir hata oluştu");
         console.log(response);
@@ -74,90 +69,8 @@ const BirimGuncelle = () => {
     <div className="min-h-screen bg-gray-100 flex justify-center items-start pt-8">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-4xl">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-          Birim Bilgilerini Güncelle
+          İş Merkezi Bilgilerini Güncelle
         </h1>
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 font-medium mb-2"
-            htmlFor="birim_kodu"
-          >
-            Birim Kodu
-          </label>
-          <input
-            type="text"
-            id="birim_kodu"
-            name="birim_kodu"
-            value={birim_kodu}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-lg"
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 font-medium mb-2"
-            htmlFor="birim_adi"
-          >
-            Birim Adı
-          </label>
-          <input
-            type="text"
-            id="birim_adi"
-            name="birim_adi"
-            value={birim_adi}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-lg"
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 font-medium mb-2"
-            htmlFor="ana_agirlik_birimi"
-          >
-            Ana Ağırlık Birimi mi?
-          </label>
-          <div className="flex gap-4">
-            <label className="flex items-center">
-              <input
-                type="radio"
-                id="ana_agirlik_birimi"
-                name="ana_agirlik_birimi"
-                value="0"
-                checked={birimData.ana_agirlik_birimi === "0"}
-                onChange={handleChange}
-                className="mr-2"
-              />
-              0 (Hayır)
-            </label>
-            <label className="flex items-center">
-              <input
-                type="radio"
-                id="ana_agirlik_birimi"
-                name="ana_agirlik_birimi"
-                value="1"
-                checked={birimData.ana_agirlik_birimi === "1"}
-                onChange={handleChange}
-                className="mr-2"
-              />
-              1 (Evet)
-            </label>
-          </div>
-        </div>
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 font-medium mb-2"
-            htmlFor="ana_birim_kodu"
-          >
-            Ana Birim Kodu
-          </label>
-          <input
-            type="text"
-            id="ana_birim_kodu"
-            name="ana_birim_kodu"
-            value={ana_birim_kodu}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-lg"
-          />
-        </div>
         <div className="mb-4">
           <label
             className="block text-gray-700 font-medium mb-2"
@@ -174,6 +87,72 @@ const BirimGuncelle = () => {
             className="w-full px-3 py-2 border rounded-lg bg-gray-100"
           />
         </div>
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 font-medium mb-2"
+            htmlFor="is_merkezi"
+          >
+            İş Merkezi Tipi
+          </label>
+          <input
+            type="text"
+            id="is_merkezi"
+            name="is_merkezi"
+            value={is_merkezi}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border rounded-lg"
+          />
+        </div>
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 font-medium mb-2"
+            htmlFor="is_merkezi_aciklamasi"
+          >
+            İş Merkezi Tipi Açıklaması
+          </label>
+          <input
+            type="text"
+            id="is_merkezi_aciklamasi"
+            name="is_merkezi_aciklamasi"
+            value={is_merkezi_aciklamasi}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border rounded-lg"
+          />
+        </div>
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 font-medium mb-2"
+            htmlFor="passif_mi"
+          >
+            Pasif Mi?
+          </label>
+          <div className="flex gap-4">
+            <label className="flex items-center">
+              <input
+                type="radio"
+                id="passif_mi"
+                name="passif_mi"
+                value="0"
+                checked={isMerkeziData.passif_mi === "0"}
+                onChange={handleChange}
+                className="mr-2"
+              />
+              0 (Hayır)
+            </label>
+            <label className="flex items-center">
+              <input
+                type="radio"
+                id="passif_mi"
+                name="passif_mi"
+                value="1"
+                checked={isMerkeziData.passif_mi === "1"}
+                onChange={handleChange}
+                className="mr-2"
+              />
+              1 (Evet)
+            </label>
+          </div>
+        </div>
 
         <div className="flex justify-between">
           <button
@@ -183,7 +162,7 @@ const BirimGuncelle = () => {
             Güncelle
           </button>
           <button
-            onClick={() => navigate("/birim")}
+            onClick={() => navigate("/isMerkezi")}
             className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300"
           >
             İptal
@@ -194,4 +173,4 @@ const BirimGuncelle = () => {
   );
 };
 
-export default BirimGuncelle;
+export default IsMerkeziGuncelle;

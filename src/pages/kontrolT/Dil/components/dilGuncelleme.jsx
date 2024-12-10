@@ -9,8 +9,9 @@ const dilFields = {
 };
 
 const DilGuncelle = () => {
+  const { dil_kodu } = useParams();
   const [dilData, setDilData] = useState(dilFields);
-  const { firma_kodu, dil_kodu, dil_adi } = dilData;
+  const { firma_kodu, dil_adi } = dilData;
 
   const axios = useAxios();
   const navigate = useNavigate();

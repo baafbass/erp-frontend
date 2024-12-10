@@ -10,8 +10,9 @@ const sehirFields = {
 };
 
 const SehirGuncelle = () => {
+  const { sehir_kodu } = useParams();
   const [sehirData, setSehirData] = useState(sehirFields);
-  const { firma_kodu, sehir_kodu, sehir_adi, ulke_kodu } = sehirData;
+  const { firma_kodu, sehir_adi, ulke_kodu } = sehirData;
 
   const axios = useAxios();
   const navigate = useNavigate();

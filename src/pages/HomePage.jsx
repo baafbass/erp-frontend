@@ -14,14 +14,14 @@ const HomePage = () => {
     { href: "/sehir", label: "Şehir" },
     { href: "/urunagaci", label: "Ürün Ağacı" },
     { href: "/rota", label: "Rota Tipi" },
-    { href: "/ismerkezi", label: "İş Merkezi Tipi" },
+    { href: "/isMerkezi", label: "İş Merkezi Tipi" },
     { href: "/operasyon", label: "Operasyon Tipi" },
   ];
 
   const anaTabloItems = [
     { href: "/materyal", label: "Materyal" },
     { href: "/maliyetmerkezi", label: "Maliyet Merkezi" },
-    { href: "/ismerkezi", label: "İş Merkezi" },
+    { href: "/ismerke", label: "İş Merkezi" },
     { href: "/urunagaci", label: "Ürün Ağacı" },
     { href: "/rotayonetimi", label: "Rota Yönetimi" },
   ];

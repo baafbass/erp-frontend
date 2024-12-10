@@ -9,8 +9,9 @@ const ulkeFields = {
 };
 
 const UlkeGuncelle = () => {
+  const { ulke_kodu } = useParams();
   const [ulkeData, setUlkeData] = useState(ulkeFields);
-  const { firma_kodu, ulke_kodu, ulke_adi } = ulkeData;
+  const { firma_kodu, ulke_adi } = ulkeData;
 
   const axios = useAxios();
   const navigate = useNavigate();
