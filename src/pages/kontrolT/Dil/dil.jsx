@@ -99,7 +99,7 @@ const DilPage = () => {
                 <tr key={index} className="border-b">
                   <td className="px-4 py-2">{language.LANCODE}</td>
                   <td className="px-4 py-2">{language.LANTEXT}</td>
-                  <td className="px-4 py-2">{language.ADDRESS1}</td>
+                  <td className="px-4 py-2">{language.COMCODE}</td>
                   <td className="px-4 py-2 flex justify-center space-x-2">
                     <button
                       onClick={() => handleEdit(language.LANCODE)}
@@ -110,7 +110,7 @@ const DilPage = () => {
                     </button>
 
                     <button
-                      onClick={() => handleOpenDialog(language.COMCODE)}
+                      onClick={() => handleOpenDialog(language.LANCODE)}
                       className="bg-red-500 hover:bg-red-700 text-white font-medium py-1 px-2 rounded-lg transition-colors duration-300 flex items-center"
                     >
                       <FontAwesomeIcon icon={faTrash} className="mr-1" />

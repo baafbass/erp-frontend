@@ -2,23 +2,31 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAxios } from "../../../../shared/hooks/axios-hook";
 
-const dilFields = {
+const birimFields = {
   firma_kodu: "",
-  dil_kodu: "",
-  dil_adi: "",
+  birim_kodu: "",
+  birim_adi: "",
+  ana_agirlik_birimi: "",
+  ana_birim_kodu: "",
 };
 
-const DilOlustur = () => {
-  const [dilData, setDilData] = useState(dilFields);
-  const { firma_kodu, dil_kodu, dil_adi } = dilData;
+const BirimOlustur = () => {
+  const [birimData, setBirimData] = useState(birimFields);
+  const {
+    firma_kodu,
+    birim_kodu,
+    birim_adi,
+    ana_agirlik_birimi,
+    ana_birim_kodu,
+  } = birimData;
 
   const axios = useAxios();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setDilData({
-      ...dilData,
+    setBirimData({
+      ...birimData,
       [name]: value,
     });
   };
@@ -26,9 +34,9 @@ const DilOlustur = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/dil", dilData);
+      const response = await axios.post("/birim", birimData);
       if (response.data.status === "OK") {
-        navigate("/dil");
+        navigate("/birim");
       }
     } catch (error) {
       console.log("message:", error.message);
@@ -39,21 +47,21 @@ const DilOlustur = () => {
     <div className="min-h-screen bg-gray-100 flex justify-center items-start pt-8">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-4xl">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-          Yeni Dil Oluştur
+          Yeni Birim Oluştur
         </h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
             <label
               className="block text-gray-700 font-medium mb-2"
-              htmlFor="dil_kodu"
+              htmlFor="birim_kodu"
             >
-              Dil Kodu
+              Birim Kodu
             </label>
             <input
               type="text"
-              id="dil_kodu"
-              name="dil_kodu"
-              value={dil_kodu}
+              id="birim_kodu"
+              name="birim_kodu"
+              value={birim_kodu}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg"
               required
@@ -62,15 +70,49 @@ const DilOlustur = () => {
           <div className="mb-4">
             <label
               className="block text-gray-700 font-medium mb-2"
-              htmlFor="dil_adi"
+              htmlFor="birim_adi"
             >
-              Dil Adı
+              Birim Adı
             </label>
             <input
               type="text"
-              id="dil_adi"
-              name="dil_adi"
-              value={dil_adi}
+              id="birim_adi"
+              name="birim_adi"
+              value={birim_adi}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border rounded-lg"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 font-medium mb-2"
+              htmlFor="ana_agirlik_birimi"
+            >
+              Ana Ağırlık Birimi mi?
+            </label>
+            <input
+              type="text"
+              id="ana_agirlik_birimi"
+              name="ana_agirlik_birimi"
+              value={ana_agirlik_birimi}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border rounded-lg"
+              required
+            />
+          </div>
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 font-medium mb-2"
+              htmlFor="ana_birim_kodu"
+            >
+              Ana Birim Kodu
+            </label>
+            <input
+              type="text"
+              id="ana_birim_kodu"
+              name="ana_birim_kodu"
+              value={ana_birim_kodu}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg"
               required
@@ -98,9 +140,9 @@ const DilOlustur = () => {
               onClick={handleSubmit}
               className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300"
             >
-              Dil Oluştur
+              Birim Oluştur
             </button>
-            <Link to="/dil">
+            <Link to="/birim">
               <button className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300">
                 Listeye Dön
               </button>
@@ -112,4 +154,4 @@ const DilOlustur = () => {
   );
 };
 
-export default DilOlustur;
+export default BirimOlustur;

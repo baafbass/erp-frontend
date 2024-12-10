@@ -19,6 +19,9 @@ import FirmaGuncelle from "./pages/kontrolT/Firma/components/firmaGuncelleme";
 import DilOluştur from "./pages/kontrolT/Dil/components/dilOlusturma";
 import DilGuncelle from "./pages/kontrolT/Dil/components/dilGuncelleme";
 
+import BirimOluştur from "./pages/kontrolT/Birim/components/birimOlusturma";
+import BirimGuncelle from "./pages/kontrolT/Birim/components/birimGuncelleme";
+
 import SehirOlustur from "./pages/kontrolT/Sehir/sehirolustur";
 import UrunAgaciOlustur from "./pages/kontrolT/UrunAgaci/urunAgaciolustur";
 import RotaOlustur from "./pages/kontrolT/Rota/rotaolustur";
@@ -47,6 +50,9 @@ function App() {
 
       <Route path="/dil-olustur" element={<DilOluştur />} />
       <Route path="/dil-guncelle/:dil_kodu" element={<DilGuncelle />} />
+
+      <Route path="/birim-olustur" element={<BirimOluştur />} />
+      <Route path="/birim-guncelle/:birim_kodu" element={<BirimGuncelle />} />
 
       <Route path="/sehirolustur" element={<SehirOlustur />} />
       <Route path="/urunAgaciolustur" element={<UrunAgaciOlustur />} />
