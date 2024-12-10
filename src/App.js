@@ -46,7 +46,7 @@ function App() {
       <Route path="/firma-guncelle/:firma_kodu" element={<FirmaGuncelle />} />
 
       <Route path="/dil-olustur" element={<DilOluştur />} />
-      <Route path="/dil-guncelle/:dil_kodu" element={<DilGuncelle />} />
+      <Route path="/dil-guncelle/:dil_kodu/:firma_kodu" element={<DilGuncelle />} />
 
       <Route path="/sehirolustur" element={<SehirOlustur />} />
       <Route path="/urunAgaciolustur" element={<UrunAgaciOlustur />} />

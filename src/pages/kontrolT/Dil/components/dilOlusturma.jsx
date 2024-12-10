@@ -31,7 +31,7 @@ const DilOlustur = () => {
         navigate("/dil");
       }
     } catch (error) {
-      console.log("message:", error.message);
+      console.log("message:", error);
     }
   };
 
