@@ -13,7 +13,7 @@ import SehirSilme from "./components/sehirSilme";
 const SehirPage = () => {
   const [cities, setCities] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
-  const [selectedCity, setSelectedCity] = useState(null);
+  const [selectedCity, setSelectedCity] = useState();
 
   const axios = useAxios();
   const navigate = useNavigate();
@@ -33,13 +33,14 @@ const SehirPage = () => {
     getAllSehir();
   }, []);
 
-  const handleEdit = (sehir_kodu) => {
-    navigate(`/sehir-guncelle/${sehir_kodu}`);
+  const handleEdit = (sehir_kodu, firma_kodu) => {
+    navigate(`/sehir-guncelle/${sehir_kodu}/${firma_kodu}`);
   };
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(`/sehir/${selectedCity}`);
+      const { sehir_kodu, firma_kodu } = selectedCity;
+      const response = await axios.delete(`/sehir/${sehir_kodu}/${firma_kodu}`);
       if (response.data.status === "OK") {
         setCities((prevcities) =>
           prevcities.filter((city) => city.CITYCODE !== selectedCity)
@@ -52,8 +53,8 @@ const SehirPage = () => {
     }
   };
 
-  const handleOpenDialog = (sehir_kodu) => {
-    setSelectedCity(sehir_kodu);
+  const handleOpenDialog = (sehir_kodu, firma_kodu) => {
+    setSelectedCity({ sehir_kodu, firma_kodu });
     setOpenDialog(true);
   };
 
@@ -86,23 +87,23 @@ const SehirPage = () => {
           <table className="w-full border-collapse">
             <thead>
               <tr className="bg-gray-200">
+                <th className="px-4 py-2 text-left">Firma Kodu</th>
                 <th className="px-4 py-2 text-left">Şehir Kodu</th>
                 <th className="px-4 py-2 text-left">Şehir Adı</th>
                 <th className="px-4 py-2 text-left">Ülke Kodu</th>
-                <th className="px-4 py-2 text-left">Firma Kodu</th>
                 <th className="px-4 py-2 text-center">İşlemler</th>
               </tr>
             </thead>
             <tbody>
               {cities.map((city, index) => (
                 <tr key={index} className="border-b">
+                  <td className="px-4 py-2">{city.COMCODE}</td>
                   <td className="px-4 py-2">{city.CITYCODE}</td>
                   <td className="px-4 py-2">{city.CITYTEXT}</td>
                   <td className="px-4 py-2">{city.COUNTRYCODE}</td>
-                  <td className="px-4 py-2">{city.COMCODE}</td>
                   <td className="px-4 py-2 flex justify-center space-x-2">
                     <button
-                      onClick={() => handleEdit(city.CITYCODE)}
+                      onClick={() => handleEdit(city.CITYCODE, city.COMCODE)}
                       className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-1 px-2 rounded-lg transition-colors duration-300 flex items-center"
                     >
                       <FontAwesomeIcon icon={faEdit} className="mr-1" />
@@ -110,7 +111,9 @@ const SehirPage = () => {
                     </button>
 
                     <button
-                      onClick={() => handleOpenDialog(city.CITYCODE)}
+                      onClick={() =>
+                        handleOpenDialog(city.CITYCODE, city.COMCODE)
+                      }
                       className="bg-red-500 hover:bg-red-700 text-white font-medium py-1 px-2 rounded-lg transition-colors duration-300 flex items-center"
                     >
                       <FontAwesomeIcon icon={faTrash} className="mr-1" />

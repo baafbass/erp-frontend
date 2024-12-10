@@ -14,7 +14,7 @@ const HomePage = () => {
     { href: "/sehir", label: "Şehir" },
     { href: "/urunagaci", label: "Ürün Ağacı" },
     { href: "/rota", label: "Rota Tipi" },
-    { href: "/isMerkezi", label: "İş Merkezi Tipi" },
+    { href: "/is-merkezi", label: "İş Merkezi Tipi" },
     { href: "/operasyon", label: "Operasyon Tipi" },
   ];
 

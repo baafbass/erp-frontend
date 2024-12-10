@@ -13,14 +13,14 @@ import IsMerkeziSilme from "./components/isMerkeziSilme";
 const IsMerkeziPage = () => {
   const [centers, setCenters] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
-  const [selectedCenter, setSelectedCenter] = useState(null);
+  const [selectedCenter, setSelectedCenter] = useState();
 
   const axios = useAxios();
   const navigate = useNavigate();
 
   const getAllIsMerkezi = async () => {
     try {
-      const response = await axios.get("/isMerkezi");
+      const response = await axios.get("/is-merkezi");
       if (response.data.status === "OK") {
         setCenters(response.data.isMerkeziler);
       }
@@ -33,16 +33,22 @@ const IsMerkeziPage = () => {
     getAllIsMerkezi();
   }, []);
 
-  const handleEdit = (is_merkezi) => {
-    navigate(`/isMerkezi-guncelle/${is_merkezi}`);
+  const handleEdit = (is_merkezi, firma_kodu) => {
+    navigate(`/isMerkezi-guncelle/${is_merkezi}/${firma_kodu}`);
   };
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(`/isMerkezi/${selectedCenter}`);
+      const { is_merkezi, firma_kodu } = selectedCenter;
+      const response = await axios.delete(
+        `/isMerkezi/${is_merkezi}/${firma_kodu}`
+      );
       if (response.data.status === "OK") {
         setCenters((prevcenters) =>
-          prevcenters.filter((center) => center.DOCTYPE !== selectedCenter)
+          prevcenters.filter(
+            (center) =>
+              center.DOCTYPE !== is_merkezi || center.COMCODE !== firma_kodu
+          )
         );
       }
     } catch (error) {
@@ -52,8 +58,8 @@ const IsMerkeziPage = () => {
     }
   };
 
-  const handleOpenDialog = (is_merkezi) => {
-    setSelectedCenter(is_merkezi);
+  const handleOpenDialog = (is_merkezi, firma_kodu) => {
+    setSelectedCenter({ is_merkezi, firma_kodu });
     setOpenDialog(true);
   };
 
@@ -106,7 +112,7 @@ const IsMerkeziPage = () => {
                   <td className="px-4 py-2">{center.ISPASSIVE}</td>
                   <td className="px-4 py-2 flex justify-center space-x-2">
                     <button
-                      onClick={() => handleEdit(center.DOCTYPE)}
+                      onClick={() => handleEdit(center.DOCTYPE, center.COMCODE)}
                       className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-1 px-2 rounded-lg transition-colors duration-300 flex items-center"
                     >
                       <FontAwesomeIcon icon={faEdit} className="mr-1" />
@@ -114,7 +120,9 @@ const IsMerkeziPage = () => {
                     </button>
 
                     <button
-                      onClick={() => handleOpenDialog(center.DOCTYPE)}
+                      onClick={() =>
+                        handleOpenDialog(center.DOCTYPE, center.COMCODE)
+                      }
                       className="bg-red-500 hover:bg-red-700 text-white font-medium py-1 px-2 rounded-lg transition-colors duration-300 flex items-center"
                     >
                       <FontAwesomeIcon icon={faTrash} className="mr-1" />

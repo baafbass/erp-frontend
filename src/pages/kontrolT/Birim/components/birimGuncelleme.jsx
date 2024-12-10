@@ -11,22 +11,16 @@ const birimFields = {
 };
 
 const BirimGuncelle = () => {
-  const { birim_kodu } = useParams();
+  const { birim_kodu, firma_kodu } = useParams();
   const [birimData, setBirimData] = useState(birimFields);
-  const {
-    firma_kodu,
-    // birim_kodu,
-    birim_adi,
-    ana_agirlik_birimi,
-    ana_birim_kodu,
-  } = birimData;
+  const { birim_adi, ana_agirlik_birimi, ana_birim_kodu } = birimData;
 
   const axios = useAxios();
   const navigate = useNavigate();
 
   const getBirim = async () => {
     try {
-      const response = await axios.get(`/birim/${birim_kodu}`);
+      const response = await axios.get(`/birim/${birim_kodu}/${firma_kodu}`);
       if (response.data.status === "OK") {
         const birimData = response.data.birim;
 
@@ -58,7 +52,7 @@ const BirimGuncelle = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`/birim/${birim_kodu}`, birimData);
+      const response = await axios.put(`/birim`, birimData);
       if (response.data.status === "OK") {
         navigate("/birim");
       } else {
@@ -79,6 +73,22 @@ const BirimGuncelle = () => {
         <div className="mb-4">
           <label
             className="block text-gray-700 font-medium mb-2"
+            htmlFor="firma_kodu"
+          >
+            Firma Kodu
+          </label>
+          <input
+            type="text"
+            id="firma_kodu"
+            name="firma_kodu"
+            value={firma_kodu}
+            readOnly
+            className="w-full px-3 py-2 border rounded-lg bg-gray-100"
+          />
+        </div>
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 font-medium mb-2"
             htmlFor="birim_kodu"
           >
             Birim Kodu
@@ -89,7 +99,8 @@ const BirimGuncelle = () => {
             name="birim_kodu"
             value={birim_kodu}
             onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-lg"
+            readOnly
+            className="w-full px-3 py-2 border rounded-lg bg-gray-100"
           />
         </div>
         <div className="mb-4">
@@ -156,22 +167,6 @@ const BirimGuncelle = () => {
             value={ana_birim_kodu}
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded-lg"
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 font-medium mb-2"
-            htmlFor="firma_kodu"
-          >
-            Firma Kodu
-          </label>
-          <input
-            type="text"
-            id="firma_kodu"
-            name="firma_kodu"
-            value={firma_kodu}
-            readOnly
-            className="w-full px-3 py-2 border rounded-lg bg-gray-100"
           />
         </div>
 

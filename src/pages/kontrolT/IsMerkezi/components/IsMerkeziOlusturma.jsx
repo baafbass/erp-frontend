@@ -33,7 +33,7 @@ const IsMerkeziOlustur = () => {
         navigate("/isMerkezi");
       }
     } catch (error) {
-      console.log("message:", error.message);
+      console.log("message:", error);
     }
   };
 
