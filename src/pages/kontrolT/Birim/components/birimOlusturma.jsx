@@ -50,6 +50,23 @@ const BirimOlustur = () => {
           Yeni Birim Oluştur
         </h1>
         <form onSubmit={handleSubmit}>
+        <div className="mb-4">
+            <label
+              className="block text-gray-700 font-medium mb-2"
+              htmlFor="firma_kodu"
+            >
+              Firma Kodu
+            </label>
+            <input
+              type="text"
+              id="firma_kodu"
+              name="firma_kodu"
+              value={firma_kodu}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border rounded-lg"
+              required
+            />
+          </div>
           <div className="mb-4">
             <label
               className="block text-gray-700 font-medium mb-2"
@@ -103,7 +120,7 @@ const BirimOlustur = () => {
                   className="mr-2"
                   required
                 />
-                0 (Hayır)
+                Hayır
               </label>
               <label className="flex items-center">
                 <input
@@ -116,7 +133,7 @@ const BirimOlustur = () => {
                   className="mr-2"
                   required
                 />
-                1 (Evet)
+                Evet
               </label>
             </div>
           </div>
@@ -137,23 +154,7 @@ const BirimOlustur = () => {
               required
             />
           </div>
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 font-medium mb-2"
-              htmlFor="firma_kodu"
-            >
-              Firma Kodu
-            </label>
-            <input
-              type="text"
-              id="firma_kodu"
-              name="firma_kodu"
-              value={firma_kodu}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg"
-              required
-            />
-          </div>
+
           <div className="flex justify-between">
             <button
               onClick={handleSubmit}
