@@ -9,16 +9,17 @@ const dilFields = {
 };
 
 const DilGuncelle = () => {
-  const { dil_kodu } = useParams();
+  const { dil_kodu, firma_kodu } = useParams();
   const [dilData, setDilData] = useState(dilFields);
-  const { firma_kodu, dil_adi } = dilData;
+  const { dil_adi } = dilData;
 
   const axios = useAxios();
   const navigate = useNavigate();
 
   const getDil = async () => {
     try {
-      const response = await axios.get(`/dil/${dil_kodu}`);
+      const response = await axios.get(`/dil/${dil_kodu}/${firma_kodu}`);
+      console.log(response);
       if (response.data.status === "OK") {
         const dilData = response.data.dil;
 
@@ -48,7 +49,7 @@ const DilGuncelle = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`/dil/${dil_kodu}`, dilData);
+      const response = await axios.put(`/dil`, dilData);
       if (response.data.status === "OK") {
         navigate("/dil");
       } else {
@@ -69,6 +70,22 @@ const DilGuncelle = () => {
         <div className="mb-4">
           <label
             className="block text-gray-700 font-medium mb-2"
+            htmlFor="firma_kodu"
+          >
+            Firma Kodu
+          </label>
+          <input
+            type="text"
+            id="firma_kodu"
+            name="firma_kodu"
+            value={firma_kodu}
+            readOnly
+            className="w-full px-3 py-2 border rounded-lg bg-gray-100"
+          />
+        </div>
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 font-medium mb-2"
             htmlFor="dil_kodu"
           >
             Dil Kodu
@@ -79,7 +96,8 @@ const DilGuncelle = () => {
             name="dil_kodu"
             value={dil_kodu}
             onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-lg"
+            readOnly
+            className="w-full px-3 py-2 border rounded-lg bg-gray-100"
           />
         </div>
         <div className="mb-4">
@@ -96,22 +114,6 @@ const DilGuncelle = () => {
             value={dil_adi}
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded-lg"
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 font-medium mb-2"
-            htmlFor="firma_kodu"
-          >
-            Firma Kodu
-          </label>
-          <input
-            type="text"
-            id="firma_kodu"
-            name="firma_kodu"
-            value={firma_kodu}
-            readOnly
-            className="w-full px-3 py-2 border rounded-lg bg-gray-100"
           />
         </div>
 

@@ -56,20 +56,32 @@ function App() {
       <Route path="/firma-guncelle/:firma_kodu" element={<FirmaGuncelle />} />
 
       <Route path="/dil-olustur" element={<DilOlustur />} />
-      <Route path="/dil-guncelle/:dil_kodu" element={<DilGuncelle />} />
+      <Route
+        path="/dil-guncelle/:dil_kodu/:firma_kodu"
+        element={<DilGuncelle />}
+      />
 
       <Route path="/birim-olustur" element={<BirimOlustur />} />
-      <Route path="/birim-guncelle/:birim_kodu" element={<BirimGuncelle />} />
+      <Route
+        path="/birim-guncelle/:birim_kodu/:firma_kodu"
+        element={<BirimGuncelle />}
+      />
 
       <Route path="/ulke-olustur" element={<UlkeOlustur />} />
-      <Route path="/ulke-guncelle/:ulke_kodu" element={<UlkeGuncelle />} />
+      <Route
+        path="/ulke-guncelle/:ulke_kodu/:firma_kodu"
+        element={<UlkeGuncelle />}
+      />
 
       <Route path="/sehir-olustur" element={<SehirOlustur />} />
-      <Route path="/sehir-guncelle/:sehir_kodu" element={<SehirGuncelle />} />
+      <Route
+        path="/sehir-guncelle/:sehir_kodu/:firma_kodu"
+        element={<SehirGuncelle />}
+      />
 
       <Route path="/isMerkezi-olustur" element={<IsMerkeziOlustur />} />
       <Route
-        path="/isMerkezi-guncelle/:is_merkezi"
+        path="/isMerkezi-guncelle/:is_merkezi/:firma_kodu"
         element={<IsMerkeziGuncelle />}
       />
 
