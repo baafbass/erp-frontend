@@ -2,24 +2,24 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAxios } from "../../../../shared/hooks/axios-hook";
 
-const sehirFields = {
+const rotaFields = {
   firma_kodu: "",
-  sehir_kodu: "",
-  sehir_adi: "",
-  ulke_kodu: "",
+  rota: "",
+  rota_aciklamasi: "",
+  passif_mi: "",
 };
 
-const SehirOlustur = () => {
-  const [sehirData, setSehirData] = useState(sehirFields);
-  const { firma_kodu, sehir_kodu, sehir_adi, ulke_kodu } = sehirData;
+const RotaOlusturma = () => {
+  const [rotaData, setRotaData] = useState(rotaFields);
+  const { firma_kodu, rota, rota_aciklamasi, passif_mi } = rotaData;
 
   const axios = useAxios();
   const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setSehirData({
-      ...sehirData,
+    setRotaData({
+      ...rotaData,
       [name]: value,
     });
   };
@@ -27,9 +27,9 @@ const SehirOlustur = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/sehir", sehirData);
+      const response = await axios.post("/rota", rotaData);
       if (response.data.status === "OK") {
-        navigate("/sehir");
+        navigate("/rota");
       }
     } catch (error) {
       console.log("message:", error);
@@ -40,7 +40,7 @@ const SehirOlustur = () => {
     <div className="min-h-screen bg-gray-100 flex justify-center items-start pt-8">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-4xl">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-          Yeni Şehir Oluştur
+          Yeni Rota Oluştur
         </h1>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -63,15 +63,15 @@ const SehirOlustur = () => {
           <div className="mb-4">
             <label
               className="block text-gray-700 font-medium mb-2"
-              htmlFor="sehir_kodu"
+              htmlFor="rota"
             >
-              Şehir Kodu
+              Rota Tipi
             </label>
             <input
               type="text"
-              id="sehir_kodu"
-              name="sehir_kodu"
-              value={sehir_kodu}
+              id="rota"
+              name="rota"
+              value={rota}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg"
               required
@@ -80,15 +80,15 @@ const SehirOlustur = () => {
           <div className="mb-4">
             <label
               className="block text-gray-700 font-medium mb-2"
-              htmlFor="sehir_adi"
+              htmlFor="rota_aciklamasi"
             >
-              Şehir Adı
+              Rota Tipi Açıklaması
             </label>
             <input
               type="text"
-              id="sehir_adi"
-              name="sehir_adi"
-              value={sehir_adi}
+              id="rota_aciklamasi"
+              name="rota_aciklamasi"
+              value={rota_aciklamasi}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg"
               required
@@ -97,28 +97,47 @@ const SehirOlustur = () => {
           <div className="mb-4">
             <label
               className="block text-gray-700 font-medium mb-2"
-              htmlFor="ulke_kodu"
+              htmlFor="passif_mi"
             >
-              Ülke Kodu
+              Pasif mi?
             </label>
-            <input
-              type="text"
-              id="ulke_kodu"
-              name="ulke_kodu"
-              value={ulke_kodu}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg"
-              required
-            />
+            <div className="flex gap-4">
+              <label className="flex items-center">
+                <input
+                  type="radio"
+                  id="passif_mi"
+                  name="passif_mi"
+                  value="0"
+                  checked={rotaData.passif_mi === "0"}
+                  onChange={handleChange}
+                  className="mr-2"
+                  required
+                />
+                0 (Hayır)
+              </label>
+              <label className="flex items-center">
+                <input
+                  type="radio"
+                  id="passif_mi"
+                  name="passif_mi"
+                  value="1"
+                  checked={rotaData.passif_mi === "1"}
+                  onChange={handleChange}
+                  className="mr-2"
+                  required
+                />
+                1 (Evet)
+              </label>
+            </div>
           </div>
           <div className="flex justify-between">
             <button
               onClick={handleSubmit}
               className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300"
             >
-              Şehir Oluştur
+              Rota Tipi Oluştur
             </button>
-            <Link to="/sehir">
+            <Link to="/rota">
               <button className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300">
                 Listeye Dön
               </button>
@@ -130,4 +149,4 @@ const SehirOlustur = () => {
   );
 };
 
-export default SehirOlustur;
+export default RotaOlusturma;
