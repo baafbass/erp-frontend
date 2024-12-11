@@ -43,6 +43,9 @@ import OperasyonGuncelle from "./pages/kontrolT/Operasyon/components/OperasyonGu
 import UrunAgaciOlustur from "./pages/kontrolT/UrunAgaci/components/UrunAgaciOlusturma";
 import UrunAgaciGuncelle from "./pages/kontrolT/UrunAgaci/components/UrunAgaciGuncelleme";
 
+import MaliyetMerkeziOlustur from "./pages/kontrolT/MaliyetMerkezi/components/MaliyetMerkeziOlusturma";
+import MaliyetMerkeziGuncelle from "./pages/kontrolT/MaliyetMerkezi/components/MaliyetMerkeziGuncelleme";
+
 function App() {
   return (
     <Routes>
@@ -52,7 +55,7 @@ function App() {
       <Route path="/dil" element={<Dil />} />
       <Route path="/firma" element={<Firma />} />
       <Route path="/is-merkezi" element={<IsMerkezi />} />
-      <Route path="/maliyet-merkezi" element={<MaliyetMerkezi />} />
+      <Route path="/maliyet_merkezi" element={<MaliyetMerkezi />} />
       <Route path="/malzeme" element={<Malzeme />} />
       <Route path="/operasyon" element={<Operasyon />} />
       <Route path="/rota" element={<Rota />} />
@@ -115,6 +118,15 @@ function App() {
       <Route
         path="/urunagaci-guncelle/:urun_agaci/:firma_kodu"
         element={<UrunAgaciGuncelle />}
+      />
+
+      <Route
+        path="/maliyet_merkezi-olustur"
+        element={<MaliyetMerkeziOlustur />}
+      />
+      <Route
+        path="/maliyet_merkezi-guncelle/:maliyet_merkezi/:firma_kodu"
+        element={<MaliyetMerkeziGuncelle />}
       />
     </Routes>
   );
