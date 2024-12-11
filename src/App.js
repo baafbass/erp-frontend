@@ -29,7 +29,10 @@ import SehirOlustur from "./pages/kontrolT/Sehir/components/sehirOlusturma";
 import SehirGuncelle from "./pages/kontrolT/Sehir/components/sehirGuncelleme";
 
 import IsMerkeziOlustur from "./pages/kontrolT/IsMerkezi/components/IsMerkeziOlusturma";
-import IsMerkeziGuncelle from "./pages/kontrolT/IsMerkezi/components/isMerkeziGuncelleme";
+import IsMerkeziGuncelle from "./pages/kontrolT/IsMerkezi/components/IsMerkeziGuncelleme";
+
+import MalzemeOlustur from "./pages/kontrolT/Malzeme/components/MalzemeOlusturma";
+import MalzemeGuncelle from "./pages/kontrolT/Malzeme/components/MalzemeGuncelleme";
 
 import UrunAgaciOlustur from "./pages/kontrolT/UrunAgaci/urunAgaciolustur";
 import RotaOlustur from "./pages/kontrolT/Rota/rotaolustur";
@@ -83,6 +86,12 @@ function App() {
       <Route
         path="/isMerkezi-guncelle/:is_merkezi/:firma_kodu"
         element={<IsMerkeziGuncelle />}
+      />
+
+      <Route path="/malzeme-olustur" element={<MalzemeOlustur />} />
+      <Route
+        path="/malzeme-guncelle/:malzeme/:firma_kodu"
+        element={<MalzemeGuncelle />}
       />
 
       <Route path="/urunAgaciolustur" element={<UrunAgaciOlustur />} />
