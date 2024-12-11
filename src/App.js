@@ -102,6 +102,7 @@ function App() {
         element={<RotaGuncelle />}
       />
 
+
       <Route path="/urunAgaciolustur" element={<UrunAgaciOlustur />} />
       <Route path="/operasyonolustur" element={<OperasyonOlustur />} />
     </Routes>

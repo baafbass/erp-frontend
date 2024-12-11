@@ -9,7 +9,9 @@ const dilFields = {
 };
 
 const DilGuncelle = () => {
-  const { dil_kodu, firma_kodu } = useParams();
+
+  const {dil_kodu,firma_kodu} = useParams();
+
   const [dilData, setDilData] = useState(dilFields);
   const { dil_adi } = dilData;
 
@@ -67,6 +69,22 @@ const DilGuncelle = () => {
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
           Dil Bilgilerini Güncelle
         </h1>
+      <div className="mb-4">
+          <label
+            className="block text-gray-700 font-medium mb-2"
+            htmlFor="firma_kodu"
+          >
+            Firma Kodu
+          </label>
+          <input
+            type="text"
+            id="firma_kodu"
+            name="firma_kodu"
+            value={firma_kodu}
+            readOnly
+            className="w-full px-3 py-2 border rounded-lg bg-gray-100"
+          />
+        </div>
         <div className="mb-4">
           <label
             className="block text-gray-700 font-medium mb-2"
