@@ -11,9 +11,11 @@ const birimFields = {
 };
 
 const BirimGuncelle = () => {
-  const { birim_kodu, firma_kodu } = useParams();
+
+  const { birim_kodu,firma_kodu } = useParams();
   const [birimData, setBirimData] = useState(birimFields);
-  const { birim_adi, ana_agirlik_birimi, ana_birim_kodu } = birimData;
+  const {birim_adi,ana_agirlik_birimi,ana_birim_kodu} = birimData;
+
 
   const axios = useAxios();
   const navigate = useNavigate();
@@ -22,7 +24,7 @@ const BirimGuncelle = () => {
     try {
       const response = await axios.get(`/birim/${birim_kodu}/${firma_kodu}`);
       if (response.data.status === "OK") {
-        const birimData = response.data.birim;
+        const birimData = response.data.transformedBirim;
 
         setBirimData({
           birim_kodu: birimData.UNITCODE,
@@ -52,7 +54,8 @@ const BirimGuncelle = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`/birim`, birimData);
+      const response = await axios.put('/birim', birimData);
+
       if (response.data.status === "OK") {
         navigate("/birim");
       } else {
@@ -137,7 +140,7 @@ const BirimGuncelle = () => {
                 onChange={handleChange}
                 className="mr-2"
               />
-              0 (Hayır)
+              Hayır
             </label>
             <label className="flex items-center">
               <input
@@ -149,7 +152,7 @@ const BirimGuncelle = () => {
                 onChange={handleChange}
                 className="mr-2"
               />
-              1 (Evet)
+              Evet
             </label>
           </div>
         </div>
