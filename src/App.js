@@ -34,8 +34,10 @@ import IsMerkeziGuncelle from "./pages/kontrolT/IsMerkezi/components/IsMerkeziGu
 import MalzemeOlustur from "./pages/kontrolT/Malzeme/components/MalzemeOlusturma";
 import MalzemeGuncelle from "./pages/kontrolT/Malzeme/components/MalzemeGuncelleme";
 
+import RotaOlustur from "./pages/kontrolT/Rota/components/RotaOlusturma";
+import RotaGuncelle from "./pages/kontrolT/Rota/components/RotaGuncelleme";
+
 import UrunAgaciOlustur from "./pages/kontrolT/UrunAgaci/urunAgaciolustur";
-import RotaOlustur from "./pages/kontrolT/Rota/rotaolustur";
 import OperasyonOlustur from "./pages/kontrolT/Operasyon/operasyonolustur";
 
 function App() {
@@ -94,8 +96,13 @@ function App() {
         element={<MalzemeGuncelle />}
       />
 
+      <Route path="/rota-olustur" element={<RotaOlustur />} />
+      <Route
+        path="/rota-guncelle/:rota/:firma_kodu"
+        element={<RotaGuncelle />}
+      />
+
       <Route path="/urunAgaciolustur" element={<UrunAgaciOlustur />} />
-      <Route path="/rotaolustur" element={<RotaOlustur />} />
       <Route path="/operasyonolustur" element={<OperasyonOlustur />} />
     </Routes>
   );

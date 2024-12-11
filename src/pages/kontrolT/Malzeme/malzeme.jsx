@@ -8,7 +8,7 @@ import {
   faHome,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAxios } from "../../../shared/hooks/axios-hook";
-import MazemeSilme from "./components/MalzemeSilme";
+import MalzemeSilme from "./components/MalzemeSilme";
 
 const MalzemePage = () => {
   const [materials, setMaterials] = useState([]);
@@ -50,7 +50,7 @@ const MalzemePage = () => {
         );
       }
     } catch (error) {
-      console.error("Error Deleting Work Material", error.message);
+      console.error("Error Deleting Material", error.message);
     } finally {
       setOpenDialog(false);
     }
@@ -133,7 +133,7 @@ const MalzemePage = () => {
           </table>
         </div>
       </div>
-      <MazemeSilme
+      <MalzemeSilme
         openDialog={openDialog}
         handleCloseDialog={handleCloseDialog}
         handleDelete={handleDelete}
