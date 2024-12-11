@@ -20,7 +20,7 @@ const UrunAgaciGuncelleme = () => {
   const getBOM = async () => {
     try {
       const response = await axios.get(
-        `/urunagaci/${urun_agaci}/${firma_kodu}`
+        `/urun_agaci/${urun_agaci}/${firma_kodu}`
       );
       if (response.data.status === "OK") {
         const urunAgaciData = response.data.urun_agaci;
@@ -52,9 +52,9 @@ const UrunAgaciGuncelleme = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`/urunagaci`, urunAgaciData);
+      const response = await axios.put(`/urun_agaci`, urunAgaciData);
       if (response.data.status === "OK") {
-        navigate("/urunagaci");
+        navigate("/urun_agaci");
       } else {
         alert("Güncelleme sırasında bir hata oluştu");
         console.log(response);
@@ -162,7 +162,7 @@ const UrunAgaciGuncelleme = () => {
             Güncelle
           </button>
           <button
-            onClick={() => navigate("/urunagaci")}
+            onClick={() => navigate("/urun_agaci")}
             className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300"
           >
             İptal

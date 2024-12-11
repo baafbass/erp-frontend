@@ -86,7 +86,7 @@ const MaliyetMerkeziPage = () => {
             <Link to="/maliyet_merkezi-olustur">
               <button className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300 flex items-center">
                 <FontAwesomeIcon icon={faPlus} className="mr-2" />
-                Yeni Maliyet Merkezi Tipi Oluştur
+                Yeni Maliyet Merkezi Oluştur
               </button>
             </Link>
           </div>

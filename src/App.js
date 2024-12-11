@@ -61,7 +61,7 @@ function App() {
       <Route path="/rota" element={<Rota />} />
       <Route path="/sehir" element={<Sehir />} />
       <Route path="/ulke" element={<Ulke />} />
-      <Route path="/urunagaci" element={<UrunAgaci />} />
+      <Route path="/urun_agaci" element={<UrunAgaci />} />
 
       <Route path="/firma-olustur" element={<FirmaOlustur />} />
       <Route path="/firma-guncelle/:firma_kodu" element={<FirmaGuncelle />} />

@@ -28,9 +28,9 @@ const UrunAgaciOlusturma = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/urunagaci", urunAgaciData);
+      const response = await axios.post("/urun_agaci", urunAgaciData);
       if (response.data.status === "OK") {
-        navigate("/urunagaci");
+        navigate("/urun_agaci");
       }
     } catch (error) {
       console.log("message:", error);
@@ -138,7 +138,7 @@ const UrunAgaciOlusturma = () => {
             >
               Ürün Ağacı Tipi Oluştur
             </button>
-            <Link to="/urunagaci">
+            <Link to="/urun_agaci">
               <button className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300">
                 Listeye Dön
               </button>

@@ -12,7 +12,7 @@ const HomePage = () => {
     { href: "/ulke", label: "Ülke" },
     { href: "/maliyet_merkezi", label: "Maliyet Merkezi" },
     { href: "/sehir", label: "Şehir" },
-    { href: "/urunagaci", label: "Ürün Ağacı" },
+    { href: "/urun_agaci", label: "Ürün Ağacı" },
     { href: "/rota", label: "Rota Tipi" },
     { href: "/is-merkezi", label: "İş Merkezi Tipi" },
     { href: "/operasyon", label: "Operasyon Tipi" },

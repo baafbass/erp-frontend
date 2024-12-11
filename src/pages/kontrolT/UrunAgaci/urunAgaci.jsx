@@ -20,7 +20,7 @@ const UrunAgaciPage = () => {
 
   const getAllBOM = async () => {
     try {
-      const response = await axios.get("/urunagaci");
+      const response = await axios.get("/urun_agaci");
       if (response.data.status === "OK") {
         setBOMs(response.data.urunagacilar);
       }
@@ -41,7 +41,7 @@ const UrunAgaciPage = () => {
     try {
       const { urun_agaci, firma_kodu } = SelectedBOM;
       const response = await axios.delete(
-        `/urunagaci/${urun_agaci}/${firma_kodu}`
+        `/urun_agaci/${urun_agaci}/${firma_kodu}`
       );
       if (response.data.status === "OK") {
         setBOMs((prevboms) =>
