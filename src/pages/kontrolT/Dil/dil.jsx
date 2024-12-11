@@ -33,12 +33,14 @@ const DilPage = () => {
     getAllDil();
   }, []);
 
+
   const handleEdit = (dil_kodu,firma_kodu) => {
     navigate(`/dil-guncelle/${dil_kodu}/${firma_kodu}`);
   };
 
   const handleDelete = async () => {
     try {
+
       const {dil_kodu,firma_kodu} = selectedLanguage;
 
       const response = await axios.delete(`/dil/${dil_kodu}/${firma_kodu}`);
@@ -53,6 +55,7 @@ const DilPage = () => {
       setOpenDialog(false);
     }
   };
+
 
   const handleOpenDialog = (dil_kodu,firma_kodu) => {
     setSelectedLanguage({dil_kodu,firma_kodu});
@@ -102,6 +105,7 @@ const DilPage = () => {
                   <td className="px-4 py-2">{language.LANTEXT}</td>
                   <td className="px-4 py-2 flex justify-center space-x-2">
                     <button
+
                       onClick={() => handleEdit(language.LANCODE,language.COMCODE)}
                       className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-1 px-2 rounded-lg transition-colors duration-300 flex items-center"
                     >
@@ -110,7 +114,9 @@ const DilPage = () => {
                     </button>
 
                     <button
+
                       onClick={() => handleOpenDialog(language.LANCODE,language.COMCODE)}
+
                       className="bg-red-500 hover:bg-red-700 text-white font-medium py-1 px-2 rounded-lg transition-colors duration-300 flex items-center"
                     >
                       <FontAwesomeIcon icon={faTrash} className="mr-1" />

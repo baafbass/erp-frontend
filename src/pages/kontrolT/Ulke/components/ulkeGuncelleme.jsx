@@ -2,33 +2,30 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAxios } from "../../../../shared/hooks/axios-hook";
 
-const dilFields = {
+const ulkeFields = {
   firma_kodu: "",
-  dil_kodu: "",
-  dil_adi: "",
+  ulke_kodu: "",
+  ulke_adi: "",
 };
 
-const DilGuncelle = () => {
-
-  const {dil_kodu,firma_kodu} = useParams();
-
-  const [dilData, setDilData] = useState(dilFields);
-  const { dil_adi } = dilData;
+const UlkeGuncelle = () => {
+  const { ulke_kodu, firma_kodu } = useParams();
+  const [ulkeData, setUlkeData] = useState(ulkeFields);
+  const { ulke_adi } = ulkeData;
 
   const axios = useAxios();
   const navigate = useNavigate();
 
-  const getDil = async () => {
+  const getUlke = async () => {
     try {
-      const response = await axios.get(`/dil/${dil_kodu}/${firma_kodu}`);
-      console.log(response);
+      const response = await axios.get(`/ulke/${ulke_kodu}/${firma_kodu}`);
       if (response.data.status === "OK") {
-        const dilData = response.data.dil;
+        const ulkeData = response.data.ulke;
 
-        setDilData({
-          dil_kodu: dilData.LANCODE,
-          dil_adi: dilData.LANTEXT,
-          firma_kodu: dilData.COMCODE,
+        setUlkeData({
+          ulke_kodu: ulkeData.COUNTRYCODE,
+          ulke_adi: ulkeData.COUNTRYTEXT,
+          firma_kodu: ulkeData.COMCODE,
         });
       }
     } catch (error) {
@@ -37,13 +34,13 @@ const DilGuncelle = () => {
   };
 
   useEffect(() => {
-    getDil();
+    getUlke();
   }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setDilData({
-      ...dilData,
+    setUlkeData({
+      ...ulkeData,
       [name]: value,
     });
   };
@@ -51,9 +48,9 @@ const DilGuncelle = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`/dil`, dilData);
+      const response = await axios.put(`/ulke`, ulkeData);
       if (response.data.status === "OK") {
-        navigate("/dil");
+        navigate("/ulke");
       } else {
         alert("Güncelleme sırasında bir hata oluştu");
         console.log(response);
@@ -67,24 +64,8 @@ const DilGuncelle = () => {
     <div className="min-h-screen bg-gray-100 flex justify-center items-start pt-8">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-4xl">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-          Dil Bilgilerini Güncelle
+          Ülke Bilgilerini Güncelle
         </h1>
-      <div className="mb-4">
-          <label
-            className="block text-gray-700 font-medium mb-2"
-            htmlFor="firma_kodu"
-          >
-            Firma Kodu
-          </label>
-          <input
-            type="text"
-            id="firma_kodu"
-            name="firma_kodu"
-            value={firma_kodu}
-            readOnly
-            className="w-full px-3 py-2 border rounded-lg bg-gray-100"
-          />
-        </div>
         <div className="mb-4">
           <label
             className="block text-gray-700 font-medium mb-2"
@@ -104,15 +85,15 @@ const DilGuncelle = () => {
         <div className="mb-4">
           <label
             className="block text-gray-700 font-medium mb-2"
-            htmlFor="dil_kodu"
+            htmlFor="ulke_kodu"
           >
-            Dil Kodu
+            Ülke Kodu
           </label>
           <input
             type="text"
-            id="dil_kodu"
-            name="dil_kodu"
-            value={dil_kodu}
+            id="ulke_kodu"
+            name="ulke_kodu"
+            value={ulke_kodu}
             onChange={handleChange}
             readOnly
             className="w-full px-3 py-2 border rounded-lg bg-gray-100"
@@ -121,15 +102,15 @@ const DilGuncelle = () => {
         <div className="mb-4">
           <label
             className="block text-gray-700 font-medium mb-2"
-            htmlFor="dil_adi"
+            htmlFor="ulke_adi"
           >
-            Dil Adı
+            Ülke Adı
           </label>
           <input
             type="text"
-            id="dil_adi"
-            name="dil_adi"
-            value={dil_adi}
+            id="ulke_adi"
+            name="ulke_adi"
+            value={ulke_adi}
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded-lg"
           />
@@ -143,7 +124,7 @@ const DilGuncelle = () => {
             Güncelle
           </button>
           <button
-            onClick={() => navigate("/dil")}
+            onClick={() => navigate("/ulke")}
             className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300"
           >
             İptal
@@ -154,4 +135,4 @@ const DilGuncelle = () => {
   );
 };
 
-export default DilGuncelle;
+export default UlkeGuncelle;

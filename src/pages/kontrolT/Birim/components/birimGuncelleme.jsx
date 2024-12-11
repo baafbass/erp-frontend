@@ -2,37 +2,34 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAxios } from "../../../../shared/hooks/axios-hook";
 
-const firmaFields = {
+const birimFields = {
   firma_kodu: "",
-  firma_adi: "",
-  firma_adresi_1: "",
-  firma_adresi_2: "",
-  sehir_kodu: "",
-  ulke_kodu: "",
+  birim_kodu: "",
+  birim_adi: "",
+  ana_agirlik_birimi: "",
+  ana_birim_kodu: "",
 };
 
-const FirmaGuncelle = () => {
-  const { firma_kodu } = useParams();
-  const [firmaData, setFirmaData] = useState(firmaFields);
-  const { firma_adi, firma_adresi_1, firma_adresi_2, sehir_kodu, ulke_kodu } =
-    firmaData;
+const BirimGuncelle = () => {
+  const { birim_kodu, firma_kodu } = useParams();
+  const [birimData, setBirimData] = useState(birimFields);
+  const { birim_adi, ana_agirlik_birimi, ana_birim_kodu } = birimData;
 
   const axios = useAxios();
   const navigate = useNavigate();
 
-  const getFirma = async () => {
+  const getBirim = async () => {
     try {
-      const response = await axios.get(`/firma/${firma_kodu}`);
+      const response = await axios.get(`/birim/${birim_kodu}/${firma_kodu}`);
       if (response.data.status === "OK") {
-        const companyData = response.data.firma;
+        const birimData = response.data.birim;
 
-        setFirmaData({
-          firma_kodu: companyData.COMCODE,
-          firma_adi: companyData.COMTEXT,
-          firma_adresi_1: companyData.ADDRESS1,
-          firma_adresi_2: companyData.ADDRESS2,
-          sehir_kodu: companyData.CITYCODE,
-          ulke_kodu: companyData.COUNTRYCODE,
+        setBirimData({
+          birim_kodu: birimData.UNITCODE,
+          birim_adi: birimData.UNITTEXT,
+          ana_agirlik_birimi: birimData.ISMAINUNIT,
+          ana_birim_kodu: birimData.MAINUNITCODE,
+          firma_kodu: birimData.COMCODE,
         });
       }
     } catch (error) {
@@ -41,13 +38,13 @@ const FirmaGuncelle = () => {
   };
 
   useEffect(() => {
-    getFirma();
+    getBirim();
   }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFirmaData({
-      ...firmaData,
+    setBirimData({
+      ...birimData,
       [name]: value,
     });
   };
@@ -55,10 +52,9 @@ const FirmaGuncelle = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-
-      const response = await axios.put('/firma',firmaData);
+      const response = await axios.put(`/birim`, birimData);
       if (response.data.status === "OK") {
-        navigate("/firma");
+        navigate("/birim");
       } else {
         alert("Güncelleme sırasında bir hata oluştu");
         console.log(response);
@@ -72,7 +68,7 @@ const FirmaGuncelle = () => {
     <div className="min-h-screen bg-gray-100 flex justify-center items-start pt-8">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-4xl">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-          Firma Bilgilerini Güncelle
+          Birim Bilgilerini Güncelle
         </h1>
         <div className="mb-4">
           <label
@@ -93,15 +89,32 @@ const FirmaGuncelle = () => {
         <div className="mb-4">
           <label
             className="block text-gray-700 font-medium mb-2"
-            htmlFor="firma_adi"
+            htmlFor="birim_kodu"
           >
-            Firma Adı
+            Birim Kodu
           </label>
           <input
             type="text"
-            id="firma_adi"
-            name="firma_adi"
-            value={firma_adi}
+            id="birim_kodu"
+            name="birim_kodu"
+            value={birim_kodu}
+            onChange={handleChange}
+            readOnly
+            className="w-full px-3 py-2 border rounded-lg bg-gray-100"
+          />
+        </div>
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 font-medium mb-2"
+            htmlFor="birim_adi"
+          >
+            Birim Adı
+          </label>
+          <input
+            type="text"
+            id="birim_adi"
+            name="birim_adi"
+            value={birim_adi}
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded-lg"
           />
@@ -109,67 +122,54 @@ const FirmaGuncelle = () => {
         <div className="mb-4">
           <label
             className="block text-gray-700 font-medium mb-2"
-            htmlFor="firma_adresi_1"
+            htmlFor="ana_agirlik_birimi"
           >
-            Adres 1
+            Ana Ağırlık Birimi mi?
           </label>
-          <input
-            type="text"
-            id="firma_adresi_1"
-            name="firma_adresi_1"
-            value={firma_adresi_1}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-lg"
-          />
+          <div className="flex gap-4">
+            <label className="flex items-center">
+              <input
+                type="radio"
+                id="ana_agirlik_birimi"
+                name="ana_agirlik_birimi"
+                value="0"
+                checked={birimData.ana_agirlik_birimi === "0"}
+                onChange={handleChange}
+                className="mr-2"
+              />
+              0 (Hayır)
+            </label>
+            <label className="flex items-center">
+              <input
+                type="radio"
+                id="ana_agirlik_birimi"
+                name="ana_agirlik_birimi"
+                value="1"
+                checked={birimData.ana_agirlik_birimi === "1"}
+                onChange={handleChange}
+                className="mr-2"
+              />
+              1 (Evet)
+            </label>
+          </div>
         </div>
         <div className="mb-4">
           <label
             className="block text-gray-700 font-medium mb-2"
-            htmlFor="firma_adresi_2"
+            htmlFor="ana_birim_kodu"
           >
-            Adres 2
+            Ana Birim Kodu
           </label>
           <input
             type="text"
-            id="firma_adresi_2"
-            name="firma_adresi_2"
-            value={firma_adresi_2}
+            id="ana_birim_kodu"
+            name="ana_birim_kodu"
+            value={ana_birim_kodu}
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded-lg"
           />
         </div>
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 font-medium mb-2"
-            htmlFor="sehir_kodu"
-          >
-            Şehir Kodu
-          </label>
-          <input
-            type="text"
-            id="sehir_kodu"
-            name="sehir_kodu"
-            value={sehir_kodu}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-lg"
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 font-medium mb-2"
-            htmlFor="ulke_kodu"
-          >
-            Ülke Kodu
-          </label>
-          <input
-            type="text"
-            id="ulke_kodu"
-            name="ulke_kodu"
-            value={ulke_kodu}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-lg"
-          />
-        </div>
+
         <div className="flex justify-between">
           <button
             onClick={handleSubmit}
@@ -178,7 +178,7 @@ const FirmaGuncelle = () => {
             Güncelle
           </button>
           <button
-            onClick={() => navigate("/firma")}
+            onClick={() => navigate("/birim")}
             className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300"
           >
             İptal
@@ -189,4 +189,4 @@ const FirmaGuncelle = () => {
   );
 };
 
-export default FirmaGuncelle;
+export default BirimGuncelle;

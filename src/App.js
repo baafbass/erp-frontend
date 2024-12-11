@@ -16,13 +16,23 @@ import UrunAgaci from "./pages/kontrolT/UrunAgaci/urunAgaci";
 import FirmaOlustur from "./pages/kontrolT/Firma/components/firmaOlusturma";
 import FirmaGuncelle from "./pages/kontrolT/Firma/components/firmaGuncelleme";
 
-import DilOluştur from "./pages/kontrolT/Dil/components/dilOlusturma";
+import DilOlustur from "./pages/kontrolT/Dil/components/dilOlusturma";
 import DilGuncelle from "./pages/kontrolT/Dil/components/dilGuncelleme";
 
-import SehirOlustur from "./pages/kontrolT/Sehir/sehirolustur";
+import BirimOlustur from "./pages/kontrolT/Birim/components/birimOlusturma";
+import BirimGuncelle from "./pages/kontrolT/Birim/components/birimGuncelleme";
+
+import UlkeOlustur from "./pages/kontrolT/Ulke/components/ulkeOlusturma";
+import UlkeGuncelle from "./pages/kontrolT/Ulke/components/ulkeGuncelleme";
+
+import SehirOlustur from "./pages/kontrolT/Sehir/components/sehirOlusturma";
+import SehirGuncelle from "./pages/kontrolT/Sehir/components/sehirGuncelleme";
+
+import IsMerkeziOlustur from "./pages/kontrolT/IsMerkezi/components/IsMerkeziOlusturma";
+import IsMerkeziGuncelle from "./pages/kontrolT/IsMerkezi/components/isMerkeziGuncelleme";
+
 import UrunAgaciOlustur from "./pages/kontrolT/UrunAgaci/urunAgaciolustur";
 import RotaOlustur from "./pages/kontrolT/Rota/rotaolustur";
-import IsMerkeziOlustur from "./pages/kontrolT/IsMerkezi/isMerkeziolustur";
 import OperasyonOlustur from "./pages/kontrolT/Operasyon/operasyonolustur";
 
 function App() {
@@ -45,13 +55,39 @@ function App() {
       <Route path="/firma-olustur" element={<FirmaOlustur />} />
       <Route path="/firma-guncelle/:firma_kodu" element={<FirmaGuncelle />} />
 
-      <Route path="/dil-olustur" element={<DilOluştur />} />
-      <Route path="/dil-guncelle/:dil_kodu/:firma_kodu" element={<DilGuncelle />} />
+      <Route path="/dil-olustur" element={<DilOlustur />} />
+      <Route
+        path="/dil-guncelle/:dil_kodu/:firma_kodu"
+        element={<DilGuncelle />}
+      />
 
-      <Route path="/sehirolustur" element={<SehirOlustur />} />
+      <Route path="/birim-olustur" element={<BirimOlustur />} />
+      <Route
+        path="/birim-guncelle/:birim_kodu/:firma_kodu"
+        element={<BirimGuncelle />}
+      />
+
+      <Route path="/ulke-olustur" element={<UlkeOlustur />} />
+      <Route
+        path="/ulke-guncelle/:ulke_kodu/:firma_kodu"
+        element={<UlkeGuncelle />}
+      />
+
+      <Route path="/sehir-olustur" element={<SehirOlustur />} />
+      <Route
+        path="/sehir-guncelle/:sehir_kodu/:firma_kodu"
+        element={<SehirGuncelle />}
+      />
+
+      <Route path="/isMerkezi-olustur" element={<IsMerkeziOlustur />} />
+      <Route
+        path="/isMerkezi-guncelle/:is_merkezi/:firma_kodu"
+        element={<IsMerkeziGuncelle />}
+      />
+
+
       <Route path="/urunAgaciolustur" element={<UrunAgaciOlustur />} />
       <Route path="/rotaolustur" element={<RotaOlustur />} />
-      <Route path="/isMerkeziolustur" element={<IsMerkeziOlustur />} />
       <Route path="/operasyonolustur" element={<OperasyonOlustur />} />
     </Routes>
   );
