@@ -40,7 +40,8 @@ import RotaGuncelle from "./pages/kontrolT/Rota/components/RotaGuncelleme";
 import OperasyonOlustur from "./pages/kontrolT/Operasyon/components/OperasyonOlusturma";
 import OperasyonGuncelle from "./pages/kontrolT/Operasyon/components/OperasyonGuncelleme";
 
-import UrunAgaciOlustur from "./pages/kontrolT/UrunAgaci/urunAgaciolustur";
+import UrunAgaciOlustur from "./pages/kontrolT/UrunAgaci/components/UrunAgaciOlusturma";
+import UrunAgaciGuncelle from "./pages/kontrolT/UrunAgaci/components/UrunAgaciGuncelleme";
 
 function App() {
   return (
@@ -57,8 +58,8 @@ function App() {
       <Route path="/rota" element={<Rota />} />
       <Route path="/sehir" element={<Sehir />} />
       <Route path="/ulke" element={<Ulke />} />
+      <Route path="/urunagaci" element={<UrunAgaci />} />
 
-      <Route path="/urun-agaci" element={<UrunAgaci />} />
       <Route path="/firma-olustur" element={<FirmaOlustur />} />
       <Route path="/firma-guncelle/:firma_kodu" element={<FirmaGuncelle />} />
 
@@ -110,7 +111,11 @@ function App() {
         element={<OperasyonGuncelle />}
       />
 
-      <Route path="/urunAgaciolustur" element={<UrunAgaciOlustur />} />
+      <Route path="/urunagaci-olustur" element={<UrunAgaciOlustur />} />
+      <Route
+        path="/urunagaci-guncelle/:urun_agaci/:firma_kodu"
+        element={<UrunAgaciGuncelle />}
+      />
     </Routes>
   );
 }

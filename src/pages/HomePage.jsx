@@ -22,7 +22,7 @@ const HomePage = () => {
     { href: "/materyal", label: "Materyal" },
     { href: "/maliyetmerkezi", label: "Maliyet Merkezi" },
     { href: "/ismerke", label: "İş Merkezi" },
-    { href: "/urunagaci", label: "Ürün Ağacı" },
+    { href: "/Urunagaci", label: "Ürün Ağacı" },
     { href: "/rotayonetimi", label: "Rota Yönetimi" },
   ];
 
