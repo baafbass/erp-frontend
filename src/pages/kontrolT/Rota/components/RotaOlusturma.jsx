@@ -84,7 +84,7 @@ const RotaOlusturma = () => {
             >
               Rota Tipi Açıklaması
             </label>
-            <input
+            <textarea
               type="text"
               id="rota_aciklamasi"
               name="rota_aciklamasi"

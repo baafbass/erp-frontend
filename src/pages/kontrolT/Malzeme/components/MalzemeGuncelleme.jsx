@@ -108,7 +108,7 @@ const MalzemeGuncelle = () => {
           >
             Malzeme Tipi Açıklaması
           </label>
-          <input
+          <textarea
             type="text"
             id="malzeme_aciklamasi"
             name="malzeme_aciklamasi"

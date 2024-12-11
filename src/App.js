@@ -37,8 +37,10 @@ import MalzemeGuncelle from "./pages/kontrolT/Malzeme/components/MalzemeGuncelle
 import RotaOlustur from "./pages/kontrolT/Rota/components/RotaOlusturma";
 import RotaGuncelle from "./pages/kontrolT/Rota/components/RotaGuncelleme";
 
+import OperasyonOlustur from "./pages/kontrolT/Operasyon/components/OperasyonOlusturma";
+import OperasyonGuncelle from "./pages/kontrolT/Operasyon/components/OperasyonGuncelleme";
+
 import UrunAgaciOlustur from "./pages/kontrolT/UrunAgaci/urunAgaciolustur";
-import OperasyonOlustur from "./pages/kontrolT/Operasyon/operasyonolustur";
 
 function App() {
   return (
@@ -102,8 +104,13 @@ function App() {
         element={<RotaGuncelle />}
       />
 
+      <Route path="/operasyon-olustur" element={<OperasyonOlustur />} />
+      <Route
+        path="/operasyon-guncelle/:operasyon/:firma_kodu"
+        element={<OperasyonGuncelle />}
+      />
+
       <Route path="/urunAgaciolustur" element={<UrunAgaciOlustur />} />
-      <Route path="/operasyonolustur" element={<OperasyonOlustur />} />
     </Routes>
   );
 }

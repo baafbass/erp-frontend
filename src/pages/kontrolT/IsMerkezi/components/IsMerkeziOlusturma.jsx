@@ -85,7 +85,7 @@ const IsMerkeziOlustur = () => {
             >
               İş Merkezi Tipi Açıklaması
             </label>
-            <input
+            <textarea
               type="text"
               id="is_merkezi_aciklamasi"
               name="is_merkezi_aciklamasi"
