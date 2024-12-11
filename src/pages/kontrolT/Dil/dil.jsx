@@ -33,21 +33,20 @@ const DilPage = () => {
     getAllDil();
   }, []);
 
-  const handleEdit = (dil_kodu, firma_kodu) => {
+
+  const handleEdit = (dil_kodu,firma_kodu) => {
     navigate(`/dil-guncelle/${dil_kodu}/${firma_kodu}`);
   };
 
   const handleDelete = async () => {
     try {
-      const { dil_kodu, firma_kodu } = selectedLanguage;
+
+      const {dil_kodu,firma_kodu} = selectedLanguage;
 
       const response = await axios.delete(`/dil/${dil_kodu}/${firma_kodu}`);
       if (response.data.status === "OK") {
         setLanguages((prevlanguages) =>
-          prevlanguages.filter(
-            (language) =>
-              language.LANCODE !== dil_kodu || language.COMCODE !== firma_kodu
-          )
+          prevlanguages.filter((language) => language.LANCODE !== dil_kodu || language.COMCODE !== firma_kodu)
         );
       }
     } catch (error) {
@@ -57,8 +56,9 @@ const DilPage = () => {
     }
   };
 
-  const handleOpenDialog = (dil_kodu, firma_kodu) => {
-    setSelectedLanguage({ dil_kodu, firma_kodu });
+
+  const handleOpenDialog = (dil_kodu,firma_kodu) => {
+    setSelectedLanguage({dil_kodu,firma_kodu});
     setOpenDialog(true);
   };
 
@@ -105,9 +105,8 @@ const DilPage = () => {
                   <td className="px-4 py-2">{language.LANTEXT}</td>
                   <td className="px-4 py-2 flex justify-center space-x-2">
                     <button
-                      onClick={() =>
-                        handleEdit(language.LANCODE, language.COMCODE)
-                      }
+
+                      onClick={() => handleEdit(language.LANCODE,language.COMCODE)}
                       className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-1 px-2 rounded-lg transition-colors duration-300 flex items-center"
                     >
                       <FontAwesomeIcon icon={faEdit} className="mr-1" />
@@ -115,9 +114,9 @@ const DilPage = () => {
                     </button>
 
                     <button
-                      onClick={() =>
-                        handleOpenDialog(language.LANCODE, language.COMCODE)
-                      }
+
+                      onClick={() => handleOpenDialog(language.LANCODE,language.COMCODE)}
+
                       className="bg-red-500 hover:bg-red-700 text-white font-medium py-1 px-2 rounded-lg transition-colors duration-300 flex items-center"
                     >
                       <FontAwesomeIcon icon={faTrash} className="mr-1" />
