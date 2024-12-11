@@ -13,7 +13,7 @@ import UlkeSilme from "./components/ulkeSilme";
 const UlkePage = () => {
   const [countries, setCountries] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
-  const [selectedCountry, setSelectedCountry] = useState(null);
+  const [selectedCountry, setSelectedCountry] = useState();
 
   const axios = useAxios();
   const navigate = useNavigate();
@@ -33,17 +33,21 @@ const UlkePage = () => {
     getAllUlke();
   }, []);
 
-  const handleEdit = (ulke_kodu) => {
-    navigate(`/ulke-guncelle/${ulke_kodu}`);
+  const handleEdit = (ulke_kodu, firma_kodu) => {
+    navigate(`/ulke-guncelle/${ulke_kodu}/${firma_kodu}`);
   };
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(`/ulke/${selectedCountry}`);
+      const { ulke_kodu, firma_kodu } = selectedCountry;
+
+      const response = await axios.delete(`/ulke/${ulke_kodu}/${firma_kodu}`);
       if (response.data.status === "OK") {
         setCountries((prevcountries) =>
           prevcountries.filter(
-            (country) => country.COUNTRYCODE !== selectedCountry
+            (country) =>
+              country.COUNTRYCODE !== ulke_kodu ||
+              country.COMCODE !== firma_kodu
           )
         );
       }
@@ -54,8 +58,8 @@ const UlkePage = () => {
     }
   };
 
-  const handleOpenDialog = (ulke_kodu) => {
-    setSelectedCountry(ulke_kodu);
+  const handleOpenDialog = (ulke_kodu, firma_kodu) => {
+    setSelectedCountry({ ulke_kodu, firma_kodu });
     setOpenDialog(true);
   };
 
@@ -88,21 +92,23 @@ const UlkePage = () => {
           <table className="w-full border-collapse">
             <thead>
               <tr className="bg-gray-200">
+                <th className="px-4 py-2 text-left">Firma Kodu</th>
                 <th className="px-4 py-2 text-left">Ülke Kodu</th>
                 <th className="px-4 py-2 text-left">Ülke Adı</th>
-                <th className="px-4 py-2 text-left">Firma Kodu</th>
                 <th className="px-4 py-2 text-center">İşlemler</th>
               </tr>
             </thead>
             <tbody>
               {countries.map((country, index) => (
                 <tr key={index} className="border-b">
+                  <td className="px-4 py-2">{country.COMCODE}</td>
                   <td className="px-4 py-2">{country.COUNTRYCODE}</td>
                   <td className="px-4 py-2">{country.COUNTRYTEXT}</td>
-                  <td className="px-4 py-2">{country.COMCODE}</td>
                   <td className="px-4 py-2 flex justify-center space-x-2">
                     <button
-                      onClick={() => handleEdit(country.COUNTRYCODE)}
+                      onClick={() =>
+                        handleEdit(country.COUNTRYCODE, country.COMCODE)
+                      }
                       className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-1 px-2 rounded-lg transition-colors duration-300 flex items-center"
                     >
                       <FontAwesomeIcon icon={faEdit} className="mr-1" />
@@ -110,7 +116,9 @@ const UlkePage = () => {
                     </button>
 
                     <button
-                      onClick={() => handleOpenDialog(country.COUNTRYCODE)}
+                      onClick={() =>
+                        handleOpenDialog(country.COUNTRYCODE, country.COMCODE)
+                      }
                       className="bg-red-500 hover:bg-red-700 text-white font-medium py-1 px-2 rounded-lg transition-colors duration-300 flex items-center"
                     >
                       <FontAwesomeIcon icon={faTrash} className="mr-1" />

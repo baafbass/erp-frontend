@@ -13,7 +13,7 @@ import BirimSilme from "./components/birimSilme";
 const BirimPage = () => {
   const [units, setUnits] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
-  const [selectedUnit, setSelectedUnit] = useState(null);
+  const [selectedUnit, setSelectedUnit] = useState();
 
   const axios = useAxios();
   const navigate = useNavigate();
@@ -34,7 +34,8 @@ const BirimPage = () => {
     getAllBirim();
   }, []);
 
-  const handleEdit = (birim_kodu,firma_kodu) => {
+
+  const handleEdit = (birim_kodu, firma_kodu) => {
     navigate(`/birim-guncelle/${birim_kodu}/${firma_kodu}`);
   };
 
@@ -45,6 +46,7 @@ const BirimPage = () => {
       if (response.data.status === "OK") {
         setUnits((prevunits) =>
           prevunits.filter((unit) => unit.UNITCODE !== birim_kodu || unit.COMCODE !== firma_kodu)
+
         );
       }
     } catch (error) {
@@ -54,8 +56,10 @@ const BirimPage = () => {
     }
   };
 
+
   const handleOpenDialog = (birim_kodu,firma_kodu) => {
     setSelectedUnit({birim_kodu,firma_kodu});
+
     setOpenDialog(true);
   };
 
@@ -106,7 +110,9 @@ const BirimPage = () => {
                   <td className="px-4 py-2">{unit.MAINUNITCODE}</td>
                   <td className="px-4 py-2 flex justify-center space-x-2">
                     <button
+
                       onClick={() => handleEdit(unit.UNITCODE,unit.COMCODE)}
+
                       className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-1 px-2 rounded-lg transition-colors duration-300 flex items-center"
                     >
                       <FontAwesomeIcon icon={faEdit} className="mr-1" />
@@ -114,7 +120,9 @@ const BirimPage = () => {
                     </button>
 
                     <button
+
                       onClick={() => handleOpenDialog(unit.UNITCODE,unit.COMCODE)}
+
                       className="bg-red-500 hover:bg-red-700 text-white font-medium py-1 px-2 rounded-lg transition-colors duration-300 flex items-center"
                     >
                       <FontAwesomeIcon icon={faTrash} className="mr-1" />

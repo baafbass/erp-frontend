@@ -10,7 +10,7 @@ const isMerkeziFields = {
 };
 
 const IsMerkeziGuncelle = () => {
-  const { firma_kodu, is_merkezi } = useParams();
+  const { is_merkezi, firma_kodu } = useParams();
   const [isMerkeziData, setIsMerkeziData] = useState(isMerkeziFields);
   const { is_merkezi_aciklamasi, passif_mi } = isMerkeziData;
 
@@ -19,7 +19,9 @@ const IsMerkeziGuncelle = () => {
 
   const getIsMerkezi = async () => {
     try {
-      const response = await axios.get(`/isMerkezi/${is_merkezi}`);
+      const response = await axios.get(
+        `/isMerkezi/${is_merkezi}/${firma_kodu}`
+      );
       if (response.data.status === "OK") {
         const isMerkeziData = response.data.isMerkezi;
 
@@ -50,10 +52,7 @@ const IsMerkeziGuncelle = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(
-        `/isMerkezi/${is_merkezi}`,
-        isMerkeziData
-      );
+      const response = await axios.put(`/isMerkezi`, isMerkeziData);
       if (response.data.status === "OK") {
         navigate("/isMerkezi");
       } else {
@@ -100,7 +99,8 @@ const IsMerkeziGuncelle = () => {
             name="is_merkezi"
             value={is_merkezi}
             onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-lg"
+            readOnly
+            className="w-full px-3 py-2 border rounded-lg bg-gray-100"
           />
         </div>
         <div className="mb-4">

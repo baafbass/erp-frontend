@@ -9,16 +9,16 @@ const ulkeFields = {
 };
 
 const UlkeGuncelle = () => {
-  const { ulke_kodu } = useParams();
+  const { ulke_kodu, firma_kodu } = useParams();
   const [ulkeData, setUlkeData] = useState(ulkeFields);
-  const { firma_kodu, ulke_adi } = ulkeData;
+  const { ulke_adi } = ulkeData;
 
   const axios = useAxios();
   const navigate = useNavigate();
 
   const getUlke = async () => {
     try {
-      const response = await axios.get(`/ulke/${ulke_kodu}`);
+      const response = await axios.get(`/ulke/${ulke_kodu}/${firma_kodu}`);
       if (response.data.status === "OK") {
         const ulkeData = response.data.ulke;
 
@@ -48,7 +48,7 @@ const UlkeGuncelle = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`/ulke/${ulke_kodu}`, ulkeData);
+      const response = await axios.put(`/ulke`, ulkeData);
       if (response.data.status === "OK") {
         navigate("/ulke");
       } else {
@@ -69,6 +69,22 @@ const UlkeGuncelle = () => {
         <div className="mb-4">
           <label
             className="block text-gray-700 font-medium mb-2"
+            htmlFor="firma_kodu"
+          >
+            Firma Kodu
+          </label>
+          <input
+            type="text"
+            id="firma_kodu"
+            name="firma_kodu"
+            value={firma_kodu}
+            readOnly
+            className="w-full px-3 py-2 border rounded-lg bg-gray-100"
+          />
+        </div>
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 font-medium mb-2"
             htmlFor="ulke_kodu"
           >
             Ülke Kodu
@@ -79,7 +95,8 @@ const UlkeGuncelle = () => {
             name="ulke_kodu"
             value={ulke_kodu}
             onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-lg"
+            readOnly
+            className="w-full px-3 py-2 border rounded-lg bg-gray-100"
           />
         </div>
         <div className="mb-4">
@@ -96,22 +113,6 @@ const UlkeGuncelle = () => {
             value={ulke_adi}
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded-lg"
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 font-medium mb-2"
-            htmlFor="firma_kodu"
-          >
-            Firma Kodu
-          </label>
-          <input
-            type="text"
-            id="firma_kodu"
-            name="firma_kodu"
-            value={firma_kodu}
-            readOnly
-            className="w-full px-3 py-2 border rounded-lg bg-gray-100"
           />
         </div>
 

@@ -85,6 +85,7 @@ function App() {
         element={<IsMerkeziGuncelle />}
       />
 
+
       <Route path="/urunAgaciolustur" element={<UrunAgaciOlustur />} />
       <Route path="/rotaolustur" element={<RotaOlustur />} />
       <Route path="/operasyonolustur" element={<OperasyonOlustur />} />

@@ -31,7 +31,7 @@ const UlkeOlustur = () => {
         navigate("/ulke");
       }
     } catch (error) {
-      console.log("message:", error.message);
+      console.log("message:", error);
     }
   };
 
