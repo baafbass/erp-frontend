@@ -40,8 +40,8 @@ const UlkePage = () => {
   const handleDelete = async () => {
     try {
       const { ulke_kodu, firma_kodu } = selectedCountry;
-
       const response = await axios.delete(`/ulke/${ulke_kodu}/${firma_kodu}`);
+      console.log(response);
       if (response.data.status === "OK") {
         setCountries((prevcountries) =>
           prevcountries.filter(

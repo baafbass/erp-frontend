@@ -13,7 +13,7 @@ import IsMerkeziSilme from "./components/isMerkeziSilme";
 const IsMerkeziPage = () => {
   const [centers, setCenters] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
-  const [selectedCenter, setSelectedCenter] = useState();
+  const [selectedCenter, setSelectedCenter] = useState({});
 
   const axios = useAxios();
   const navigate = useNavigate();
@@ -21,8 +21,9 @@ const IsMerkeziPage = () => {
   const getAllIsMerkezi = async () => {
     try {
       const response = await axios.get("/is-merkezi");
+      console.log(response)
       if (response.data.status === "OK") {
-        setCenters(response.data.isMerkeziler);
+        setCenters(response.data.isMerkezleri);
       }
     } catch (error) {
       console.log("Error", error.message);
@@ -41,7 +42,7 @@ const IsMerkeziPage = () => {
     try {
       const { is_merkezi, firma_kodu } = selectedCenter;
       const response = await axios.delete(
-        `/isMerkezi/${is_merkezi}/${firma_kodu}`
+        `/is-merkezi/${is_merkezi}/${firma_kodu}`
       );
       if (response.data.status === "OK") {
         setCenters((prevcenters) =>

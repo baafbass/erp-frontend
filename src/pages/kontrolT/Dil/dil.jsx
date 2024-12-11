@@ -21,6 +21,7 @@ const DilPage = () => {
   const getAllDil = async () => {
     try {
       const response = await axios.get("/dil");
+      console.log(response);
       if (response.data.status === "OK") {
         setLanguages(response.data.diller);
       }
