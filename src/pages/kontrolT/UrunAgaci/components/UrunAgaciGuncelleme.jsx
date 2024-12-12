@@ -2,32 +2,34 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAxios } from "../../../../shared/hooks/axios-hook";
 
-const malzemeFields = {
+const urunAgaciFields = {
   firma_kodu: "",
-  malzeme: "",
-  malzeme_aciklamasi: "",
+  urun_agaci: "",
+  urun_agaci_aciklama: "",
   passif_mi: "",
 };
 
-const MalzemeGuncelle = () => {
-  const { malzeme, firma_kodu } = useParams();
-  const [malzemeData, setMalzemeData] = useState(malzemeFields);
-  const { malzeme_aciklamasi, passif_mi } = malzemeData;
+const UrunAgaciGuncelleme = () => {
+  const { urun_agaci, firma_kodu } = useParams();
+  const [urunAgaciData, setBOMData] = useState(urunAgaciFields);
+  const { urun_agaci_aciklama, passif_mi } = urunAgaciData;
 
   const axios = useAxios();
   const navigate = useNavigate();
 
-  const getMalzeme = async () => {
+  const getBOM = async () => {
     try {
-      const response = await axios.get(`/malzeme/${malzeme}/${firma_kodu}`);
+      const response = await axios.get(
+        `/urun-agaci/${urun_agaci}/${firma_kodu}`
+      );
       if (response.data.status === "OK") {
-        const malzemeData = response.data.malzeme;
+        const urunAgaciData = response.data.transformedUrunAgaci;
 
-        setMalzemeData({
-          firma_kodu: malzemeData.COMCODE,
-          malzeme: malzemeData.DOCTYPE,
-          malzeme_aciklamasi: malzemeData.DOCTYPETEXT,
-          passif_mi: malzemeData.ISPASSIVE,
+        setBOMData({
+          firma_kodu: urunAgaciData.COMCODE,
+          urun_agaci: urunAgaciData.DOCTYPE,
+          urun_agaci_aciklama: urunAgaciData.DOCTYPETEXT,
+          passif_mi: urunAgaciData.ISPASSIVE,
         });
       }
     } catch (error) {
@@ -36,13 +38,13 @@ const MalzemeGuncelle = () => {
   };
 
   useEffect(() => {
-    getMalzeme();
+    getBOM();
   }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setMalzemeData({
-      ...malzemeData,
+    setBOMData({
+      ...urunAgaciData,
       [name]: value,
     });
   };
@@ -50,9 +52,9 @@ const MalzemeGuncelle = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`/malzeme`, malzemeData);
+      const response = await axios.put(`/urun-agaci`, urunAgaciData);
       if (response.data.status === "OK") {
-        navigate("/malzeme");
+        navigate("/urun_agaci");
       } else {
         alert("Güncelleme sırasında bir hata oluştu");
         console.log(response);
@@ -66,7 +68,7 @@ const MalzemeGuncelle = () => {
     <div className="min-h-screen bg-gray-100 flex justify-center items-start pt-8">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-4xl">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-          Malzeme Bilgilerini Güncelle
+          Ürün Ağacı Bilgilerini Güncelle
         </h1>
         <div className="mb-4">
           <label
@@ -87,15 +89,15 @@ const MalzemeGuncelle = () => {
         <div className="mb-4">
           <label
             className="block text-gray-700 font-medium mb-2"
-            htmlFor="malzeme"
+            htmlFor="urun_agaci"
           >
-            Malzeme Tipi
+            Ürün Ağacı Tipi
           </label>
           <input
             type="text"
-            id="malzeme"
-            name="malzeme"
-            value={malzeme}
+            id="urun_agaci"
+            name="urun_agaci"
+            value={urun_agaci}
             onChange={handleChange}
             readOnly
             className="w-full px-3 py-2 border rounded-lg bg-gray-100"
@@ -104,15 +106,15 @@ const MalzemeGuncelle = () => {
         <div className="mb-4">
           <label
             className="block text-gray-700 font-medium mb-2"
-            htmlFor="malzeme_aciklamasi"
+            htmlFor="urun_agaci_aciklama"
           >
-            Malzeme Tipi Açıklaması
+            Ürün Ağacı Tipi Açıklaması
           </label>
           <textarea
             type="text"
-            id="malzeme_aciklamasi"
-            name="malzeme_aciklamasi"
-            value={malzeme_aciklamasi}
+            id="urun_agaci_aciklama"
+            name="urun_agaci_aciklama"
+            value={urun_agaci_aciklama}
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded-lg"
           />
@@ -131,11 +133,11 @@ const MalzemeGuncelle = () => {
                 id="passif_mi"
                 name="passif_mi"
                 value="0"
-                checked={malzemeData.passif_mi === "0"}
+                checked={urunAgaciData.passif_mi === "0"}
                 onChange={handleChange}
                 className="mr-2"
               />
-              0 (Hayır)
+              Hayır
             </label>
             <label className="flex items-center">
               <input
@@ -143,11 +145,11 @@ const MalzemeGuncelle = () => {
                 id="passif_mi"
                 name="passif_mi"
                 value="1"
-                checked={malzemeData.passif_mi === "1"}
+                checked={urunAgaciData.passif_mi === "1"}
                 onChange={handleChange}
                 className="mr-2"
               />
-              1 (Evet)
+              Evet
             </label>
           </div>
         </div>
@@ -160,7 +162,7 @@ const MalzemeGuncelle = () => {
             Güncelle
           </button>
           <button
-            onClick={() => navigate("/malzeme")}
+            onClick={() => navigate("/urun_agaci")}
             className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300"
           >
             İptal
@@ -171,4 +173,4 @@ const MalzemeGuncelle = () => {
   );
 };
 
-export default MalzemeGuncelle;
+export default UrunAgaciGuncelleme;

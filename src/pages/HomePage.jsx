@@ -10,9 +10,9 @@ const HomePage = () => {
     { href: "/dil", label: "Dil" },
     { href: "/malzeme", label: "Malzeme Tipi" },
     { href: "/ulke", label: "Ülke" },
-    { href: "/maliyetmerkezi", label: "Maliyet Merkezi" },
+    { href: "/maliyet_merkezi", label: "Maliyet Merkezi" },
     { href: "/sehir", label: "Şehir" },
-    { href: "/urunagaci", label: "Ürün Ağacı" },
+    { href: "/urun_agaci", label: "Ürün Ağacı" },
     { href: "/rota", label: "Rota Tipi" },
     { href: "/is-merkezi", label: "İş Merkezi Tipi" },
     { href: "/operasyon", label: "Operasyon Tipi" },
@@ -22,7 +22,7 @@ const HomePage = () => {
     { href: "/materyal", label: "Materyal" },
     { href: "/maliyetmerkezi", label: "Maliyet Merkezi" },
     { href: "/ismerke", label: "İş Merkezi" },
-    { href: "/urunagaci", label: "Ürün Ağacı" },
+    { href: "/Urunagaci", label: "Ürün Ağacı" },
     { href: "/rotayonetimi", label: "Rota Yönetimi" },
   ];
 

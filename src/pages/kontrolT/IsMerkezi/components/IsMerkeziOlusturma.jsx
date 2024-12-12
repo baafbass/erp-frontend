@@ -85,7 +85,7 @@ const IsMerkeziOlustur = () => {
             >
               İş Merkezi Tipi Açıklaması
             </label>
-            <input
+            <textarea
               type="text"
               id="is_merkezi_aciklamasi"
               name="is_merkezi_aciklamasi"
@@ -114,7 +114,7 @@ const IsMerkeziOlustur = () => {
                   className="mr-2"
                   required
                 />
-                0 (Hayır)
+                Hayır
               </label>
               <label className="flex items-center">
                 <input
@@ -127,7 +127,7 @@ const IsMerkeziOlustur = () => {
                   className="mr-2"
                   required
                 />
-                1 (Evet)
+                Evet
               </label>
             </div>
           </div>

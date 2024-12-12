@@ -2,47 +2,50 @@ import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAxios } from "../../../../shared/hooks/axios-hook";
 
-const malzemeFields = {
+const maliyetMerkeziFields = {
   firma_kodu: "",
-  malzeme: "",
-  malzeme_aciklamasi: "",
+  maliyet_merkezi: "",
+  maliyet_merkezi_aciklamasi: "",
   passif_mi: "",
 };
 
-const MalzemeGuncelle = () => {
-  const { malzeme, firma_kodu } = useParams();
-  const [malzemeData, setMalzemeData] = useState(malzemeFields);
-  const { malzeme_aciklamasi, passif_mi } = malzemeData;
+const MaliyetMerkeziGuncelle = () => {
+  const { maliyet_merkezi, firma_kodu } = useParams();
+  const [maliyetMerkeziData, setmaliyetMerkeziData] =
+    useState(maliyetMerkeziFields);
+  const { maliyet_merkezi_aciklamasi, passif_mi } = maliyetMerkeziData;
 
   const axios = useAxios();
   const navigate = useNavigate();
 
-  const getMalzeme = async () => {
+  const getMaliyetMerkezi = async () => {
     try {
-      const response = await axios.get(`/malzeme/${malzeme}/${firma_kodu}`);
+      const response = await axios.get(
+        `/maliyet-merkezi/${maliyet_merkezi}/${firma_kodu}`
+      );
       if (response.data.status === "OK") {
-        const malzemeData = response.data.malzeme;
+        const maliyetMerkeziData = response.data.transformedMaliyetMerkezi;
 
-        setMalzemeData({
-          firma_kodu: malzemeData.COMCODE,
-          malzeme: malzemeData.DOCTYPE,
-          malzeme_aciklamasi: malzemeData.DOCTYPETEXT,
-          passif_mi: malzemeData.ISPASSIVE,
+        setmaliyetMerkeziData({
+          firma_kodu: maliyetMerkeziData.COMCODE,
+          maliyet_merkezi: maliyetMerkeziData.DOCTYPE,
+          maliyet_merkezi_aciklamasi: maliyetMerkeziData.DOCTYPETEXT,
+          passif_mi: maliyetMerkeziData.ISPASSIVE,
         });
       }
     } catch (error) {
-      console.log("Error", error.message);
+      console.log("Error", error);
     }
   };
 
   useEffect(() => {
-    getMalzeme();
+    getMaliyetMerkezi();
   }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setMalzemeData({
-      ...malzemeData,
+    setmaliyetMerkeziData({
+      ...maliyetMerkeziData,
       [name]: value,
     });
   };
@@ -50,9 +53,9 @@ const MalzemeGuncelle = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`/malzeme`, malzemeData);
+      const response = await axios.put(`/maliyet-merkezi`, maliyetMerkeziData);
       if (response.data.status === "OK") {
-        navigate("/malzeme");
+        navigate("/maliyet_merkezi");
       } else {
         alert("Güncelleme sırasında bir hata oluştu");
         console.log(response);
@@ -66,7 +69,7 @@ const MalzemeGuncelle = () => {
     <div className="min-h-screen bg-gray-100 flex justify-center items-start pt-8">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-4xl">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-          Malzeme Bilgilerini Güncelle
+          Maliyet Merkezi Bilgilerini Güncelle
         </h1>
         <div className="mb-4">
           <label
@@ -87,15 +90,15 @@ const MalzemeGuncelle = () => {
         <div className="mb-4">
           <label
             className="block text-gray-700 font-medium mb-2"
-            htmlFor="malzeme"
+            htmlFor="maliyet_merkezi"
           >
-            Malzeme Tipi
+            Maliyet Merkezi Tipi
           </label>
           <input
             type="text"
-            id="malzeme"
-            name="malzeme"
-            value={malzeme}
+            id="maliyet_merkezi"
+            name="maliyet_merkezi"
+            value={maliyet_merkezi}
             onChange={handleChange}
             readOnly
             className="w-full px-3 py-2 border rounded-lg bg-gray-100"
@@ -104,15 +107,15 @@ const MalzemeGuncelle = () => {
         <div className="mb-4">
           <label
             className="block text-gray-700 font-medium mb-2"
-            htmlFor="malzeme_aciklamasi"
+            htmlFor="maliyet_merkezi_aciklamasi"
           >
-            Malzeme Tipi Açıklaması
+            Maliyet Merkezi Tipi Açıklaması
           </label>
           <textarea
             type="text"
-            id="malzeme_aciklamasi"
-            name="malzeme_aciklamasi"
-            value={malzeme_aciklamasi}
+            id="maliyet_merkezi_aciklamasi"
+            name="maliyet_merkezi_aciklamasi"
+            value={maliyet_merkezi_aciklamasi}
             onChange={handleChange}
             className="w-full px-3 py-2 border rounded-lg"
           />
@@ -131,11 +134,11 @@ const MalzemeGuncelle = () => {
                 id="passif_mi"
                 name="passif_mi"
                 value="0"
-                checked={malzemeData.passif_mi === "0"}
+                checked={maliyetMerkeziData.passif_mi === "0"}
                 onChange={handleChange}
                 className="mr-2"
               />
-              0 (Hayır)
+              Hayır
             </label>
             <label className="flex items-center">
               <input
@@ -143,11 +146,11 @@ const MalzemeGuncelle = () => {
                 id="passif_mi"
                 name="passif_mi"
                 value="1"
-                checked={malzemeData.passif_mi === "1"}
+                checked={maliyetMerkeziData.passif_mi === "1"}
                 onChange={handleChange}
                 className="mr-2"
               />
-              1 (Evet)
+              Evet
             </label>
           </div>
         </div>
@@ -160,7 +163,7 @@ const MalzemeGuncelle = () => {
             Güncelle
           </button>
           <button
-            onClick={() => navigate("/malzeme")}
+            onClick={() => navigate("/maliyet_merkezi")}
             className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300"
           >
             İptal
@@ -171,4 +174,4 @@ const MalzemeGuncelle = () => {
   );
 };
 
-export default MalzemeGuncelle;
+export default MaliyetMerkeziGuncelle;
