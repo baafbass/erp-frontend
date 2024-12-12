@@ -21,7 +21,7 @@ const MalzemeGuncelle = () => {
     try {
       const response = await axios.get(`/malzeme/${malzeme}/${firma_kodu}`);
       if (response.data.status === "OK") {
-        const malzemeData = response.data.malzeme;
+        const malzemeData = response.data.transformedMalzeme;
 
         setMalzemeData({
           firma_kodu: malzemeData.COMCODE,
@@ -135,7 +135,7 @@ const MalzemeGuncelle = () => {
                 onChange={handleChange}
                 className="mr-2"
               />
-              0 (Hayır)
+              Hayır
             </label>
             <label className="flex items-center">
               <input
@@ -147,7 +147,7 @@ const MalzemeGuncelle = () => {
                 onChange={handleChange}
                 className="mr-2"
               />
-              1 (Evet)
+              Evet
             </label>
           </div>
         </div>
