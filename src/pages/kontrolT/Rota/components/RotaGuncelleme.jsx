@@ -21,7 +21,7 @@ const RotaGuncelle = () => {
     try {
       const response = await axios.get(`/rota/${rota}/${firma_kodu}`);
       if (response.data.status === "OK") {
-        const rotaData = response.data.rota;
+        const rotaData = response.data.transformedRota;
 
         setRotaData({
           firma_kodu: rotaData.COMCODE,
@@ -108,7 +108,7 @@ const RotaGuncelle = () => {
           >
             Rota Tipi Açıklaması
           </label>
-          <input
+          <textarea
             type="text"
             id="rota_aciklamasi"
             name="rota_aciklamasi"
@@ -135,7 +135,7 @@ const RotaGuncelle = () => {
                 onChange={handleChange}
                 className="mr-2"
               />
-              0 (Hayır)
+              Hayır
             </label>
             <label className="flex items-center">
               <input
@@ -147,7 +147,7 @@ const RotaGuncelle = () => {
                 onChange={handleChange}
                 className="mr-2"
               />
-              1 (Evet)
+              Evet
             </label>
           </div>
         </div>
