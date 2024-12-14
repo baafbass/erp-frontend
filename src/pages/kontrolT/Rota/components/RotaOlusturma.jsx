@@ -113,7 +113,7 @@ const RotaOlusturma = () => {
                   className="mr-2"
                   required
                 />
-                0 (Hayır)
+                Hayır
               </label>
               <label className="flex items-center">
                 <input
@@ -126,7 +126,7 @@ const RotaOlusturma = () => {
                   className="mr-2"
                   required
                 />
-                1 (Evet)
+                Evet
               </label>
             </div>
           </div>

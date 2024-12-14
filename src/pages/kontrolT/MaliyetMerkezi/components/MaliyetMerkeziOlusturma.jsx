@@ -29,7 +29,7 @@ const MaliyetMerkeziOlustur = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/maliyet_merkezi", maliyetMerkeziData);
+      const response = await axios.post("/maliyet-merkezi", maliyetMerkeziData);
       if (response.data.status === "OK") {
         navigate("/maliyet_merkezi");
       }
@@ -115,7 +115,7 @@ const MaliyetMerkeziOlustur = () => {
                   className="mr-2"
                   required
                 />
-                0 (Hayır)
+                Hayır
               </label>
               <label className="flex items-center">
                 <input
@@ -128,7 +128,7 @@ const MaliyetMerkeziOlustur = () => {
                   className="mr-2"
                   required
                 />
-                1 (Evet)
+                Evet
               </label>
             </div>
           </div>

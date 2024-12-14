@@ -20,10 +20,10 @@ const UrunAgaciGuncelleme = () => {
   const getBOM = async () => {
     try {
       const response = await axios.get(
-        `/urun_agaci/${urun_agaci}/${firma_kodu}`
+        `/urun-agaci/${urun_agaci}/${firma_kodu}`
       );
       if (response.data.status === "OK") {
-        const urunAgaciData = response.data.urun_agaci;
+        const urunAgaciData = response.data.transformedUrunAgaci;
 
         setBOMData({
           firma_kodu: urunAgaciData.COMCODE,
@@ -52,7 +52,7 @@ const UrunAgaciGuncelleme = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`/urun_agaci`, urunAgaciData);
+      const response = await axios.put(`/urun-agaci`, urunAgaciData);
       if (response.data.status === "OK") {
         navigate("/urun_agaci");
       } else {
@@ -137,7 +137,7 @@ const UrunAgaciGuncelleme = () => {
                 onChange={handleChange}
                 className="mr-2"
               />
-              0 (Hayır)
+              Hayır
             </label>
             <label className="flex items-center">
               <input
@@ -149,7 +149,7 @@ const UrunAgaciGuncelleme = () => {
                 onChange={handleChange}
                 className="mr-2"
               />
-              1 (Evet)
+              Evet
             </label>
           </div>
         </div>

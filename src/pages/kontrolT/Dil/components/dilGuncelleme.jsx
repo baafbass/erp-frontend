@@ -9,7 +9,9 @@ const dilFields = {
 };
 
 const DilGuncelle = () => {
-  const { dil_kodu, firma_kodu } = useParams();
+
+  const {dil_kodu,firma_kodu} = useParams();
+
   const [dilData, setDilData] = useState(dilFields);
   const { dil_adi } = dilData;
 

@@ -22,7 +22,7 @@ const RotaPage = () => {
     try {
       const response = await axios.get("/rota");
       if (response.data.status === "OK") {
-        setRotas(response.data.rotaler);
+        setRotas(response.data.rotalar);
       }
     } catch (error) {
       console.log("Error", error.message);
@@ -41,11 +41,9 @@ const RotaPage = () => {
     try {
       const { rota, firma_kodu } = SelectedRota;
       const response = await axios.delete(`/rota/${rota}/${firma_kodu}`);
+      console.log(response);
       if (response.data.status === "OK") {
-        setRotas((prevrotas) =>
-          prevrotas.filter(
-            (rota) => rota.DOCTYPE !== rota || rota.COMCODE !== firma_kodu
-          )
+        setRotas((prevrotas) => prevrotas.filter((route) => route.DOCTYPE !== rota || route.COMCODE !== firma_kodu)
         );
       }
     } catch (error) {

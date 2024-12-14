@@ -20,10 +20,10 @@ const IsMerkeziGuncelle = () => {
   const getIsMerkezi = async () => {
     try {
       const response = await axios.get(
-        `/isMerkezi/${is_merkezi}/${firma_kodu}`
+        `/is-merkezi/${is_merkezi}/${firma_kodu}`
       );
       if (response.data.status === "OK") {
-        const isMerkeziData = response.data.isMerkezi;
+        const isMerkeziData = response.data.transformedIsMerkezi;
 
         setIsMerkeziData({
           firma_kodu: isMerkeziData.COMCODE,
@@ -52,9 +52,9 @@ const IsMerkeziGuncelle = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`/isMerkezi`, isMerkeziData);
+      const response = await axios.put(`/is-merkezi`, isMerkeziData);
       if (response.data.status === "OK") {
-        navigate("/isMerkezi");
+        navigate("/is-merkezi");
       } else {
         alert("Güncelleme sırasında bir hata oluştu");
         console.log(response);
@@ -137,7 +137,7 @@ const IsMerkeziGuncelle = () => {
                 onChange={handleChange}
                 className="mr-2"
               />
-              0 (Hayır)
+              Hayır
             </label>
             <label className="flex items-center">
               <input
@@ -149,7 +149,7 @@ const IsMerkeziGuncelle = () => {
                 onChange={handleChange}
                 className="mr-2"
               />
-              1 (Evet)
+              Evet
             </label>
           </div>
         </div>
@@ -162,7 +162,7 @@ const IsMerkeziGuncelle = () => {
             Güncelle
           </button>
           <button
-            onClick={() => navigate("/isMerkezi")}
+            onClick={() => navigate("/is-merkezi")}
             className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300"
           >
             İptal

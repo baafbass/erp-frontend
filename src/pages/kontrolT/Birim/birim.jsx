@@ -21,8 +21,9 @@ const BirimPage = () => {
   const getAllBirim = async () => {
     try {
       const response = await axios.get("/birim");
+      console.log(response)
       if (response.data.status === "OK") {
-        setUnits(response.data.birimler);
+        setUnits(response.data.transformedBirimler);
       }
     } catch (error) {
       console.log("Error", error.message);
@@ -33,21 +34,19 @@ const BirimPage = () => {
     getAllBirim();
   }, []);
 
+
   const handleEdit = (birim_kodu, firma_kodu) => {
     navigate(`/birim-guncelle/${birim_kodu}/${firma_kodu}`);
   };
 
   const handleDelete = async () => {
+    const {birim_kodu,firma_kodu} = selectedUnit;
     try {
-      const { birim_kodu, firma_kodu } = selectedUnit;
-
       const response = await axios.delete(`/birim/${birim_kodu}/${firma_kodu}`);
       if (response.data.status === "OK") {
         setUnits((prevunits) =>
-          prevunits.filter(
-            (unit) =>
-              unit.UNITCODE !== birim_kodu || unit.COMCODE !== firma_kodu
-          )
+          prevunits.filter((unit) => unit.UNITCODE !== birim_kodu || unit.COMCODE !== firma_kodu)
+
         );
       }
     } catch (error) {
@@ -57,8 +56,10 @@ const BirimPage = () => {
     }
   };
 
-  const handleOpenDialog = (birim_kodu, firma_kodu) => {
-    setSelectedUnit({ birim_kodu, firma_kodu });
+
+  const handleOpenDialog = (birim_kodu,firma_kodu) => {
+    setSelectedUnit({birim_kodu,firma_kodu});
+
     setOpenDialog(true);
   };
 
@@ -109,7 +110,9 @@ const BirimPage = () => {
                   <td className="px-4 py-2">{unit.MAINUNITCODE}</td>
                   <td className="px-4 py-2 flex justify-center space-x-2">
                     <button
-                      onClick={() => handleEdit(unit.UNITCODE, unit.COMCODE)}
+
+                      onClick={() => handleEdit(unit.UNITCODE,unit.COMCODE)}
+
                       className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-1 px-2 rounded-lg transition-colors duration-300 flex items-center"
                     >
                       <FontAwesomeIcon icon={faEdit} className="mr-1" />
@@ -117,9 +120,9 @@ const BirimPage = () => {
                     </button>
 
                     <button
-                      onClick={() =>
-                        handleOpenDialog(unit.UNITCODE, unit.COMCODE)
-                      }
+
+                      onClick={() => handleOpenDialog(unit.UNITCODE,unit.COMCODE)}
+
                       className="bg-red-500 hover:bg-red-700 text-white font-medium py-1 px-2 rounded-lg transition-colors duration-300 flex items-center"
                     >
                       <FontAwesomeIcon icon={faTrash} className="mr-1" />

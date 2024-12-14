@@ -21,7 +21,7 @@ const OperasyonGuncelle = () => {
     try {
       const response = await axios.get(`/operasyon/${operasyon}/${firma_kodu}`);
       if (response.data.status === "OK") {
-        const operasyonData = response.data.operasyon;
+        const operasyonData = response.data.transformedOperasyon;
 
         setOperationData({
           firma_kodu: operasyonData.COMCODE,
@@ -135,7 +135,7 @@ const OperasyonGuncelle = () => {
                 onChange={handleChange}
                 className="mr-2"
               />
-              0 (Hayır)
+              Hayır
             </label>
             <label className="flex items-center">
               <input
@@ -147,7 +147,7 @@ const OperasyonGuncelle = () => {
                 onChange={handleChange}
                 className="mr-2"
               />
-              1 (Evet)
+              Evet
             </label>
           </div>
         </div>

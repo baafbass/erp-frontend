@@ -20,9 +20,9 @@ const MaliyetMerkeziPage = () => {
 
   const getAllMaliyetMerkezi = async () => {
     try {
-      const response = await axios.get("/maliyet_merkezi");
+      const response = await axios.get("/maliyet-merkezi");
       if (response.data.status === "OK") {
-        setCostCenters(response.data.maliyetmerkezleri);
+        setCostCenters(response.data.maliyetMerkezleri);
       }
     } catch (error) {
       console.log("Error", error.message);
@@ -41,7 +41,7 @@ const MaliyetMerkeziPage = () => {
     try {
       const { maliyet_merkezi, firma_kodu } = selectedCostCenter;
       const response = await axios.delete(
-        `/maliyet_merkezi/${maliyet_merkezi}/${firma_kodu}`
+        `/maliyet-merkezi/${maliyet_merkezi}/${firma_kodu}`
       );
       if (response.data.status === "OK") {
         setCostCenters((prevcostcenters) =>

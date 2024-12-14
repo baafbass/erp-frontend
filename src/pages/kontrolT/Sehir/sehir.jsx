@@ -43,7 +43,7 @@ const SehirPage = () => {
       const response = await axios.delete(`/sehir/${sehir_kodu}/${firma_kodu}`);
       if (response.data.status === "OK") {
         setCities((prevcities) =>
-          prevcities.filter((city) => city.CITYCODE !== selectedCity)
+          prevcities.filter((city) => city.CITYCODE !== sehir_kodu || city.COMCODE !== firma_kodu)
         );
       }
     } catch (error) {

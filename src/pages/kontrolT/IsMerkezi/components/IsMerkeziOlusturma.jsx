@@ -28,9 +28,9 @@ const IsMerkeziOlustur = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/isMerkezi", isMerkeziData);
+      const response = await axios.post("/is-merkezi", isMerkeziData);
       if (response.data.status === "OK") {
-        navigate("/isMerkezi");
+        navigate("/is-merkezi");
       }
     } catch (error) {
       console.log("message:", error);
@@ -114,7 +114,7 @@ const IsMerkeziOlustur = () => {
                   className="mr-2"
                   required
                 />
-                0 (Hayır)
+                Hayır
               </label>
               <label className="flex items-center">
                 <input
@@ -127,7 +127,7 @@ const IsMerkeziOlustur = () => {
                   className="mr-2"
                   required
                 />
-                1 (Evet)
+                Evet
               </label>
             </div>
           </div>
@@ -138,7 +138,7 @@ const IsMerkeziOlustur = () => {
             >
               İş Merkezi Tipi Oluştur
             </button>
-            <Link to="/isMerkezi">
+            <Link to="/is-merkezi">
               <button className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300">
                 Listeye Dön
               </button>

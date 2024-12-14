@@ -55,7 +55,8 @@ const FirmaGuncelle = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put("/firma", firmaData);
+
+      const response = await axios.put('/firma',firmaData);
       if (response.data.status === "OK") {
         navigate("/firma");
       } else {

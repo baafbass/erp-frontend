@@ -21,10 +21,10 @@ const MaliyetMerkeziGuncelle = () => {
   const getMaliyetMerkezi = async () => {
     try {
       const response = await axios.get(
-        `/maliyet_merkezi/${maliyet_merkezi}/${firma_kodu}`
+        `/maliyet-merkezi/${maliyet_merkezi}/${firma_kodu}`
       );
       if (response.data.status === "OK") {
-        const maliyetMerkeziData = response.data.maliyetmerkezi;
+        const maliyetMerkeziData = response.data.transformedMaliyetMerkezi;
 
         setmaliyetMerkeziData({
           firma_kodu: maliyetMerkeziData.COMCODE,
@@ -34,7 +34,7 @@ const MaliyetMerkeziGuncelle = () => {
         });
       }
     } catch (error) {
-      console.log("Error", error.message);
+      console.log("Error", error);
     }
   };
 
@@ -53,7 +53,7 @@ const MaliyetMerkeziGuncelle = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`/maliyet_merkezi`, maliyetMerkeziData);
+      const response = await axios.put(`/maliyet-merkezi`, maliyetMerkeziData);
       if (response.data.status === "OK") {
         navigate("/maliyet_merkezi");
       } else {
@@ -138,7 +138,7 @@ const MaliyetMerkeziGuncelle = () => {
                 onChange={handleChange}
                 className="mr-2"
               />
-              0 (Hayır)
+              Hayır
             </label>
             <label className="flex items-center">
               <input
@@ -150,7 +150,7 @@ const MaliyetMerkeziGuncelle = () => {
                 onChange={handleChange}
                 className="mr-2"
               />
-              1 (Evet)
+              Evet
             </label>
           </div>
         </div>

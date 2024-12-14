@@ -28,7 +28,7 @@ const UrunAgaciOlusturma = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/urun_agaci", urunAgaciData);
+      const response = await axios.post("/urun-agaci", urunAgaciData);
       if (response.data.status === "OK") {
         navigate("/urun_agaci");
       }
@@ -114,7 +114,7 @@ const UrunAgaciOlusturma = () => {
                   className="mr-2"
                   required
                 />
-                0 (Hayır)
+                Hayır
               </label>
               <label className="flex items-center">
                 <input
@@ -127,7 +127,7 @@ const UrunAgaciOlusturma = () => {
                   className="mr-2"
                   required
                 />
-                1 (Evet)
+                Evet
               </label>
             </div>
           </div>
