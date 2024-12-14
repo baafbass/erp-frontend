@@ -19,7 +19,7 @@ const HomePage = () => {
   ];
 
   const anaTabloItems = [
-    { href: "/materyal", label: "Materyal" },
+    { href: "/MalzemeBilgileri", label: "Malzeme Bilgileri" },
     { href: "/maliyetmerkezi", label: "Maliyet Merkezi" },
     { href: "/ismerke", label: "İş Merkezi" },
     { href: "/Urunagaci", label: "Ürün Ağacı" },

@@ -1,6 +1,8 @@
 import { Routes, Route } from "react-router-dom";
 
 import HomePage from "./pages/HomePage";
+
+//KontrolIT
 import Birim from "./pages/kontrolT/Birim/birim";
 import Dil from "./pages/kontrolT/Dil/dil";
 import Firma from "./pages/kontrolT/Firma/firma";
@@ -45,6 +47,11 @@ import UrunAgaciGuncelle from "./pages/kontrolT/UrunAgaci/components/UrunAgaciGu
 
 import MaliyetMerkeziOlustur from "./pages/kontrolT/MaliyetMerkezi/components/MaliyetMerkeziOlusturma";
 import MaliyetMerkeziGuncelle from "./pages/kontrolT/MaliyetMerkezi/components/MaliyetMerkeziGuncelleme";
+
+//Malzeme Bilgileri
+import MalzemeBilgileri from "./pages/MalzemeBilgileri/MalzemeBilgileri";
+import MalzemeBilgileriOlustur from "./pages/MalzemeBilgileri/components/MalzemeBilgileriOlusturma";
+import MalzemeBilgileriGuncelle from "./pages/MalzemeBilgileri/components/MalzemeBilgileriGuncelleme";
 
 function App() {
   return (
@@ -127,6 +134,16 @@ function App() {
       <Route
         path="/maliyet_merkezi-guncelle/:maliyet_merkezi/:firma_kodu"
         element={<MaliyetMerkeziGuncelle />}
+      />
+
+      <Route path="/MalzemeBilgileri" element={<MalzemeBilgileri />} />
+      <Route
+        path="/MalzemeBilgileri-olustur"
+        element={<MalzemeBilgileriOlustur />}
+      />
+      <Route
+        path="/MalzemeBilgileri-guncelle/:malzeme_tipi/:firma_kodu/:malzeme_kodu/:gecerlilik_bas/:gecerlilik_bit/:dil_kodu"
+        element={<MalzemeBilgileriGuncelle />}
       />
     </Routes>
   );
