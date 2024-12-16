@@ -7,11 +7,7 @@ import {
   Button,
 } from "@mui/material";
 
-const MalzemeBilgileriSilme = ({
-  openDialog,
-  handleCloseDialog,
-  handleDelete,
-}) => {
+const IsMerkezleriSilme = ({ openDialog, handleCloseDialog, handleDelete }) => {
   return (
     <Dialog
       open={openDialog}
@@ -19,10 +15,10 @@ const MalzemeBilgileriSilme = ({
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">Malzeme Sil</DialogTitle>
+      <DialogTitle id="alert-dialog-title">Is merkezi Sil</DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          Bu malzemeyi silmek istediğinizden emin misiniz?
+          Bu Is merkezini silmek istediğinizden emin misiniz?
         </DialogContentText>
       </DialogContent>
       <DialogActions>
@@ -37,4 +33,4 @@ const MalzemeBilgileriSilme = ({
   );
 };
 
-export default MalzemeBilgileriSilme;
+export default IsMerkezleriSilme;

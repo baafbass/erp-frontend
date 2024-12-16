@@ -53,6 +53,11 @@ import MalzemeBilgileri from "./pages/MalzemeBilgileri/MalzemeBilgileri";
 import MalzemeBilgileriOlustur from "./pages/MalzemeBilgileri/components/MalzemeBilgileriOlusturma";
 import MalzemeBilgileriGuncelle from "./pages/MalzemeBilgileri/components/MalzemeBilgileriGuncelleme";
 
+//IsMerkezleri
+import IsMerkezleri from "./pages/IsMerkezleri/IsMerkezleri";
+import IsMerkezleriOlustur from "./pages/IsMerkezleri/components/IsMerkezleriOlusturma";
+import IsMerkezleriGuncelle from "./pages/IsMerkezleri/components/IsMerkezleriGuncelleme";
+
 function App() {
   return (
     <Routes>
@@ -144,6 +149,13 @@ function App() {
       <Route
         path="/MalzemeBilgileri-guncelle/:malzeme_tipi/:firma_kodu/:malzeme_kodu/:gecerlilik_bas/:gecerlilik_bit/:dil_kodu"
         element={<MalzemeBilgileriGuncelle />}
+      />
+
+      <Route path="/IsMerkezleri" element={<IsMerkezleri />} />
+      <Route path="/IsMerkezleri-olustur" element={<IsMerkezleriOlustur />} />
+      <Route
+        path="/IsMerkezleri-guncelle/:is_merk_tipi/:firma_kodu/:is_merk_kodu/:gecer_bas/:gecer_bit/:dil_kodu/:opr_kodu"
+        element={<IsMerkezleriGuncelle />}
       />
     </Routes>
   );
