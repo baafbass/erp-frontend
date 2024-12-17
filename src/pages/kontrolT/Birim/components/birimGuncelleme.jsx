@@ -11,11 +11,9 @@ const birimFields = {
 };
 
 const BirimGuncelle = () => {
-
-  const { birim_kodu,firma_kodu } = useParams();
+  const { birim_kodu, firma_kodu } = useParams();
   const [birimData, setBirimData] = useState(birimFields);
-  const {birim_adi,ana_agirlik_birimi,ana_birim_kodu} = birimData;
-
+  const { birim_adi, ana_agirlik_birimi, ana_birim_kodu } = birimData;
 
   const axios = useAxios();
   const navigate = useNavigate();
@@ -54,7 +52,7 @@ const BirimGuncelle = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put('/birim', birimData);
+      const response = await axios.put("/birim", birimData);
 
       if (response.data.status === "OK") {
         navigate("/birim");
@@ -86,6 +84,7 @@ const BirimGuncelle = () => {
             name="firma_kodu"
             value={firma_kodu}
             readOnly
+            maxLength={4}
             className="w-full px-3 py-2 border rounded-lg bg-gray-100"
           />
         </div>
@@ -103,6 +102,7 @@ const BirimGuncelle = () => {
             value={birim_kodu}
             onChange={handleChange}
             readOnly
+            maxLength={3}
             className="w-full px-3 py-2 border rounded-lg bg-gray-100"
           />
         </div>
@@ -119,6 +119,7 @@ const BirimGuncelle = () => {
             name="birim_adi"
             value={birim_adi}
             onChange={handleChange}
+            maxLength={80}
             className="w-full px-3 py-2 border rounded-lg"
           />
         </div>
@@ -169,6 +170,7 @@ const BirimGuncelle = () => {
             name="ana_birim_kodu"
             value={ana_birim_kodu}
             onChange={handleChange}
+            maxLength={3}
             className="w-full px-3 py-2 border rounded-lg"
           />
         </div>

@@ -50,23 +50,6 @@ const BirimOlustur = () => {
           Yeni Birim Oluştur
         </h1>
         <form onSubmit={handleSubmit}>
-        <div className="mb-4">
-            <label
-              className="block text-gray-700 font-medium mb-2"
-              htmlFor="firma_kodu"
-            >
-              Firma Kodu
-            </label>
-            <input
-              type="text"
-              id="firma_kodu"
-              name="firma_kodu"
-              value={firma_kodu}
-              onChange={handleChange}
-              className="w-full px-3 py-2 border rounded-lg"
-              required
-            />
-          </div>
           <div className="mb-4">
             <label
               className="block text-gray-700 font-medium mb-2"
@@ -81,6 +64,7 @@ const BirimOlustur = () => {
               value={firma_kodu}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg"
+              maxLength={4}
               required
             />
           </div>
@@ -98,6 +82,7 @@ const BirimOlustur = () => {
               value={birim_kodu}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg"
+              maxLength={3}
               required
             />
           </div>
@@ -115,6 +100,7 @@ const BirimOlustur = () => {
               value={birim_adi}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg"
+              maxLength={80}
               required
             />
           </div>
@@ -168,6 +154,7 @@ const BirimOlustur = () => {
               value={ana_birim_kodu}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg"
+              maxLength={3}
               required
             />
           </div>

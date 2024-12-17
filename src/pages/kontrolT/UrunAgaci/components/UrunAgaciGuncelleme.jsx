@@ -83,6 +83,7 @@ const UrunAgaciGuncelleme = () => {
             name="firma_kodu"
             value={firma_kodu}
             readOnly
+            maxLength={4}
             className="w-full px-3 py-2 border rounded-lg bg-gray-100"
           />
         </div>
@@ -100,6 +101,7 @@ const UrunAgaciGuncelleme = () => {
             value={urun_agaci}
             onChange={handleChange}
             readOnly
+            maxLength={4}
             className="w-full px-3 py-2 border rounded-lg bg-gray-100"
           />
         </div>
@@ -116,6 +118,7 @@ const UrunAgaciGuncelleme = () => {
             name="urun_agaci_aciklama"
             value={urun_agaci_aciklama}
             onChange={handleChange}
+            maxLength={80}
             className="w-full px-3 py-2 border rounded-lg"
           />
         </div>

@@ -84,6 +84,7 @@ const MaliyetMerkeziGuncelle = () => {
             name="firma_kodu"
             value={firma_kodu}
             readOnly
+            maxLength={4}
             className="w-full px-3 py-2 border rounded-lg bg-gray-100"
           />
         </div>
@@ -101,6 +102,7 @@ const MaliyetMerkeziGuncelle = () => {
             value={maliyet_merkezi}
             onChange={handleChange}
             readOnly
+            maxLength={4}
             className="w-full px-3 py-2 border rounded-lg bg-gray-100"
           />
         </div>
@@ -117,6 +119,7 @@ const MaliyetMerkeziGuncelle = () => {
             name="maliyet_merkezi_aciklamasi"
             value={maliyet_merkezi_aciklamasi}
             onChange={handleChange}
+            maxLength={80}
             className="w-full px-3 py-2 border rounded-lg"
           />
         </div>

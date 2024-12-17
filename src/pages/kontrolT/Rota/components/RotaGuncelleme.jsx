@@ -81,6 +81,7 @@ const RotaGuncelle = () => {
             name="firma_kodu"
             value={firma_kodu}
             readOnly
+            maxLength={4}
             className="w-full px-3 py-2 border rounded-lg bg-gray-100"
           />
         </div>
@@ -98,6 +99,7 @@ const RotaGuncelle = () => {
             value={rota}
             onChange={handleChange}
             readOnly
+            maxLength={4}
             className="w-full px-3 py-2 border rounded-lg bg-gray-100"
           />
         </div>
@@ -114,6 +116,7 @@ const RotaGuncelle = () => {
             name="rota_aciklamasi"
             value={rota_aciklamasi}
             onChange={handleChange}
+            maxLength={80}
             className="w-full px-3 py-2 border rounded-lg"
           />
         </div>

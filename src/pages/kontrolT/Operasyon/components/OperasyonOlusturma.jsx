@@ -57,6 +57,7 @@ const OperasyonOlusturma = () => {
               name="firma_kodu"
               value={firma_kodu}
               onChange={handleChange}
+              maxLength={4}
               className="w-full px-3 py-2 border rounded-lg"
               required
             />
@@ -74,6 +75,7 @@ const OperasyonOlusturma = () => {
               name="operasyon"
               value={operasyon}
               onChange={handleChange}
+              maxLength={4}
               className="w-full px-3 py-2 border rounded-lg"
               required
             />
@@ -91,6 +93,7 @@ const OperasyonOlusturma = () => {
               name="operasyon_aciklamasi"
               value={operasyon_aciklamasi}
               onChange={handleChange}
+              maxLength={80}
               className="w-full px-3 py-2 border rounded-lg"
               required
             />
