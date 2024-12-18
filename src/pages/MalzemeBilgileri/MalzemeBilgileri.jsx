@@ -11,18 +11,19 @@ import { useAxios } from "../../shared/hooks/axios-hook";
 import MalzemeBilgileriSilme from "./components/MalzemeBilgileriSilme";
 
 const MalzemeBilgileriPage = () => {
+  
   const [materials, setMaterials] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
-  const [selectedMaterial, setselectedMaterial] = useState();
+  const [selectedMaterial, setSelectedMaterial] = useState();
 
   const axios = useAxios();
   const navigate = useNavigate();
 
   const getAllMalzemeBilgileri = async () => {
     try {
-      const response = await axios.get("/MalzemeBilgileri");
+      const response = await axios.get("/malzeme-bilgileri");
       if (response.data.status === "OK") {
-        setMaterials(response.data.malzemeBilgileri);
+        setMaterials(response.data.allMalzemeBilgileri);
       }
     } catch (error) {
       console.log("Error", error.message);
@@ -34,23 +35,23 @@ const MalzemeBilgileriPage = () => {
   }, []);
 
   const handleEdit = (
-    malzeme_tipi,
     firma_kodu,
+    malzeme_tipi,
     malzeme_kodu,
     gecerlilik_bas,
     gecerlilik_bit,
     dil_kodu
   ) => {
     navigate(
-      `/MalzemeBilgileri-guncelle/${malzeme_tipi}/${firma_kodu}/${malzeme_kodu}/${gecerlilik_bas}/${gecerlilik_bit}/${dil_kodu}`
+      `/MalzemeBilgileri-guncelle/${firma_kodu}/${malzeme_tipi}/${malzeme_kodu}/${gecerlilik_bas}/${gecerlilik_bit}/${dil_kodu}`
     );
   };
 
   const handleDelete = async () => {
     try {
       const {
-        malzeme_tipi,
         firma_kodu,
+        malzeme_tipi,
         malzeme_kodu,
         gecerlilik_bas,
         gecerlilik_bit,
@@ -58,14 +59,15 @@ const MalzemeBilgileriPage = () => {
       } = selectedMaterial;
 
       const response = await axios.delete(
-        `/MalzemeBilgileri/${malzeme_tipi}/${firma_kodu}/${malzeme_kodu}/${gecerlilik_bas}/${gecerlilik_bit}/${dil_kodu}`
+        `/malzeme-bilgileri/${firma_kodu}/${malzeme_tipi}/${malzeme_kodu}/${gecerlilik_bas}/${gecerlilik_bit}/${dil_kodu}`
       );
+
       if (response.data.status === "OK") {
         setMaterials((prevmaterials) =>
           prevmaterials.filter(
             (material) =>
-              material.MATDOCTYPE !== malzeme_tipi ||
               material.COMCODE !== firma_kodu ||
+              material.MATDOCTYPE !== malzeme_tipi ||
               material.MATDOCNUM !== malzeme_kodu ||
               material.MATDOCFROM !== gecerlilik_bas ||
               material.MATDOCUNTIL !== gecerlilik_bit ||
@@ -81,16 +83,16 @@ const MalzemeBilgileriPage = () => {
   };
 
   const handleOpenDialog = (
-    malzeme_tipi,
     firma_kodu,
+    malzeme_tipi,
     malzeme_kodu,
     gecerlilik_bas,
     gecerlilik_bit,
     dil_kodu
   ) => {
-    setselectedMaterial({
-      malzeme_tipi,
+    setSelectedMaterial({
       firma_kodu,
+      malzeme_tipi,
       malzeme_kodu,
       gecerlilik_bas,
       gecerlilik_bit,
@@ -101,7 +103,7 @@ const MalzemeBilgileriPage = () => {
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
-    setselectedMaterial(null);
+    setSelectedMaterial(null);
   };
 
   return (
@@ -136,20 +138,8 @@ const MalzemeBilgileriPage = () => {
                 <th className="px-4 py-2 text-left">Geçerlilik Başlangıç</th>
                 <th className="px-4 py-2 text-left">Geçerlilik Bitiş</th>
                 <th className="px-4 py-2 text-left">Tedarik Tipi</th>
-                <th className="px-4 py-2 text-left">Malzeme Stok Birimi</th>
-                <th className="px-4 py-2 text-left">Net Ağırlık</th>
-                <th className="px-4 py-2 text-left">Net Ağırlık Birimi</th>
-                <th className="px-4 py-2 text-left">Brüt Ağırlık</th>
-                <th className="px-4 py-2 text-left">Brüt Ağırlık Birimi</th>
-                <th className="px-4 py-2 text-left">Ürün Ağacı Var Mı?</th>
-                <th className="px-4 py-2 text-left">Ürün Ağacı Tipi</th>
-                <th className="px-4 py-2 text-left">Ürün Ağacı Kodu</th>
-                <th className="px-4 py-2 text-left">Rota Var Mı?</th>
                 <th className="px-4 py-2 text-left">Silindi?</th>
                 <th className="px-4 py-2 text-left">Pasif mi?</th>
-                <th className="px-4 py-2 text-left">Dil Kodu</th>
-                <th className="px-4 py-2 text-left">Malzeme Kısa Açıklaması</th>
-                <th className="px-4 py-2 text-left">Malzeme Uzun Açıklaması</th>
                 <th className="px-4 py-2 text-center">İşlemler</th>
               </tr>
             </thead>
@@ -162,22 +152,8 @@ const MalzemeBilgileriPage = () => {
                   <td className="px-4 py-2">{material.MATDOCFROM}</td>
                   <td className="px-4 py-2">{material.MATDOCUNTIL}</td>
                   <td className="px-4 py-2">{material.SUPPLYTYPE}</td>
-                  <td className="px-4 py-2">{material.STUNIT}</td>
-                  <td className="px-4 py-2">{material.NETWEIGHT}</td>
-                  <td className="px-4 py-2">{material.NWUNIT}</td>
-                  <td className="px-4 py-2">{material.BRUTWEIGHT}</td>
-                  <td className="px-4 py-2">{material.BWUNIT}</td>
-                  <td className="px-4 py-2">{material.ISBOM}</td>
-                  <td className="px-4 py-2">{material.BOMDOCTYPE}</td>
-                  <td className="px-4 py-2">{material.BOMDOCNUM}</td>
-                  <td className="px-4 py-2">{material.ISROUTE}</td>
-                  <td className="px-4 py-2">{material.ROTDOCTYPE}</td>
-                  <td className="px-4 py-2">{material.ROTDOCNUM}</td>
                   <td className="px-4 py-2">{material.ISDELETED}</td>
                   <td className="px-4 py-2">{material.ISPASSIVE}</td>
-                  <td className="px-4 py-2">{material.LANCODE}</td>
-                  <td className="px-4 py-2">{material.MATSTEXT}</td>
-                  <td className="px-4 py-2">{material.MATLTEXT}</td>
                   <td className="px-4 py-2 flex justify-center space-x-2">
                     <button
                       onClick={() =>
@@ -193,7 +169,6 @@ const MalzemeBilgileriPage = () => {
                       className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-1 px-2 rounded-lg transition-colors duration-300 flex items-center"
                     >
                       <FontAwesomeIcon icon={faEdit} className="mr-1" />
-                      Düzenle
                     </button>
 
                     <button
@@ -210,7 +185,6 @@ const MalzemeBilgileriPage = () => {
                       className="bg-red-500 hover:bg-red-700 text-white font-medium py-1 px-2 rounded-lg transition-colors duration-300 flex items-center"
                     >
                       <FontAwesomeIcon icon={faTrash} className="mr-1" />
-                      Sil
                     </button>
                   </td>
                 </tr>

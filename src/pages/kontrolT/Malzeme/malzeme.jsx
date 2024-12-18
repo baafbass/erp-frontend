@@ -41,6 +41,7 @@ const MalzemePage = () => {
     try {
       const { malzeme, firma_kodu } = selectedMaterial;
       const response = await axios.delete(`/malzeme/${malzeme}/${firma_kodu}`);
+      console.log(response);
       if (response.data.status === "OK") {
         setMaterials((prevmaterials) =>
           prevmaterials.filter(
