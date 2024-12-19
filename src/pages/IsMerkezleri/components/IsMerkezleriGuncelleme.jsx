@@ -1,33 +1,35 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useAxios } from "../../../../shared/hooks/axios-hook";
+import { useAxios } from "../../../shared/hooks/axios-hook";
 
-const rotaFields = {
+const birimFields = {
   firma_kodu: "",
-  rota: "",
-  rota_aciklamasi: "",
-  passif_mi: "",
+  birim_kodu: "",
+  birim_adi: "",
+  ana_agirlik_birimi: "",
+  ana_birim_kodu: "",
 };
 
-const RotaGuncelle = () => {
-  const { rota, firma_kodu } = useParams();
-  const [rotaData, setRotaData] = useState(rotaFields);
-  const { rota_aciklamasi, passif_mi } = rotaData;
+const BirimGuncelle = () => {
+  const { birim_kodu, firma_kodu } = useParams();
+  const [birimData, setBirimData] = useState(birimFields);
+  const { birim_adi, ana_agirlik_birimi, ana_birim_kodu } = birimData;
 
   const axios = useAxios();
   const navigate = useNavigate();
 
-  const getRota = async () => {
+  const getBirim = async () => {
     try {
-      const response = await axios.get(`/rota/${rota}/${firma_kodu}`);
+      const response = await axios.get(`/birim/${birim_kodu}/${firma_kodu}`);
       if (response.data.status === "OK") {
-        const rotaData = response.data.transformedRota;
+        const birimData = response.data.birim;
 
-        setRotaData({
-          firma_kodu: rotaData.COMCODE,
-          rota: rotaData.DOCTYPE,
-          rota_aciklamasi: rotaData.DOCTYPETEXT,
-          passif_mi: rotaData.ISPASSIVE,
+        setBirimData({
+          birim_kodu: birimData.UNITCODE,
+          birim_adi: birimData.UNITTEXT,
+          ana_agirlik_birimi: birimData.ISMAINUNIT,
+          ana_birim_kodu: birimData.MAINUNITCODE,
+          firma_kodu: birimData.COMCODE,
         });
       }
     } catch (error) {
@@ -36,13 +38,13 @@ const RotaGuncelle = () => {
   };
 
   useEffect(() => {
-    getRota();
+    getBirim();
   }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setRotaData({
-      ...rotaData,
+    setBirimData({
+      ...birimData,
       [name]: value,
     });
   };
@@ -50,9 +52,9 @@ const RotaGuncelle = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`/rota`, rotaData);
+      const response = await axios.put(`/birim`, birimData);
       if (response.data.status === "OK") {
-        navigate("/rota");
+        navigate("/birim");
       } else {
         alert("Güncelleme sırasında bir hata oluştu");
         console.log(response);
@@ -66,7 +68,7 @@ const RotaGuncelle = () => {
     <div className="min-h-screen bg-gray-100 flex justify-center items-start pt-8">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-4xl">
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-          Rota Bilgilerini Güncelle
+          Birim Bilgilerini Güncelle
         </h1>
         <div className="mb-4">
           <label
@@ -81,78 +83,91 @@ const RotaGuncelle = () => {
             name="firma_kodu"
             value={firma_kodu}
             readOnly
-            maxLength={4}
             className="w-full px-3 py-2 border rounded-lg bg-gray-100"
           />
         </div>
         <div className="mb-4">
           <label
             className="block text-gray-700 font-medium mb-2"
-            htmlFor="rota"
+            htmlFor="birim_kodu"
           >
-            Rota Tipi
+            Birim Kodu
           </label>
           <input
             type="text"
-            id="rota"
-            name="rota"
-            value={rota}
+            id="birim_kodu"
+            name="birim_kodu"
+            value={birim_kodu}
             onChange={handleChange}
             readOnly
-            maxLength={4}
             className="w-full px-3 py-2 border rounded-lg bg-gray-100"
           />
         </div>
         <div className="mb-4">
           <label
             className="block text-gray-700 font-medium mb-2"
-            htmlFor="rota_aciklamasi"
+            htmlFor="birim_adi"
           >
-            Rota Tipi Açıklaması
+            Birim Adı
           </label>
-          <textarea
+          <input
             type="text"
-            id="rota_aciklamasi"
-            name="rota_aciklamasi"
-            value={rota_aciklamasi}
+            id="birim_adi"
+            name="birim_adi"
+            value={birim_adi}
             onChange={handleChange}
-            maxLength={80}
             className="w-full px-3 py-2 border rounded-lg"
           />
         </div>
         <div className="mb-4">
           <label
             className="block text-gray-700 font-medium mb-2"
-            htmlFor="passif_mi"
+            htmlFor="ana_agirlik_birimi"
           >
-            Pasif Mi?
+            Ana Ağırlık Birimi mi?
           </label>
           <div className="flex gap-4">
             <label className="flex items-center">
               <input
                 type="radio"
-                id="passif_mi"
-                name="passif_mi"
+                id="ana_agirlik_birimi"
+                name="ana_agirlik_birimi"
                 value="0"
-                checked={rotaData.passif_mi === "0"}
+                checked={birimData.ana_agirlik_birimi === "0"}
                 onChange={handleChange}
                 className="mr-2"
               />
-              Hayır
+              0 (Hayır)
             </label>
             <label className="flex items-center">
               <input
                 type="radio"
-                id="passif_mi"
-                name="passif_mi"
+                id="ana_agirlik_birimi"
+                name="ana_agirlik_birimi"
                 value="1"
-                checked={rotaData.passif_mi === "1"}
+                checked={birimData.ana_agirlik_birimi === "1"}
                 onChange={handleChange}
                 className="mr-2"
               />
-              Evet
+              1 (Evet)
             </label>
           </div>
+        </div>
+        <div className="mb-4">
+          <label
+            className="block text-gray-700 font-medium mb-2"
+            htmlFor="ana_birim_kodu"
+          >
+            Ana Birim Kodu
+          </label>
+          <input
+            type="text"
+            id="ana_birim_kodu"
+            name="ana_birim_kodu"
+            value={ana_birim_kodu}
+            onChange={handleChange}
+            className="w-full px-3 py-2 border rounded-lg"
+          />
         </div>
 
         <div className="flex justify-between">
@@ -163,7 +178,7 @@ const RotaGuncelle = () => {
             Güncelle
           </button>
           <button
-            onClick={() => navigate("/rota")}
+            onClick={() => navigate("/birim")}
             className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300"
           >
             İptal
@@ -174,4 +189,4 @@ const RotaGuncelle = () => {
   );
 };
 
-export default RotaGuncelle;
+export default BirimGuncelle;

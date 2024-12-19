@@ -59,6 +59,7 @@ const MaliyetMerkeziOlustur = () => {
                 name="firma_kodu"
                 value={firma_kodu}
                 onChange={handleChange}
+                maxLength={4}
                 className="w-full px-3 py-2 border rounded-lg"
                 required
               />
@@ -75,6 +76,7 @@ const MaliyetMerkeziOlustur = () => {
               name="maliyet_merkezi"
               value={maliyet_merkezi}
               onChange={handleChange}
+              maxLength={4}
               className="w-full px-3 py-2 border rounded-lg"
               required
             />
@@ -92,6 +94,7 @@ const MaliyetMerkeziOlustur = () => {
               name="maliyet_merkezi_aciklamasi"
               value={maliyet_merkezi_aciklamasi}
               onChange={handleChange}
+              maxLength={80}
               className="w-full px-3 py-2 border rounded-lg"
               required
             />

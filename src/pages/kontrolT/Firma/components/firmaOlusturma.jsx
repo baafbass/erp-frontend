@@ -1,20 +1,26 @@
 import React, { useState } from "react";
-import { Link,useNavigate } from "react-router-dom";
-import {useAxios} from '../../../../shared/hooks/axios-hook';
+import { Link, useNavigate } from "react-router-dom";
+import { useAxios } from "../../../../shared/hooks/axios-hook";
 
 const firmaFields = {
-  firma_kodu:'',
-  firma_adi:'',
-  firma_adresi_1:'',
-  firma_adresi_2:'',
-  sehir_kodu:'',
-  ulke_kodu:''
-}
+  firma_kodu: "",
+  firma_adi: "",
+  firma_adresi_1: "",
+  firma_adresi_2: "",
+  sehir_kodu: "",
+  ulke_kodu: "",
+};
 
 const FirmaOlustur = () => {
-
   const [firmaData, setFirmaData] = useState(firmaFields);
-  const {firma_kodu,firma_adi,firma_adresi_1,firma_adresi_2,sehir_kodu,ulke_kodu} = firmaData;
+  const {
+    firma_kodu,
+    firma_adi,
+    firma_adresi_1,
+    firma_adresi_2,
+    sehir_kodu,
+    ulke_kodu,
+  } = firmaData;
 
   const axios = useAxios();
   const navigate = useNavigate();
@@ -29,13 +35,13 @@ const FirmaOlustur = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try{
-     const response = await axios.post('/firma',firmaData);
-     if(response.data.status === "OK"){
-      navigate('/firma')
-     }
-    } catch(error) {
-      console.log("message:",error.message);
+    try {
+      const response = await axios.post("/firma", firmaData);
+      if (response.data.status === "OK") {
+        navigate("/firma");
+      }
+    } catch (error) {
+      console.log("message:", error.message);
     }
   };
 
@@ -59,6 +65,7 @@ const FirmaOlustur = () => {
               name="firma_kodu"
               value={firma_kodu}
               onChange={handleChange}
+              maxLength={4}
               className="w-full px-3 py-2 border rounded-lg"
               required
             />
@@ -76,6 +83,7 @@ const FirmaOlustur = () => {
               name="firma_adi"
               value={firma_adi}
               onChange={handleChange}
+              maxLength={80}
               className="w-full px-3 py-2 border rounded-lg"
               required
             />
@@ -93,6 +101,7 @@ const FirmaOlustur = () => {
               name="firma_adresi_1"
               value={firma_adresi_1}
               onChange={handleChange}
+              maxLength={80}
               className="w-full px-3 py-2 border rounded-lg"
               required
             />
@@ -110,6 +119,7 @@ const FirmaOlustur = () => {
               name="firma_adresi_2"
               value={firma_adresi_2}
               onChange={handleChange}
+              maxLength={80}
               className="w-full px-3 py-2 border rounded-lg"
             />
           </div>
@@ -126,6 +136,7 @@ const FirmaOlustur = () => {
               name="sehir_kodu"
               value={sehir_kodu}
               onChange={handleChange}
+              maxLength={3}
               className="w-full px-3 py-2 border rounded-lg"
               required
             />
@@ -143,6 +154,7 @@ const FirmaOlustur = () => {
               name="ulke_kodu"
               value={ulke_kodu}
               onChange={handleChange}
+              maxLength={3}
               className="w-full px-3 py-2 border rounded-lg"
               required
             />

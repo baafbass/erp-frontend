@@ -81,6 +81,7 @@ const SehirGuncelle = () => {
             name="firma_kodu"
             value={firma_kodu}
             readOnly
+            maxLength={4}
             className="w-full px-3 py-2 border rounded-lg bg-gray-100"
           />
         </div>
@@ -98,6 +99,7 @@ const SehirGuncelle = () => {
             value={sehir_kodu}
             onChange={handleChange}
             readOnly
+            maxLength={3}
             className="w-full px-3 py-2 border rounded-lg bg-gray-100"
           />
         </div>
@@ -114,6 +116,7 @@ const SehirGuncelle = () => {
             name="sehir_adi"
             value={sehir_adi}
             onChange={handleChange}
+            maxLength={80}
             className="w-full px-3 py-2 border rounded-lg"
           />
         </div>
@@ -130,6 +133,7 @@ const SehirGuncelle = () => {
             name="ulke_kodu"
             value={ulke_kodu}
             onChange={handleChange}
+            maxLength={3}
             className="w-full px-3 py-2 border rounded-lg"
           />
         </div>

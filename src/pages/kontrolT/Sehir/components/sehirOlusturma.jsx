@@ -56,6 +56,7 @@ const SehirOlustur = () => {
               name="firma_kodu"
               value={firma_kodu}
               onChange={handleChange}
+              maxLength={4}
               className="w-full px-3 py-2 border rounded-lg"
               required
             />
@@ -73,6 +74,7 @@ const SehirOlustur = () => {
               name="sehir_kodu"
               value={sehir_kodu}
               onChange={handleChange}
+              maxLength={3}
               className="w-full px-3 py-2 border rounded-lg"
               required
             />
@@ -90,6 +92,7 @@ const SehirOlustur = () => {
               name="sehir_adi"
               value={sehir_adi}
               onChange={handleChange}
+              maxLength={80}
               className="w-full px-3 py-2 border rounded-lg"
               required
             />
@@ -107,6 +110,7 @@ const SehirOlustur = () => {
               name="ulke_kodu"
               value={ulke_kodu}
               onChange={handleChange}
+              maxLength={3}
               className="w-full px-3 py-2 border rounded-lg"
               required
             />

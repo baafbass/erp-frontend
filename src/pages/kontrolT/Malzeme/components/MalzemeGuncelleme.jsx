@@ -82,6 +82,7 @@ const MalzemeGuncelle = () => {
             name="firma_kodu"
             value={firma_kodu}
             readOnly
+            maxLength={4}
             className="w-full px-3 py-2 border rounded-lg bg-gray-100"
           />
         </div>
@@ -99,6 +100,7 @@ const MalzemeGuncelle = () => {
             value={malzeme}
             onChange={handleChange}
             readOnly
+            maxLength={4}
             className="w-full px-3 py-2 border rounded-lg bg-gray-100"
           />
         </div>
@@ -115,6 +117,7 @@ const MalzemeGuncelle = () => {
             name="malzeme_aciklamasi"
             value={malzeme_aciklamasi}
             onChange={handleChange}
+            maxLength={80}
             className="w-full px-3 py-2 border rounded-lg"
           />
         </div>

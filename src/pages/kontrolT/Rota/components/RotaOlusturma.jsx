@@ -58,6 +58,7 @@ const RotaOlusturma = () => {
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg"
               required
+              maxLength={4}
             />
           </div>
           <div className="mb-4">
@@ -73,6 +74,7 @@ const RotaOlusturma = () => {
               name="rota"
               value={rota}
               onChange={handleChange}
+              maxLength={4}
               className="w-full px-3 py-2 border rounded-lg"
               required
             />
@@ -90,6 +92,7 @@ const RotaOlusturma = () => {
               name="rota_aciklamasi"
               value={rota_aciklamasi}
               onChange={handleChange}
+              maxLength={80}
               className="w-full px-3 py-2 border rounded-lg"
               required
             />

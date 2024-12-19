@@ -57,6 +57,7 @@ const MalzemeOlustur = () => {
                 name="firma_kodu"
                 value={firma_kodu}
                 onChange={handleChange}
+                maxLength={4}
                 className="w-full px-3 py-2 border rounded-lg"
                 required
               />
@@ -75,6 +76,7 @@ const MalzemeOlustur = () => {
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg"
               required
+              maxLength={4}
             />
           </div>
           <div className="mb-4">
@@ -90,6 +92,7 @@ const MalzemeOlustur = () => {
               name="malzeme_aciklamasi"
               value={malzeme_aciklamasi}
               onChange={handleChange}
+              maxLength={80}
               className="w-full px-3 py-2 border rounded-lg"
               required
             />
