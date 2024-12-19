@@ -10,7 +10,7 @@ const HomePage = () => {
     { href: "/dil", label: "Dil" },
     { href: "/malzeme", label: "Malzeme Tipi" },
     { href: "/ulke", label: "Ülke" },
-    { href: "/maliyet_merkezi", label: "Maliyet Merkezi" },
+    { href: "/maliyet-merkezi", label: "Maliyet Merkezi" },
     { href: "/sehir", label: "Şehir" },
     { href: "/urun_agaci", label: "Ürün Ağacı" },
     { href: "/rota", label: "Rota Tipi" },

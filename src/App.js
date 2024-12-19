@@ -67,7 +67,7 @@ function App() {
       <Route path="/dil" element={<Dil />} />
       <Route path="/firma" element={<Firma />} />
       <Route path="/is-merkezi" element={<IsMerkezi />} />
-      <Route path="/maliyet_merkezi" element={<MaliyetMerkezi />} />
+      <Route path="/maliyet-merkezi" element={<MaliyetMerkezi />} />
       <Route path="/malzeme" element={<Malzeme />} />
       <Route path="/operasyon" element={<Operasyon />} />
       <Route path="/rota" element={<Rota />} />
@@ -133,11 +133,11 @@ function App() {
       />
 
       <Route
-        path="/maliyet_merkezi-olustur"
+        path="/maliyet-merkezi-olustur"
         element={<MaliyetMerkeziOlustur />}
       />
       <Route
-        path="/maliyet_merkezi-guncelle/:maliyet_merkezi/:firma_kodu"
+        path="/maliyet-merkezi-guncelle/:maliyet_merkezi/:firma_kodu"
         element={<MaliyetMerkeziGuncelle />}
       />
 
