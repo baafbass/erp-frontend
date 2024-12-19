@@ -78,6 +78,7 @@ const UlkeGuncelle = () => {
             id="firma_kodu"
             name="firma_kodu"
             value={firma_kodu}
+            maxLength={4}
             readOnly
             className="w-full px-3 py-2 border rounded-lg bg-gray-100"
           />
@@ -95,6 +96,7 @@ const UlkeGuncelle = () => {
             name="ulke_kodu"
             value={ulke_kodu}
             onChange={handleChange}
+            maxLength={3}
             readOnly
             className="w-full px-3 py-2 border rounded-lg bg-gray-100"
           />
@@ -112,6 +114,7 @@ const UlkeGuncelle = () => {
             name="ulke_adi"
             value={ulke_adi}
             onChange={handleChange}
+            maxLength={80}
             className="w-full px-3 py-2 border rounded-lg"
           />
         </div>

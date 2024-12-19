@@ -9,8 +9,7 @@ const dilFields = {
 };
 
 const DilGuncelle = () => {
-
-  const {dil_kodu,firma_kodu} = useParams();
+  const { dil_kodu, firma_kodu } = useParams();
 
   const [dilData, setDilData] = useState(dilFields);
   const { dil_adi } = dilData;
@@ -82,6 +81,7 @@ const DilGuncelle = () => {
             name="firma_kodu"
             value={firma_kodu}
             readOnly
+            maxLength={4}
             className="w-full px-3 py-2 border rounded-lg bg-gray-100"
           />
         </div>
@@ -99,6 +99,7 @@ const DilGuncelle = () => {
             value={dil_kodu}
             onChange={handleChange}
             readOnly
+            maxLength={3}
             className="w-full px-3 py-2 border rounded-lg bg-gray-100"
           />
         </div>
@@ -115,6 +116,7 @@ const DilGuncelle = () => {
             name="dil_adi"
             value={dil_adi}
             onChange={handleChange}
+            maxLength={80}
             className="w-full px-3 py-2 border rounded-lg"
           />
         </div>

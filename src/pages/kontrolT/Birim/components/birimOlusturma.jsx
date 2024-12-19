@@ -64,6 +64,7 @@ const BirimOlustur = () => {
               value={firma_kodu}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg"
+              maxLength={4}
               required
             />
           </div>
@@ -81,6 +82,7 @@ const BirimOlustur = () => {
               value={birim_kodu}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg"
+              maxLength={3}
               required
             />
           </div>
@@ -98,6 +100,7 @@ const BirimOlustur = () => {
               value={birim_adi}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg"
+              maxLength={80}
               required
             />
           </div>
@@ -151,6 +154,7 @@ const BirimOlustur = () => {
               value={ana_birim_kodu}
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg"
+              maxLength={3}
               required
             />
           </div>

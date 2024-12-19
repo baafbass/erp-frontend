@@ -55,8 +55,7 @@ const FirmaGuncelle = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-
-      const response = await axios.put('/firma',firmaData);
+      const response = await axios.put("/firma", firmaData);
       if (response.data.status === "OK") {
         navigate("/firma");
       } else {
@@ -87,6 +86,7 @@ const FirmaGuncelle = () => {
             name="firma_kodu"
             value={firma_kodu}
             readOnly
+            maxLength={4}
             className="w-full px-3 py-2 border rounded-lg bg-gray-100"
           />
         </div>
@@ -103,6 +103,7 @@ const FirmaGuncelle = () => {
             name="firma_adi"
             value={firma_adi}
             onChange={handleChange}
+            maxLength={80}
             className="w-full px-3 py-2 border rounded-lg"
           />
         </div>
@@ -119,6 +120,7 @@ const FirmaGuncelle = () => {
             name="firma_adresi_1"
             value={firma_adresi_1}
             onChange={handleChange}
+            maxLength={80}
             className="w-full px-3 py-2 border rounded-lg"
           />
         </div>
@@ -135,6 +137,7 @@ const FirmaGuncelle = () => {
             name="firma_adresi_2"
             value={firma_adresi_2}
             onChange={handleChange}
+            maxLength={80}
             className="w-full px-3 py-2 border rounded-lg"
           />
         </div>
@@ -151,6 +154,7 @@ const FirmaGuncelle = () => {
             name="sehir_kodu"
             value={sehir_kodu}
             onChange={handleChange}
+            maxLength={3}
             className="w-full px-3 py-2 border rounded-lg"
             maxLength={3}
           />
@@ -168,6 +172,7 @@ const FirmaGuncelle = () => {
             name="ulke_kodu"
             value={ulke_kodu}
             onChange={handleChange}
+            maxLength={3}
             className="w-full px-3 py-2 border rounded-lg"
           />
         </div>

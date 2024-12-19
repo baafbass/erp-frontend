@@ -55,6 +55,7 @@ const UlkeOlustur = () => {
               name="firma_kodu"
               value={firma_kodu}
               onChange={handleChange}
+              maxLength={4}
               className="w-full px-3 py-2 border rounded-lg"
               required
             />
@@ -72,6 +73,7 @@ const UlkeOlustur = () => {
               name="ulke_kodu"
               value={ulke_kodu}
               onChange={handleChange}
+              maxLength={3}
               className="w-full px-3 py-2 border rounded-lg"
               required
             />
@@ -89,6 +91,7 @@ const UlkeOlustur = () => {
               name="ulke_adi"
               value={ulke_adi}
               onChange={handleChange}
+              maxLength={80}
               className="w-full px-3 py-2 border rounded-lg"
               required
             />

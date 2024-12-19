@@ -6,6 +6,8 @@ import {
   faTrash,
   faPlus,
   faHome,
+  faInfoCircle,
+  faTimes,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAxios } from "../../shared/hooks/axios-hook";
 import IsMerkezleriSilme from "./components/IsMerkezleriSilme";
@@ -27,6 +29,14 @@ const IsMerkezleriPage = () => {
     } catch (error) {
       console.log("Error", error.message);
     }
+  };
+
+  const openDetails = (costcenter) => {
+    setselectedCostCenter(costcenter);
+  };
+
+  const closeDetails = () => {
+    setselectedCostCenter(null);
   };
 
   useEffect(() => {
@@ -138,13 +148,6 @@ const IsMerkezleriPage = () => {
                 <th className="px-4 py-2 text-left">İş Merkezi Kodu</th>
                 <th className="px-4 py-2 text-left">Geçerlilik Başlangıç</th>
                 <th className="px-4 py-2 text-left">Geçerlilik Bitiş</th>
-                <th className="px-4 py-2 text-left">Ana İş Merkezi Tipi</th>
-                <th className="px-4 py-2 text-left">Ana İş Merkezi Kodu</th>
-                <th className="px-4 py-2 text-left">Maliyet Merkezi Tipi</th>
-                <th className="px-4 py-2 text-left">Maliyet Merkezi Kodu</th>
-                <th className="px-4 py-2 text-left">Günlük Çalışma Süresi</th>
-                <th className="px-4 py-2 text-left">Silindi?</th>
-                <th className="px-4 py-2 text-left">Pasif mi?</th>
                 <th className="px-4 py-2 text-left">Dil Kodu</th>
                 <th className="px-4 py-2 text-left">
                   İş Merkezi Kısa Açıklaması
@@ -164,18 +167,11 @@ const IsMerkezleriPage = () => {
                   <td className="px-4 py-2">{costcenter.WCMDOCNUM}</td>
                   <td className="px-4 py-2">{costcenter.WCMDOCFROM}</td>
                   <td className="px-4 py-2">{costcenter.WCMDOCUNTIL}</td>
-                  <td className="px-4 py-2">{costcenter.MAINWCMDOCTYPE}</td>
-                  <td className="px-4 py-2">{costcenter.MAINWCMDOCNUM}</td>
-                  <td className="px-4 py-2">{costcenter.CCMDOCTYPE}</td>
-                  <td className="px-4 py-2">{costcenter.CCMDOCNUM}</td>
-                  <td className="px-4 py-2">{costcenter.WORKTIME}</td>
-                  <td className="px-4 py-2">{costcenter.ISDELETED}</td>
-                  <td className="px-4 py-2">{costcenter.ISPASSIVE}</td>
                   <td className="px-4 py-2">{costcenter.LANCODE}</td>
                   <td className="px-4 py-2">{costcenter.WCMSTEXT}</td>
                   <td className="px-4 py-2">{costcenter.WCMLTEXT}</td>
                   <td className="px-4 py-2">{costcenter.OPRDOCTYPE}</td>
-                  <td className="px-4 py-2 flex justify-center space-x-2">
+                  <td className="px-4 py-2 flex justify-center items-center space-x-2">
                     <button
                       onClick={() =>
                         handleEdit(
@@ -191,7 +187,6 @@ const IsMerkezleriPage = () => {
                       className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-1 px-2 rounded-lg transition-colors duration-300 flex items-center"
                     >
                       <FontAwesomeIcon icon={faEdit} className="mr-1" />
-                      Düzenle
                     </button>
 
                     <button
@@ -209,7 +204,13 @@ const IsMerkezleriPage = () => {
                       className="bg-red-500 hover:bg-red-700 text-white font-medium py-1 px-2 rounded-lg transition-colors duration-300 flex items-center"
                     >
                       <FontAwesomeIcon icon={faTrash} className="mr-1" />
-                      Sil
+                    </button>
+
+                    <button
+                      onClick={() => openDetails(costcenter)}
+                      className="text-blue-500 hover:text-blue-700 transition-colors duration-300"
+                    >
+                      <FontAwesomeIcon icon={faInfoCircle} />
                     </button>
                   </td>
                 </tr>
@@ -223,6 +224,30 @@ const IsMerkezleriPage = () => {
         handleCloseDialog={handleCloseDialog}
         handleDelete={handleDelete}
       />
+
+      {selectedCostCenter && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto relative">
+            <button
+              onClick={closeDetails}
+              className="absolute top-4 right-4 text-gray-600 hover:text-gray-900"
+            >
+              <FontAwesomeIcon icon={faTimes} size="2x" />
+            </button>
+            <h2 className="text-2xl font-bold mb-4 text-center">
+              Maliyet Merkezi Detayları
+            </h2>
+            <div className="grid grid-cols-2 gap-4">
+              {Object.entries(selectedCostCenter).map(([key, value]) => (
+                <div key={key} className="bg-gray-100 p-3 rounded">
+                  <span className="font-semibold text-gray-700">{key}: </span>
+                  <span>{value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

@@ -55,6 +55,7 @@ const DilOlustur = () => {
               name="firma_kodu"
               value={firma_kodu}
               onChange={handleChange}
+              maxLength={4}
               className="w-full px-3 py-2 border rounded-lg"
               required
             />
@@ -72,6 +73,7 @@ const DilOlustur = () => {
               name="dil_kodu"
               value={dil_kodu}
               onChange={handleChange}
+              maxLength={3}
               className="w-full px-3 py-2 border rounded-lg"
               required
             />
@@ -89,6 +91,7 @@ const DilOlustur = () => {
               name="dil_adi"
               value={dil_adi}
               onChange={handleChange}
+              maxLength={80}
               className="w-full px-3 py-2 border rounded-lg"
               required
             />
