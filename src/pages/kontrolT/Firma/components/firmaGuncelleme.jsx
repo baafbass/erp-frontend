@@ -156,6 +156,7 @@ const FirmaGuncelle = () => {
             onChange={handleChange}
             maxLength={3}
             className="w-full px-3 py-2 border rounded-lg"
+            maxLength={3}
           />
         </div>
         <div className="mb-4">

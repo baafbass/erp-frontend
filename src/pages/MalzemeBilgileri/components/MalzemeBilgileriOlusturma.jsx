@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAxios } from "../../../shared/hooks/axios-hook";
 import { Card, CardHeader, CardContent } from "@mui/material";
@@ -56,8 +56,41 @@ const MalzemeBilgileriOlustur = () => {
     malzeme_uzun_aciklamasi,
   } = materialData;
 
+  const [firmalar,setFirmalar] = useState([])
+  const [malzemeTipleri,setMalzemeTipiler] = useState([])
+  const [birimler,setBirimler] = useState([]) 
+  const [urunAgaciTipleri,setUrunAgaciTipleri] = useState([])
+  const [rotaTipleri,setRotaTipleri]  = useState([])
+  const [diller,setDiller] = useState([])
+
   const axios = useAxios();
   const navigate = useNavigate();
+
+  useEffect(()=>{
+    const fetchSupportInfos = async () =>{
+       try{
+         const [firmalarResponse,malzemeTiplerResponse,birimlerResponse,urunAgaciTiplerResponse,rotaTiplerResponse,dillerResponse] = await Promise.all([
+          await axios.get('/firma'),
+          await axios.get('/malzeme'),
+          await axios.get('/birim'),
+          await axios.get('/urun-agaci'),
+          await axios.get('/rota'),
+          await axios.get('/dil')
+          ])
+         
+         console.log(dillerResponse)
+         setFirmalar(firmalarResponse.data.firmalar)
+         setMalzemeTipiler(malzemeTiplerResponse.data.malzemeler)
+         setBirimler(birimlerResponse.data.transformedBirimler)
+         setUrunAgaciTipleri(urunAgaciTiplerResponse.data.urunAgacilari)
+         setRotaTipleri(rotaTiplerResponse.data.rotalar)
+         setDiller(dillerResponse.data.diller)
+       } catch(error){
+        console.log('error',error.message);
+       }
+    } 
+    fetchSupportInfos();
+  },[])
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -70,12 +103,12 @@ const MalzemeBilgileriOlustur = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/MalzemeBilgileri", materialData);
+      const response = await axios.post("/malzeme-bilgileri", materialData);
       if (response.data.status === "OK") {
         navigate("/MalzemeBilgileri");
       }
     } catch (error) {
-      console.log("message:", error);
+      console.log("message:", error.response.data.message);
     }
   };
 
@@ -97,17 +130,21 @@ const MalzemeBilgileriOlustur = () => {
               <label htmlFor="firma_kodu" className="form-label">
                 Firma Kodu
               </label>
-              <input
-                type="text"
+              <select
                 id="firma_kodu"
                 name="firma_kodu"
                 value={firma_kodu}
                 onChange={handleChange}
                 className="form-input"
                 required
-                maxLength={4}
-                placeholder="Firma kodunu girin"
-              />
+              >
+              <option value="">Seçiniz</option>
+                {firmalar.map((firma) => (
+                  <option key={firma.COMCODE} value={firma.COMCODE}>
+                    {firma.COMCODE}
+                  </option>
+                ))}
+              </select>
             </div>
 
             {/* Malzeme Tipi */}
@@ -115,17 +152,21 @@ const MalzemeBilgileriOlustur = () => {
               <label htmlFor="malzeme_tipi" className="form-label">
                 Malzeme Tipi
               </label>
-              <input
-                type="text"
+              <select
                 id="malzeme_tipi"
                 name="malzeme_tipi"
                 value={malzeme_tipi}
                 onChange={handleChange}
                 className="form-input"
                 required
-                maxLength={4}
-                placeholder="Malzeme tipini girin"
-              />
+              >
+              <option value="">Seçiniz</option>
+                {malzemeTipleri.map((malzeme) => (
+                  <option key={malzeme.DOCTYPE} value={malzeme.DOCTYPE}>
+                    {malzeme.COMCODE}  {malzeme.DOCTYPE}
+                  </option>
+                ))}
+              </select>
             </div>
 
             {/* Malzeme Kodu */}
@@ -211,16 +252,20 @@ const MalzemeBilgileriOlustur = () => {
               <label htmlFor="malzeme_stok_birimi" className="form-label">
                 Malzeme Stok Birimi
               </label>
-              <input
-                type="text"
+              <select
                 id="malzeme_stok_birimi"
                 name="malzeme_stok_birimi"
                 value={malzeme_stok_birimi}
                 onChange={handleChange}
                 className="form-input"
-                maxLength={3}
-                placeholder="br"
-              />
+              >
+              <option value="">Seçiniz</option>
+                {birimler.map((birim) => (
+                  <option key={birim.DOCTYPE} value={birim.UNITCODE}>
+                    {birim.COMCODE}  {birim.UNITCODE}
+                  </option>
+                ))}
+              </select>
             </div>
 
             {/* Net Ağırlık */}
@@ -247,16 +292,20 @@ const MalzemeBilgileriOlustur = () => {
                 <label htmlFor="net_agirlik_birimi" className="form-label">
                   Net Ağırlık Birim
                 </label>
-                <input
-                  type="text"
+                <select
                   id="net_agirlik_birimi"
                   name="net_agirlik_birimi"
                   value={net_agirlik_birimi}
                   onChange={handleChange}
                   className="form-input"
-                  maxLength={3}
-                  placeholder="Br"
-                />
+                >
+                <option value="">Seçiniz</option>
+                {birimler.map((birim) => (
+                  <option key={birim.DOCTYPE} value={birim.UNITCODE}>
+                    {birim.COMCODE}  {birim.UNITCODE}
+                  </option>
+                ))}
+                </select>
               </div>
             </div>
 
@@ -284,16 +333,21 @@ const MalzemeBilgileriOlustur = () => {
                 <label htmlFor="brut_agirlik_birimi" className="form-label">
                   Brüt Ağırlık Birim
                 </label>
-                <input
+                <select
                   type="text"
                   id="brut_agirlik_birimi"
                   name="brut_agirlik_birimi"
                   value={brut_agirlik_birimi}
                   onChange={handleChange}
                   className="form-input"
-                  maxLength={3}
-                  placeholder="Br"
-                />
+                >
+                <option value="">Seçiniz</option>
+                {birimler.map((birim) => (
+                  <option key={birim.DOCTYPE} value={birim.UNITCODE}>
+                    {birim.COMCODE}  {birim.UNITCODE}
+                  </option>
+                ))}
+                </select>
               </div>
             </div>
 
@@ -342,16 +396,21 @@ const MalzemeBilgileriOlustur = () => {
               <label htmlFor="urun_agaci_tipi" className="form-label">
                 Ürün Ağacı Tipi
               </label>
-              <input
-                type="text"
+              <select
                 id="urun_agaci_tipi"
                 name="urun_agaci_tipi"
                 value={urun_agaci_tipi}
                 onChange={handleChange}
                 className="form-input"
-                maxLength={4}
-                placeholder="BOM Tipi girin"
-              />
+                disabled={urun_agaci_var_mi !== "1"}
+              >
+              <option value="">Seçiniz</option>
+                {urunAgaciTipleri.map((urunAgaci) => (
+                  <option key={urunAgaci.DOCTYPE} value={urunAgaci.DOCTYPE}>
+                    {urunAgaci.COMCODE}  {urunAgaci.DOCTYPE}
+                  </option>
+                ))}
+              </select>
             </div>
 
             {/* Ürün Ağacı Kodu */}
@@ -368,6 +427,7 @@ const MalzemeBilgileriOlustur = () => {
                 className="form-input"
                 maxLength={25}
                 placeholder="BOM Kodu girin"
+                disabled={urun_agaci_var_mi !== "1"}
               />
             </div>
 
@@ -418,16 +478,21 @@ const MalzemeBilgileriOlustur = () => {
               <label htmlFor="rota_tipi" className="form-label">
                 Rota Tipi
               </label>
-              <input
-                type="text"
+              <select
                 id="rota_tipi"
                 name="rota_tipi"
                 value={rota_tipi}
                 onChange={handleChange}
                 className="form-input"
-                maxLength={4}
-                placeholder="Rota Tipi girin"
-              />
+                disabled={rota_var_mi !== "1"}
+              >
+              <option value="">Seçiniz</option>
+                {rotaTipleri.map((rota) => (
+                  <option key={rota.DOCTYPE} value={rota.DOCTYPE}>
+                    {rota.COMCODE}  {rota.DOCTYPE}
+                  </option>
+                ))}
+              </select>
             </div>
 
             {/* Rota Numarası */}
@@ -444,6 +509,7 @@ const MalzemeBilgileriOlustur = () => {
                 className="form-input"
                 maxLength={25}
                 placeholder="Rota Kodu girin"
+                disabled={rota_var_mi !== "1"}
               />
             </div>
 
@@ -514,16 +580,20 @@ const MalzemeBilgileriOlustur = () => {
               <label htmlFor="dil_kodu" className="form-label">
                 Dil Kodu
               </label>
-              <input
-                type="text"
+              <select
                 id="dil_kodu"
                 name="dil_kodu"
                 value={dil_kodu}
                 onChange={handleChange}
                 className="form-input"
-                maxLength={2}
-                placeholder="TR"
-              />
+              >
+                <option value="">Seçiniz</option>
+                {diller.map((dil) => (
+                  <option key={dil.DOCTYPE} value={dil.LANCODE}>
+                    {dil.COMCODE}  {dil.LANCODE}
+                  </option>
+                ))}
+              </select>
             </div>
 
             {/* Malzeme Kısa Açıklaması */}

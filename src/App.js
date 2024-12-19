@@ -30,8 +30,8 @@ import UlkeGuncelle from "./pages/kontrolT/Ulke/components/ulkeGuncelleme";
 import SehirOlustur from "./pages/kontrolT/Sehir/components/sehirOlusturma";
 import SehirGuncelle from "./pages/kontrolT/Sehir/components/sehirGuncelleme";
 
-import IsMerkeziOlustur from "./pages/kontrolT/IsMerkezi/components/IsMerkeziOlusturma";
-import IsMerkeziGuncelle from "./pages/kontrolT/IsMerkezi/components/IsMerkeziGuncelleme";
+import IsMerkeziOlustur from "./pages/kontrolT/IsMerkezi/components/isMerkeziOlusturma";
+import IsMerkeziGuncelle from "./pages/kontrolT/IsMerkezi/components/isMerkeziGuncelleme";
 
 import MalzemeOlustur from "./pages/kontrolT/Malzeme/components/MalzemeOlusturma";
 import MalzemeGuncelle from "./pages/kontrolT/Malzeme/components/MalzemeGuncelleme";
@@ -147,7 +147,7 @@ function App() {
         element={<MalzemeBilgileriOlustur />}
       />
       <Route
-        path="/MalzemeBilgileri-guncelle/:malzeme_tipi/:firma_kodu/:malzeme_kodu/:gecerlilik_bas/:gecerlilik_bit/:dil_kodu"
+        path="/MalzemeBilgileri-guncelle/:firma_kodu/:malzeme_tipi/:malzeme_kodu/:gecerlilik_bas/:gecerlilik_bit/:dil_kodu"
         element={<MalzemeBilgileriGuncelle />}
       />
 
