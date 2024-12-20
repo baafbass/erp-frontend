@@ -22,8 +22,8 @@ const HomePage = () => {
     { href: "/MalzemeBilgileri", label: "Malzeme Bilgileri" },
     { href: "/maliyet-merkezleri", label: "Maliyet Merkez" },
     { href: "/IsMerkezleri", label: "İş Merkezi" },
-    { href: "/Urunagaci", label: "Ürün Ağacı" },
-    { href: "/rotayonetimi", label: "Rota Yönetimi" },
+    { href: "/UrunAgaclari", label: "Ürün Ağacı" },
+    { href: "/Rotalar", label: "Rota Yönetimi" },
   ];
 
   const closePage = () => {
