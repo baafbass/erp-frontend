@@ -58,6 +58,11 @@ import IsMerkezleri from "./pages/IsMerkezleri/IsMerkezleri";
 import IsMerkezleriOlustur from "./pages/IsMerkezleri/components/IsMerkezleriOlusturma";
 import IsMerkezleriGuncelle from "./pages/IsMerkezleri/components/IsMerkezleriGuncelleme";
 
+//UrunAgaclari
+import UrunAgaclari from "./pages/UrunAgaclari/UrunAgaclari";
+import UrunAgaclariOlustur from "./pages/UrunAgaclari/components/UrunAgaclariOlusturma";
+import UrunAgaclariGuncelle from "./pages/UrunAgaclari/components/UrunAgaclariGuncelleme";
+
 function App() {
   return (
     <Routes>
@@ -156,6 +161,13 @@ function App() {
       <Route
         path="/IsMerkezleri-guncelle/:is_merk_tipi/:firma_kodu/:is_merk_kodu/:gecer_bas/:gecer_bit/:dil_kodu/:opr_kodu"
         element={<IsMerkezleriGuncelle />}
+      />
+
+      <Route path="/UrunAgaclari" element={<UrunAgaclari />} />
+      <Route path="/UrunAgaclari-olustur" element={<UrunAgaclariOlustur />} />
+      <Route
+        path="/UrunAgaclari-guncelle/:firma_kodu/:urun_agaci_tipi/:urun_agaci_kodu/:gecerlilik_bas/:gecerlilik_bit/:malzeme_tipi/:malzeme_kodu/:icerik_numarasi"
+        element={<UrunAgaclariGuncelle />}
       />
     </Routes>
   );

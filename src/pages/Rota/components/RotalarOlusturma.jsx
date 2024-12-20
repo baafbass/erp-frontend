@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { useAxios } from "../../../shared/hooks/axios-hook";
 import { Card, CardHeader, CardContent } from "@mui/material";
 import "../../FormStyles.css";
@@ -10,38 +10,33 @@ const malzemeFields = {
   malzeme_kodu: "",
   gecerlilik_bas: "",
   gecerlilik_bit: "",
-  tedarik_tipi: "",
+  tedarik_tipi: "0",
   malzeme_stok_birimi: "",
   net_agirlik: "",
   net_agirlik_birimi: "",
   brut_agirlik: "",
   brut_agirlik_birimi: "",
-  urun_agaci_var_mi: "",
+  urun_agaci_var_mi: "0",
   urun_agaci_tipi: "",
   urun_agaci_kodu: "",
-  rota_var_mi: "",
+  rota_var_mi: "0",
   rota_tipi: "",
   rota_numarasi: "",
-  silindi_mi: "",
-  passif_mi: "",
+  silindi_mi: "0",
+  passif_mi: "0",
   dil_kodu: "",
   malzeme_kisa_aciklamasi: "",
   malzeme_uzun_aciklamasi: "",
 };
 
-const MalzemeBilgileriGuncelle = () => {
+const MalzemeBilgileriOlustur = () => {
+  const [materialData, setMaterialData] = useState(malzemeFields);
   const {
     firma_kodu,
     malzeme_tipi,
     malzeme_kodu,
     gecerlilik_bas,
     gecerlilik_bit,
-    dil_kodu,
-  } = useParams();
-
-  const [materialData, setMaterialData] = useState(malzemeFields);
-
-  const {
     tedarik_tipi,
     malzeme_stok_birimi,
     net_agirlik,
@@ -56,53 +51,13 @@ const MalzemeBilgileriGuncelle = () => {
     rota_numarasi,
     silindi_mi,
     passif_mi,
+    dil_kodu,
     malzeme_kisa_aciklamasi,
     malzeme_uzun_aciklamasi,
   } = materialData;
 
   const axios = useAxios();
   const navigate = useNavigate();
-
-  const getMalzemeBilgileri = async () => {
-    try {
-      const response = await axios.get(
-        `/malzeme-bilgileri/${firma_kodu}/${malzeme_tipi}/${malzeme_kodu}/${gecerlilik_bas}/${gecerlilik_bit}/${dil_kodu}`
-      );
-      if (response.data.status === "OK") {
-        const malzemeInfo = response.data.malzemeBilgileri;
-        setMaterialData({
-          firma_kodu: malzemeInfo.COMCODE,
-          malzeme_tipi: malzemeInfo.MATDOCTYPE,
-          malzeme_kodu: malzemeInfo.MATDOCNUM,
-          gecerlilik_bas: malzemeInfo.MATDOCFROM,
-          gecerlilik_bit: malzemeInfo.MATDOCUNTIL,
-          tedarik_tipi: malzemeInfo.SUPPLYTYPE,
-          malzeme_stok_birimi: malzemeInfo.STUNIT,
-          net_agirlik: malzemeInfo.NETWEIGHT,
-          net_agirlik_birimi: malzemeInfo.NWUNIT,
-          brut_agirlik: malzemeInfo.BRUTWEIGHT,
-          brut_agirlik_birimi: malzemeInfo.BWUNIT,
-          urun_agaci_var_mi: malzemeInfo.ISBOM,
-          urun_agaci_tipi: malzemeInfo.BOMDOCTYPE,
-          urun_agaci_kodu: malzemeInfo.BOMDOCNUM,
-          rota_var_mi: malzemeInfo.ISROUTE,
-          rota_tipi: malzemeInfo.ROTDOCTYPE,
-          rota_numarasi: malzemeInfo.ROTDOCNUM,
-          silindi_mi: malzemeInfo.ISDELETED,
-          passif_mi: malzemeInfo.ISPASSIVE,
-          dil_kodu: malzemeInfo.LANCODE,
-          malzeme_kisa_aciklamasi: malzemeInfo.MATSTEXT,
-          malzeme_uzun_aciklamasi: malzemeInfo.MATLTEXT,
-        });
-      }
-    } catch (error) {
-      console.log("Error", error.message);
-    }
-  };
-
-  useEffect(() => {
-    getMalzemeBilgileri();
-  }, []);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -115,7 +70,7 @@ const MalzemeBilgileriGuncelle = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put("/malzeme-bilgileri", materialData);
+      const response = await axios.post("/MalzemeBilgileri", materialData);
       if (response.data.status === "OK") {
         navigate("/MalzemeBilgileri");
       }
@@ -148,8 +103,7 @@ const MalzemeBilgileriGuncelle = () => {
                 name="firma_kodu"
                 value={firma_kodu}
                 onChange={handleChange}
-                className="form-input bg-gray-100"
-                readOnly
+                className="form-input"
                 required
                 maxLength={4}
                 placeholder="Firma kodunu girin"
@@ -167,8 +121,7 @@ const MalzemeBilgileriGuncelle = () => {
                 name="malzeme_tipi"
                 value={malzeme_tipi}
                 onChange={handleChange}
-                className="form-input bg-gray-100"
-                readOnly
+                className="form-input"
                 required
                 maxLength={4}
                 placeholder="Malzeme tipini girin"
@@ -186,8 +139,7 @@ const MalzemeBilgileriGuncelle = () => {
                 name="malzeme_kodu"
                 value={malzeme_kodu}
                 onChange={handleChange}
-                className="form-input bg-gray-100"
-                readOnly
+                className="form-input"
                 required
                 maxLength={25}
                 placeholder="Malzeme kodu girin"
@@ -205,8 +157,7 @@ const MalzemeBilgileriGuncelle = () => {
                 name="gecerlilik_bas"
                 value={gecerlilik_bas}
                 onChange={handleChange}
-                className="form-input bg-gray-100"
-                readOnly
+                className="form-input"
                 required
               />
             </div>
@@ -221,8 +172,7 @@ const MalzemeBilgileriGuncelle = () => {
                 name="gecerlilik_bit"
                 value={gecerlilik_bit}
                 onChange={handleChange}
-                className="form-input bg-gray-100"
-                readOnly
+                className="form-input"
                 required
               />
             </div>
@@ -234,10 +184,9 @@ const MalzemeBilgileriGuncelle = () => {
                 <label className="inline-flex items-center">
                   <input
                     type="radio"
-                    id="tedarik_tipi"
                     name="tedarik_tipi"
                     value="0"
-                    checked={`${tedarik_tipi}` === "0"}
+                    checked={tedarik_tipi === "0"}
                     onChange={handleChange}
                     className="form-radio"
                   />
@@ -246,10 +195,9 @@ const MalzemeBilgileriGuncelle = () => {
                 <label className="inline-flex items-center">
                   <input
                     type="radio"
-                    id="tedarik_tipi"
                     name="tedarik_tipi"
                     value="1"
-                    checked={`${tedarik_tipi}` === "1"}
+                    checked={tedarik_tipi === "1"}
                     onChange={handleChange}
                     className="form-radio"
                   />
@@ -358,7 +306,7 @@ const MalzemeBilgileriGuncelle = () => {
                     type="radio"
                     name="urun_agaci_var_mi"
                     value="0"
-                    checked={`${urun_agaci_var_mi}` === "0"}
+                    checked={urun_agaci_var_mi === "0"}
                     onChange={handleChange}
                     className="form-radio"
                   />
@@ -369,7 +317,7 @@ const MalzemeBilgileriGuncelle = () => {
                     type="radio"
                     name="urun_agaci_var_mi"
                     value="1"
-                    checked={`${urun_agaci_var_mi}` === "1"}
+                    checked={urun_agaci_var_mi === "1"}
                     onChange={handleChange}
                     className="form-radio"
                   />
@@ -380,7 +328,7 @@ const MalzemeBilgileriGuncelle = () => {
                     type="radio"
                     name="urun_agaci_var_mi"
                     value="2"
-                    checked={`${urun_agaci_var_mi}` === "2"}
+                    checked={urun_agaci_var_mi === "2"}
                     onChange={handleChange}
                     className="form-radio"
                   />
@@ -433,7 +381,7 @@ const MalzemeBilgileriGuncelle = () => {
                       type="radio"
                       name="rota_var_mi"
                       value="0"
-                      checked={`${rota_var_mi}` === "0"}
+                      checked={rota_var_mi === "0"}
                       onChange={handleChange}
                       className="form-radio"
                     />
@@ -444,7 +392,7 @@ const MalzemeBilgileriGuncelle = () => {
                       type="radio"
                       name="rota_var_mi"
                       value="1"
-                      checked={`${rota_var_mi}` === "1"}
+                      checked={rota_var_mi === "1"}
                       onChange={handleChange}
                       className="form-radio"
                     />
@@ -455,7 +403,7 @@ const MalzemeBilgileriGuncelle = () => {
                       type="radio"
                       name="rota_var_mi"
                       value="2"
-                      checked={`${rota_var_mi}` === "2"}
+                      checked={rota_var_mi === "2"}
                       onChange={handleChange}
                       className="form-radio"
                     />
@@ -510,7 +458,7 @@ const MalzemeBilgileriGuncelle = () => {
                     type="radio"
                     name="silindi_mi"
                     value="0"
-                    checked={`${silindi_mi}` === "0"}
+                    checked={silindi_mi === "0"}
                     onChange={handleChange}
                     className="mr-2"
                   />
@@ -521,7 +469,7 @@ const MalzemeBilgileriGuncelle = () => {
                     type="radio"
                     name="silindi_mi"
                     value="1"
-                    checked={`${silindi_mi}` === "1"}
+                    checked={silindi_mi === "1"}
                     onChange={handleChange}
                     className="mr-2"
                   />
@@ -541,7 +489,7 @@ const MalzemeBilgileriGuncelle = () => {
                     type="radio"
                     name="passif_mi"
                     value="0"
-                    checked={`${passif_mi}` === "0"}
+                    checked={passif_mi === "0"}
                     onChange={handleChange}
                     className="mr-2"
                   />
@@ -552,7 +500,7 @@ const MalzemeBilgileriGuncelle = () => {
                     type="radio"
                     name="passif_mi"
                     value="1"
-                    checked={`${passif_mi}` === "1"}
+                    checked={passif_mi === "1"}
                     onChange={handleChange}
                     className="mr-2"
                   />
@@ -572,8 +520,7 @@ const MalzemeBilgileriGuncelle = () => {
                 name="dil_kodu"
                 value={dil_kodu}
                 onChange={handleChange}
-                className="form-input bg-gray-100"
-                readOnly
+                className="form-input"
                 maxLength={2}
                 placeholder="TR"
               />
@@ -617,7 +564,7 @@ const MalzemeBilgileriGuncelle = () => {
                 onClick={handleSubmit}
                 className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300"
               >
-                Güncelle
+                Malzeme Oluştur
               </button>
               <Link to="/MalzemeBilgileri">
                 <button
@@ -634,5 +581,4 @@ const MalzemeBilgileriGuncelle = () => {
     </Card>
   );
 };
-
-export default MalzemeBilgileriGuncelle;
+export default MalzemeBilgileriOlustur;
