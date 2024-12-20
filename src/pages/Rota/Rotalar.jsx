@@ -11,18 +11,18 @@ import { useAxios } from "../../shared/hooks/axios-hook";
 import RotalarSilme from "./components/RotalarSilme";
 
 const RotalarPage = () => {
-  const [materials, setMaterials] = useState([]);
+  const [routes, setRoutes] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
-  const [selectedMaterial, setselectedMaterial] = useState();
+  const [selectedRoute, setSelectedRoute] = useState();
 
   const axios = useAxios();
   const navigate = useNavigate();
 
-  const getAllMalzemeBilgileri = async () => {
+  const getAllRotalar = async () => {
     try {
-      const response = await axios.get("/MalzemeBilgileri");
+      const response = await axios.get("/Rotalar");
       if (response.data.status === "OK") {
-        setMaterials(response.data.malzemeBilgileri);
+        setRoutes(response.data.rotalar);
       }
     } catch (error) {
       console.log("Error", error.message);
@@ -30,87 +30,101 @@ const RotalarPage = () => {
   };
 
   useEffect(() => {
-    getAllMalzemeBilgileri();
+    getAllRotalar();
   }, []);
 
   const handleEdit = (
-    malzeme_tipi,
     firma_kodu,
-    malzeme_kodu,
+    rota_tipi,
+    rota_numarasi,
     gecerlilik_bas,
     gecerlilik_bit,
-    dil_kodu
+    malzeme_tipi,
+    malzeme_kodu,
+    opr_numarasi,
+    icerik_numarasi
   ) => {
     navigate(
-      `/MalzemeBilgileri-guncelle/${malzeme_tipi}/${firma_kodu}/${malzeme_kodu}/${gecerlilik_bas}/${gecerlilik_bit}/${dil_kodu}`
+      `/Rotalar-guncelle/${firma_kodu}/${rota_tipi}/${rota_numarasi}/${gecerlilik_bas}/${gecerlilik_bit}/${malzeme_tipi}/${malzeme_kodu}/${opr_numarasi}/${icerik_numarasi}`
     );
   };
 
   const handleDelete = async () => {
     try {
       const {
-        malzeme_tipi,
         firma_kodu,
-        malzeme_kodu,
+        rota_tipi,
+        rota_numarasi,
         gecerlilik_bas,
         gecerlilik_bit,
-        dil_kodu,
-      } = selectedMaterial;
+        malzeme_tipi,
+        malzeme_kodu,
+        opr_numarasi,
+        icerik_numarasi,
+      } = selectedRoute;
 
       const response = await axios.delete(
-        `/MalzemeBilgileri/${malzeme_tipi}/${firma_kodu}/${malzeme_kodu}/${gecerlilik_bas}/${gecerlilik_bit}/${dil_kodu}`
+        `/Rotalar/${firma_kodu}/${rota_tipi}/${rota_numarasi}/${gecerlilik_bas}/${gecerlilik_bit}/${malzeme_tipi}/${malzeme_kodu}/${opr_numarasi}/${icerik_numarasi}`
       );
+
       if (response.data.status === "OK") {
-        setMaterials((prevmaterials) =>
-          prevmaterials.filter(
-            (material) =>
-              material.MATDOCTYPE !== malzeme_tipi ||
-              material.COMCODE !== firma_kodu ||
-              material.MATDOCNUM !== malzeme_kodu ||
-              material.MATDOCFROM !== gecerlilik_bas ||
-              material.MATDOCUNTIL !== gecerlilik_bit ||
-              material.LANCODE !== dil_kodu
+        setRoutes((prevRoutes) =>
+          prevRoutes.filter(
+            (route) =>
+              route.COMCODE !== firma_kodu ||
+              route.ROTDOCTYPE !== rota_tipi ||
+              route.ROTDOCNUM !== rota_numarasi ||
+              route.ROTDOCFROM !== gecerlilik_bas ||
+              route.ROTDOCUNTIL !== gecerlilik_bit ||
+              route.MATDOCTYPE !== malzeme_tipi ||
+              route.MATDOCNUM !== malzeme_kodu ||
+              route.OPRNUM !== opr_numarasi ||
+              route.CONTENTNUM !== icerik_numarasi
           )
         );
       }
     } catch (error) {
-      console.error("Error Deleting Material", error.message);
+      console.error("Error Deleting Route", error.message);
     } finally {
       setOpenDialog(false);
     }
   };
 
   const handleOpenDialog = (
-    malzeme_tipi,
     firma_kodu,
-    malzeme_kodu,
+    rota_tipi,
+    rota_numarasi,
     gecerlilik_bas,
     gecerlilik_bit,
-    dil_kodu
+    malzeme_tipi,
+    malzeme_kodu,
+    opr_numarasi,
+    icerik_numarasi
   ) => {
-    setselectedMaterial({
-      malzeme_tipi,
+    setSelectedRoute({
       firma_kodu,
-      malzeme_kodu,
+      rota_tipi,
+      rota_numarasi,
       gecerlilik_bas,
       gecerlilik_bit,
-      dil_kodu,
+      malzeme_tipi,
+      malzeme_kodu,
+      opr_numarasi,
+      icerik_numarasi,
     });
     setOpenDialog(true);
   };
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
-    setselectedMaterial(null);
+    setSelectedRoute(null);
   };
 
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-start pt-8">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-6xl">
         <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold text-gray-800">
-            Malzeme Bilgileri
-          </h1>
+          <h1 className="text-3xl font-bold text-gray-800">Rotalar</h1>
           <div className="flex space-x-4">
             <Link to="/">
               <button className="bg-gray-600 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300 flex items-center">
@@ -118,10 +132,10 @@ const RotalarPage = () => {
                 Ana Sayfa
               </button>
             </Link>
-            <Link to="/MalzemeBilgileri-olustur">
+            <Link to="/Rotalar-olustur">
               <button className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300 flex items-center">
                 <FontAwesomeIcon icon={faPlus} className="mr-2" />
-                Yeni Malzeme Oluştur
+                Yeni Rota Oluştur
               </button>
             </Link>
           </div>
@@ -131,63 +145,58 @@ const RotalarPage = () => {
             <thead>
               <tr className="bg-gray-200">
                 <th className="px-4 py-2 text-left">Firma Kodu</th>
-                <th className="px-4 py-2 text-left">Malzeme Tipi</th>
-                <th className="px-4 py-2 text-left">Malzeme Kodu</th>
+                <th className="px-4 py-2 text-left">Rota Tipi</th>
+                <th className="px-4 py-2 text-left">Rota Numarası</th>
                 <th className="px-4 py-2 text-left">Geçerlilik Başlangıç</th>
                 <th className="px-4 py-2 text-left">Geçerlilik Bitiş</th>
-                <th className="px-4 py-2 text-left">Tedarik Tipi</th>
-                <th className="px-4 py-2 text-left">Malzeme Stok Birimi</th>
-                <th className="px-4 py-2 text-left">Net Ağırlık</th>
-                <th className="px-4 py-2 text-left">Net Ağırlık Birimi</th>
-                <th className="px-4 py-2 text-left">Brüt Ağırlık</th>
-                <th className="px-4 py-2 text-left">Brüt Ağırlık Birimi</th>
-                <th className="px-4 py-2 text-left">Ürün Ağacı Var Mı?</th>
-                <th className="px-4 py-2 text-left">Ürün Ağacı Tipi</th>
-                <th className="px-4 py-2 text-left">Ürün Ağacı Kodu</th>
-                <th className="px-4 py-2 text-left">Rota Var Mı?</th>
-                <th className="px-4 py-2 text-left">Silindi?</th>
-                <th className="px-4 py-2 text-left">Pasif mi?</th>
-                <th className="px-4 py-2 text-left">Dil Kodu</th>
-                <th className="px-4 py-2 text-left">Malzeme Kısa Açıklaması</th>
-                <th className="px-4 py-2 text-left">Malzeme Uzun Açıklaması</th>
-                <th className="px-4 py-2 text-center">İşlemler</th>
+                <th className="px-4 py-2 text-left">Malzeme Tipi</th>
+                <th className="px-4 py-2 text-left">Malzeme Kodu</th>
+                <th className="px-4 py-2 text-left">Operasyon Numarası</th>
+                <th className="px-4 py-2 text-left">İş Merkezi Tipi</th>
+                <th className="px-4 py-2 text-left">İş Merkezi Kodu</th>
+                <th className="px-4 py-2 text-left">Operasyon Kodu</th>
+                <th className="px-4 py-2 text-left">Hazırlık Süresi (Saat)</th>
+                <th className="px-4 py-2 text-left">Makine Süresi (Saat)</th>
+                <th className="px-4 py-2 text-left">İşçilik Süresi (Saat)</th>
+                <th className="px-4 py-2 text-left">İçerik Numarası</th>
+                <th className="px-4 py-2 text-left">Bileşen Kodu</th>
+                <th className="px-4 py-2 text-left">Bileşen Miktarı</th>
+                <th className="px-4 py-2 center">İşlemler</th>
               </tr>
             </thead>
             <tbody>
-              {materials.map((material, index) => (
+              {routes.map((route, index) => (
                 <tr key={index} className="border-b">
-                  <td className="px-4 py-2">{material.COMCODE}</td>
-                  <td className="px-4 py-2">{material.MATDOCTYPE}</td>
-                  <td className="px-4 py-2">{material.MATDOCNUM}</td>
-                  <td className="px-4 py-2">{material.MATDOCFROM}</td>
-                  <td className="px-4 py-2">{material.MATDOCUNTIL}</td>
-                  <td className="px-4 py-2">{material.SUPPLYTYPE}</td>
-                  <td className="px-4 py-2">{material.STUNIT}</td>
-                  <td className="px-4 py-2">{material.NETWEIGHT}</td>
-                  <td className="px-4 py-2">{material.NWUNIT}</td>
-                  <td className="px-4 py-2">{material.BRUTWEIGHT}</td>
-                  <td className="px-4 py-2">{material.BWUNIT}</td>
-                  <td className="px-4 py-2">{material.ISBOM}</td>
-                  <td className="px-4 py-2">{material.BOMDOCTYPE}</td>
-                  <td className="px-4 py-2">{material.BOMDOCNUM}</td>
-                  <td className="px-4 py-2">{material.ISROUTE}</td>
-                  <td className="px-4 py-2">{material.ROTDOCTYPE}</td>
-                  <td className="px-4 py-2">{material.ROTDOCNUM}</td>
-                  <td className="px-4 py-2">{material.ISDELETED}</td>
-                  <td className="px-4 py-2">{material.ISPASSIVE}</td>
-                  <td className="px-4 py-2">{material.LANCODE}</td>
-                  <td className="px-4 py-2">{material.MATSTEXT}</td>
-                  <td className="px-4 py-2">{material.MATLTEXT}</td>
+                  <td className="px-4 py-2">{route.COMCODE}</td>
+                  <td className="px-4 py-2">{route.ROTDOCTYPE}</td>
+                  <td className="px-4 py-2">{route.ROTDOCNUM}</td>
+                  <td className="px-4 py-2">{route.ROTDOCFROM}</td>
+                  <td className="px-4 py-2">{route.ROTDOCUNTIL}</td>
+                  <td className="px-4 py-2">{route.MATDOCTYPE}</td>
+                  <td className="px-4 py-2">{route.MATDOCNUM}</td>
+                  <td className="px-4 py-2">{route.OPRNUM}</td>
+                  <td className="px-4 py-2">{route.WCMDOCTYPE}</td>
+                  <td className="px-4 py-2">{route.WCMDOCNUM}</td>
+                  <td className="px-4 py-2">{route.OPRDOCTYPE}</td>
+                  <td className="px-4 py-2">{route.SETUPTIME}</td>
+                  <td className="px-4 py-2">{route.MACHINETIME}</td>
+                  <td className="px-4 py-2">{route.LABOURTIME}</td>
+                  <td className="px-4 py-2">{route.CONTENTNUM}</td>
+                  <td className="px-4 py-2">{route.COMPONENT}</td>
+                  <td className="px-4 py-2">{route.QUANTITY}</td>
                   <td className="px-4 py-2 flex justify-center space-x-2">
                     <button
                       onClick={() =>
                         handleEdit(
-                          material.COMCODE,
-                          material.MATDOCTYPE,
-                          material.MATDOCNUM,
-                          material.MATDOCFROM,
-                          material.MATDOCUNTIL,
-                          material.LANCODE
+                          route.COMCODE,
+                          route.ROTDOCTYPE,
+                          route.ROTDOCNUM,
+                          route.ROTDOCFROM,
+                          route.ROTDOCUNTIL,
+                          route.MATDOCTYPE,
+                          route.MATDOCNUM,
+                          route.OPRNUM,
+                          route.CONTENTNUM
                         )
                       }
                       className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-1 px-2 rounded-lg transition-colors duration-300 flex items-center"
@@ -195,16 +204,18 @@ const RotalarPage = () => {
                       <FontAwesomeIcon icon={faEdit} className="mr-1" />
                       Düzenle
                     </button>
-
                     <button
                       onClick={() =>
                         handleOpenDialog(
-                          material.COMCODE,
-                          material.MATDOCTYPE,
-                          material.MATDOCNUM,
-                          material.MATDOCFROM,
-                          material.MATDOCUNTIL,
-                          material.LANCODE
+                          route.COMCODE,
+                          route.ROTDOCTYPE,
+                          route.ROTDOCNUM,
+                          route.ROTDOCFROM,
+                          route.ROTDOCUNTIL,
+                          route.MATDOCTYPE,
+                          route.MATDOCNUM,
+                          route.OPRNUM,
+                          route.CONTENTNUM
                         )
                       }
                       className="bg-red-500 hover:bg-red-700 text-white font-medium py-1 px-2 rounded-lg transition-colors duration-300 flex items-center"

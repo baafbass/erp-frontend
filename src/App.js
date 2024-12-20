@@ -63,6 +63,11 @@ import UrunAgaclari from "./pages/UrunAgaclari/UrunAgaclari";
 import UrunAgaclariOlustur from "./pages/UrunAgaclari/components/UrunAgaclariOlusturma";
 import UrunAgaclariGuncelle from "./pages/UrunAgaclari/components/UrunAgaclariGuncelleme";
 
+//Rotalar
+import Rotalar from "./pages/Rotalar/Rotalar";
+import RotalarOlustur from "./pages/Rotalar/components/RotalarOlusturma";
+import RotalarGuncelle from "./pages/Rotalar/components/RotalarGuncelleme";
+
 function App() {
   return (
     <Routes>
@@ -168,6 +173,13 @@ function App() {
       <Route
         path="/UrunAgaclari-guncelle/:firma_kodu/:urun_agaci_tipi/:urun_agaci_kodu/:gecerlilik_bas/:gecerlilik_bit/:malzeme_tipi/:malzeme_kodu/:icerik_numarasi"
         element={<UrunAgaclariGuncelle />}
+      />
+
+      <Route path="/Rotalar" element={<Rotalar />} />
+      <Route path="/Rotalar-olustur" element={<RotalarOlustur />} />
+      <Route
+        path="/Rotalar-guncelle/:firma_kodu/:urun_agaci_tipi/:urun_agaci_kodu/:gecerlilik_bas/:gecerlilik_bit/:malzeme_tipi/:malzeme_kodu/:rota_tipi/:rota_numarasi/:opr_numarasi/:icerik_numarasi"
+        element={<RotalarGuncelle />}
       />
     </Routes>
   );
