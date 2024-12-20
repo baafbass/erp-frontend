@@ -53,9 +53,9 @@ import MalzemeBilgileri from "./pages/MalzemeBilgileri/MalzemeBilgileri";
 import MalzemeBilgileriOlustur from "./pages/MalzemeBilgileri/components/MalzemeBilgileriOlusturma";
 import MalzemeBilgileriGuncelle from "./pages/MalzemeBilgileri/components/MalzemeBilgileriGuncelleme";
 
-import MaliyetMerkezleri from "./pages/MaliyetMerkezleri/maliyetMerkezleri"
-import MaliyetMerkezleriOlusturma from "./pages/MaliyetMerkezleri/components/maliyetMerkezleriOlusturma"
-import MaliyetMerkezleriGuncelleme from "./pages/MaliyetMerkezleri/components/maliyetMerkezleriGuncelleme"
+import MaliyetMerkezleri from "./pages/MaliyetMerkezleri/maliyetMerkezleri";
+import MaliyetMerkezleriOlusturma from "./pages/MaliyetMerkezleri/components/maliyetMerkezleriOlusturma";
+import MaliyetMerkezleriGuncelleme from "./pages/MaliyetMerkezleri/components/maliyetMerkezleriGuncelleme";
 
 //IsMerkezleri
 import IsMerkezleri from "./pages/IsMerkezleri/IsMerkezleri";
@@ -68,9 +68,9 @@ import UrunAgaclariOlustur from "./pages/UrunAgaclari/components/UrunAgaclariOlu
 import UrunAgaclariGuncelle from "./pages/UrunAgaclari/components/UrunAgaclariGuncelleme";
 
 //Rotalar
-import Rotalar from "./pages/Rotalar/Rotalar";
-import RotalarOlustur from "./pages/Rotalar/components/RotalarOlusturma";
-import RotalarGuncelle from "./pages/Rotalar/components/RotalarGuncelleme";
+import Rotalar from "./pages/Rota/Rotalar";
+import RotalarOlustur from "./pages/Rota/components/RotalarOlusturma";
+import RotalarGuncelle from "./pages/Rota/components/RotalarGuncelleme";
 
 function App() {
   return (
@@ -164,11 +164,16 @@ function App() {
         path="/MalzemeBilgileri-guncelle/:firma_kodu/:malzeme_tipi/:malzeme_kodu/:gecerlilik_bas/:gecerlilik_bit/:dil_kodu"
         element={<MalzemeBilgileriGuncelle />}
       />
-      
 
-      <Route path="/maliyet-merkezleri" element={<MaliyetMerkezleri/>}/>
-      <Route path="/maliyet-merkezleri-olusturma" element={<MaliyetMerkezleriOlusturma/>}/>
-      <Route path="/maliyet-merkezleri-guncelleme/:firma_kodu/:maliyet_merk_tipi/:maliyet_merk_kodu/:gecerlilik_bas/:gecerlilik_bit/:dil_kodu" element={<MaliyetMerkezleriGuncelleme/>}/>
+      <Route path="/maliyet-merkezleri" element={<MaliyetMerkezleri />} />
+      <Route
+        path="/maliyet-merkezleri-olusturma"
+        element={<MaliyetMerkezleriOlusturma />}
+      />
+      <Route
+        path="/maliyet-merkezleri-guncelleme/:firma_kodu/:maliyet_merk_tipi/:maliyet_merk_kodu/:gecerlilik_bas/:gecerlilik_bit/:dil_kodu"
+        element={<MaliyetMerkezleriGuncelleme />}
+      />
 
       <Route path="/IsMerkezleri" element={<IsMerkezleri />} />
       <Route path="/IsMerkezleri-olustur" element={<IsMerkezleriOlustur />} />
