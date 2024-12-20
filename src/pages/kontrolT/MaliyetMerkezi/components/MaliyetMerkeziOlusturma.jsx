@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAxios } from "../../../../shared/hooks/axios-hook";
 
@@ -12,11 +12,20 @@ const maliyetMerkeziFields = {
 const MaliyetMerkeziOlustur = () => {
   const [maliyetMerkeziData, setmaliyetMerkeziData] =
     useState(maliyetMerkeziFields);
+  const [firmalar,setFirmalar] = useState([]);
   const { firma_kodu, maliyet_merkezi, maliyet_merkezi_aciklamasi, passif_mi } =
     maliyetMerkeziData;
 
   const axios = useAxios();
   const navigate = useNavigate();
+
+  useEffect(()=>{
+   const fetchFirmalar = async () => {
+    const firmalarResponse = await axios.get('/firma')
+    setFirmalar(firmalarResponse.data.firmalar);
+   }
+   fetchFirmalar()
+  },[])
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -53,16 +62,20 @@ const MaliyetMerkeziOlustur = () => {
               >
                 Firma Kodu
               </label>
-              <input
-                type="text"
-                id="firma_kodu"
-                name="firma_kodu"
-                value={firma_kodu}
-                onChange={handleChange}
-                maxLength={4}
-                className="w-full px-3 py-2 border rounded-lg"
-                required
-              />
+            <select
+              id="firma_kodu"
+              name="firma_kodu"
+              value={firma_kodu}
+              onChange={handleChange}
+              className="w-full px-3 py-2 border rounded-lg"
+            >
+             <option value="">Seçiniz</option>
+                {firmalar.map((firma) => (
+                  <option key={firma.COMCODE} value={firma.COMCODE}>
+                    {firma.COMCODE}
+                  </option>
+                ))}
+            </select>
             </div>
             <label
               className="block text-gray-700 font-medium mb-2"
@@ -142,7 +155,7 @@ const MaliyetMerkeziOlustur = () => {
             >
               Maliyet Merkezi Oluştur
             </button>
-            <Link to="/maliyet_merkezi">
+            <Link to="/maliyet-merkezi">
               <button className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300">
                 Listeye Dön
               </button>

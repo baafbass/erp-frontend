@@ -53,6 +53,10 @@ import MalzemeBilgileri from "./pages/MalzemeBilgileri/MalzemeBilgileri";
 import MalzemeBilgileriOlustur from "./pages/MalzemeBilgileri/components/MalzemeBilgileriOlusturma";
 import MalzemeBilgileriGuncelle from "./pages/MalzemeBilgileri/components/MalzemeBilgileriGuncelleme";
 
+import MaliyetMerkezleri from "./pages/MaliyetMerkezleri/maliyetMerkezleri"
+import MaliyetMerkezleriOlusturma from "./pages/MaliyetMerkezleri/components/maliyetMerkezleriOlusturma"
+import MaliyetMerkezleriGuncelleme from "./pages/MaliyetMerkezleri/components/maliyetMerkezleriGuncelleme"
+
 //IsMerkezleri
 import IsMerkezleri from "./pages/IsMerkezleri/IsMerkezleri";
 import IsMerkezleriOlustur from "./pages/IsMerkezleri/components/IsMerkezleriOlusturma";
@@ -67,7 +71,7 @@ function App() {
       <Route path="/dil" element={<Dil />} />
       <Route path="/firma" element={<Firma />} />
       <Route path="/is-merkezi" element={<IsMerkezi />} />
-      <Route path="/maliyet_merkezi" element={<MaliyetMerkezi />} />
+      <Route path="/maliyet-merkezi" element={<MaliyetMerkezi />} />
       <Route path="/malzeme" element={<Malzeme />} />
       <Route path="/operasyon" element={<Operasyon />} />
       <Route path="/rota" element={<Rota />} />
@@ -133,11 +137,11 @@ function App() {
       />
 
       <Route
-        path="/maliyet_merkezi-olustur"
+        path="/maliyet-merkezi-olustur"
         element={<MaliyetMerkeziOlustur />}
       />
       <Route
-        path="/maliyet_merkezi-guncelle/:maliyet_merkezi/:firma_kodu"
+        path="/maliyet-merkezi-guncelle/:maliyet_merkezi/:firma_kodu"
         element={<MaliyetMerkeziGuncelle />}
       />
 
@@ -150,6 +154,11 @@ function App() {
         path="/MalzemeBilgileri-guncelle/:firma_kodu/:malzeme_tipi/:malzeme_kodu/:gecerlilik_bas/:gecerlilik_bit/:dil_kodu"
         element={<MalzemeBilgileriGuncelle />}
       />
+      
+
+      <Route path="/maliyet-merkezleri" element={<MaliyetMerkezleri/>}/>
+      <Route path="/maliyet-merkezleri-olusturma" element={<MaliyetMerkezleriOlusturma/>}/>
+      <Route path="/maliyet-merkezleri-guncelleme/:firma_kodu/:maliyet_merk_tipi/:maliyet_merk_kodu/:gecerlilik_bas/:gecerlilik_bit/:dil_kodu" element={<MaliyetMerkezleriGuncelleme/>}/>
 
       <Route path="/IsMerkezleri" element={<IsMerkezleri />} />
       <Route path="/IsMerkezleri-olustur" element={<IsMerkezleriOlustur />} />

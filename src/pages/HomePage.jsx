@@ -10,7 +10,7 @@ const HomePage = () => {
     { href: "/dil", label: "Dil" },
     { href: "/malzeme", label: "Malzeme Tipi" },
     { href: "/ulke", label: "Ülke" },
-    { href: "/maliyet_merkezi", label: "Maliyet Merkezi" },
+    { href: "/maliyet-merkezi", label: "Maliyet Merkezi" },
     { href: "/sehir", label: "Şehir" },
     { href: "/urun_agaci", label: "Ürün Ağacı" },
     { href: "/rota", label: "Rota Tipi" },
@@ -20,7 +20,7 @@ const HomePage = () => {
 
   const anaTabloItems = [
     { href: "/MalzemeBilgileri", label: "Malzeme Bilgileri" },
-    { href: "/maliyetmerkezi", label: "Maliyet Merkezi" },
+    { href: "/maliyet-merkezleri", label: "Maliyet Merkez" },
     { href: "/IsMerkezleri", label: "İş Merkezi" },
     { href: "/Urunagaci", label: "Ürün Ağacı" },
     { href: "/rotayonetimi", label: "Rota Yönetimi" },

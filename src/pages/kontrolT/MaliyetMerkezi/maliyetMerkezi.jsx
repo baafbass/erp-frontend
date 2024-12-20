@@ -34,7 +34,7 @@ const MaliyetMerkeziPage = () => {
   }, []);
 
   const handleEdit = (maliyet_merkezi, firma_kodu) => {
-    navigate(`/maliyet_merkezi-guncelle/${maliyet_merkezi}/${firma_kodu}`);
+    navigate(`/maliyet-merkezi-guncelle/${maliyet_merkezi}/${firma_kodu}`);
   };
 
   const handleDelete = async () => {
@@ -83,7 +83,7 @@ const MaliyetMerkeziPage = () => {
                 Ana Sayfa
               </button>
             </Link>
-            <Link to="/maliyet_merkezi-olustur">
+            <Link to="/maliyet-merkezi-olustur">
               <button className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300 flex items-center">
                 <FontAwesomeIcon icon={faPlus} className="mr-2" />
                 Yeni Maliyet Merkezi Oluştur

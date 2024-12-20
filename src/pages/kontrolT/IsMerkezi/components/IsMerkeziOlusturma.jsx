@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAxios } from "../../../../shared/hooks/axios-hook";
 
@@ -11,11 +11,20 @@ const isMerkeziFields = {
 
 const IsMerkeziOlustur = () => {
   const [isMerkeziData, setIsMerkeziData] = useState(isMerkeziFields);
+  const [firmalar,setFirmalar] = useState([]);
   const { firma_kodu, is_merkezi, is_merkezi_aciklamasi, passif_mi } =
     isMerkeziData;
 
   const axios = useAxios();
   const navigate = useNavigate();
+
+  useEffect(()=>{
+   const fetchFirmalar = async () => {
+    const firmalarResponse = await axios.get('/firma')
+    setFirmalar(firmalarResponse.data.firmalar);
+   }
+   fetchFirmalar()
+  },[])
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -51,16 +60,20 @@ const IsMerkeziOlustur = () => {
             >
               Firma Kodu
             </label>
-            <input
-              type="text"
+            <select
               id="firma_kodu"
               name="firma_kodu"
               value={firma_kodu}
               onChange={handleChange}
-              maxLength={4}
               className="w-full px-3 py-2 border rounded-lg"
-              required
-            />
+            >
+             <option value="">Seçiniz</option>
+                {firmalar.map((firma) => (
+                  <option key={firma.COMCODE} value={firma.COMCODE}>
+                    {firma.COMCODE}
+                  </option>
+                ))}
+            </select>
           </div>
           <div className="mb-4">
             <label
