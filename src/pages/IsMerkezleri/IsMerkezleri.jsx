@@ -13,6 +13,7 @@ import { useAxios } from "../../shared/hooks/axios-hook";
 import IsMerkezleriSilme from "./components/IsMerkezleriSilme";
 
 const IsMerkezleriPage = () => {
+
   const [costcenters, setCostCenters] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedCostCenter, setselectedCostCenter] = useState();
@@ -22,7 +23,7 @@ const IsMerkezleriPage = () => {
 
   const getAllIsMerkezleri = async () => {
     try {
-      const response = await axios.get("/IsMerkezleri");
+      const response = await axios.get("/is-merkezleri");
       if (response.data.status === "OK") {
         setCostCenters(response.data.isMerkezleri);
       }
@@ -47,13 +48,13 @@ const IsMerkezleriPage = () => {
     firma_kodu,
     is_merk_tipi,
     is_merk_kodu,
-    gecer_bas,
-    gecer_bit,
+    gecerlilik_bas,
+    gecerlilik_bit,
     dil_kodu,
     opr_kodu
   ) => {
     navigate(
-      `/IsMerkezleri-guncelle/${is_merk_tipi}/${firma_kodu}/${is_merk_kodu}/${gecer_bas}/${gecer_bit}/${dil_kodu}/${opr_kodu}`
+      `/IsMerkezleri-guncelle/${is_merk_tipi}/${firma_kodu}/${is_merk_kodu}/${gecerlilik_bas}/${gecerlilik_bit}/${dil_kodu}/${opr_kodu}`
     );
   };
 
@@ -63,14 +64,14 @@ const IsMerkezleriPage = () => {
         is_merk_tipi,
         firma_kodu,
         is_merk_kodu,
-        gecer_bas,
-        gecer_bit,
+        gecerlilik_bas,
+        gecerlilik_bit,
         dil_kodu,
         opr_kodu,
       } = selectedCostCenter;
 
       const response = await axios.delete(
-        `/IsMerkezleri/${is_merk_tipi}/${firma_kodu}/${is_merk_kodu}/${gecer_bas}/${gecer_bit}/${dil_kodu}/${opr_kodu}`
+        `/is-merkezleri/${is_merk_tipi}/${firma_kodu}/${is_merk_kodu}/${gecerlilik_bas}/${gecerlilik_bit}/${dil_kodu}/${opr_kodu}`
       );
       if (response.data.status === "OK") {
         setCostCenters((prevcostcenters) =>
@@ -79,8 +80,8 @@ const IsMerkezleriPage = () => {
               costcenter.WCMDOCTYPE !== is_merk_tipi ||
               costcenter.COMCODE !== firma_kodu ||
               costcenter.WCMDOCNUM !== is_merk_kodu ||
-              costcenter.WCMDOCFROM !== gecer_bas ||
-              costcenter.WCMDOCUNTIL !== gecer_bit ||
+              costcenter.WCMDOCFROM !== gecerlilik_bas ||
+              costcenter.WCMDOCUNTIL !== gecerlilik_bit ||
               costcenter.LANCODE !== dil_kodu ||
               costcenter.OPRDOCTYPE !== opr_kodu
           )
@@ -97,8 +98,8 @@ const IsMerkezleriPage = () => {
     is_merk_tipi,
     firma_kodu,
     is_merk_kodu,
-    gecer_bas,
-    gecer_bit,
+    gecerlilik_bas,
+    gecerlilik_bit,
     dil_kodu,
     opr_kodu
   ) => {
@@ -106,8 +107,8 @@ const IsMerkezleriPage = () => {
       is_merk_tipi,
       firma_kodu,
       is_merk_kodu,
-      gecer_bas,
-      gecer_bit,
+      gecerlilik_bas,
+      gecerlilik_bit,
       dil_kodu,
       opr_kodu,
     });
