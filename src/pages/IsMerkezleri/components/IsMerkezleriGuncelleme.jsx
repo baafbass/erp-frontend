@@ -34,6 +34,15 @@ const IsMerkezleriGuncelle = () => {
     opr_kodu,
   } = useParams();
 
+  console.log(    
+    firma_kodu,
+    is_merk_tipi,
+    is_merk_kodu,
+    gecerlilik_bas,
+    gecerlilik_bit,
+    dil_kodu,
+    opr_kodu,)
+
   const [isMerkezleriData, setIsMerkezleriData] = useState(IsMerkezleriFields);
 
   const {
@@ -53,11 +62,15 @@ const IsMerkezleriGuncelle = () => {
 
   const getIsMerkezleriBilgileri = async () => {
     try {
+<<<<<<< HEAD
+      const response = await axios.get(`/is-merkezleri/${firma_kodu}/${is_merk_tipi}/${is_merk_kodu}/${gecerlilik_bas}/${gecerlilik_bit}/${dil_kodu}/${opr_kodu}`);
+=======
       const response = await axios.get(
         `/IsMerkezleri/${firma_kodu}/${is_merk_tipi}/${is_merk_kodu}/${gecerlilik_bas}/${gecerlilik_bit}/${dil_kodu}/${opr_kodu}`
       );
+>>>>>>> 8c4bc9cf1b954a873c787ea7ee85ccfeebd1f291
       if (response.data.status === "OK") {
-        const data = response.data.isMerkezleri;
+        const data = response.data.isMerkezi;
 
         setIsMerkezleriData({
           firma_kodu: data.COMCODE,
@@ -79,7 +92,7 @@ const IsMerkezleriGuncelle = () => {
         });
       }
     } catch (error) {
-      console.log("Error", error.message);
+      console.log("Error", error);
     }
   };
 
@@ -98,7 +111,7 @@ const IsMerkezleriGuncelle = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put("/IsMerkezleri", isMerkezleriData);
+      const response = await axios.put("/is-merkezleri", isMerkezleriData);
       if (response.data.status === "OK") {
         navigate("/IsMerkezleri");
       }
@@ -129,7 +142,7 @@ const IsMerkezleriGuncelle = () => {
                 type="text"
                 id="firma_kodu"
                 name="firma_kodu"
-                value={isMerkezleriData.firma_kodu}
+                value={firma_kodu}
                 onChange={handleChange}
                 className="form-input bg-gray-100"
                 readOnly
@@ -146,9 +159,10 @@ const IsMerkezleriGuncelle = () => {
                 type="text"
                 id="is_merk_tipi"
                 name="is_merk_tipi"
-                value={isMerkezleriData.is_merk_tipi}
+                value={is_merk_tipi}
                 onChange={handleChange}
-                className="form-input"
+                readOnly
+                className="form-input bg-gray-100"
                 required
               />
             </div>
@@ -162,9 +176,10 @@ const IsMerkezleriGuncelle = () => {
                 type="text"
                 id="is_merk_kodu"
                 name="is_merk_kodu"
-                value={isMerkezleriData.is_merk_kodu}
+                value={is_merk_kodu}
                 onChange={handleChange}
-                className="form-input"
+                readOnly
+                className="form-input bg-gray-100"
                 required
               />
             </div>
@@ -178,9 +193,10 @@ const IsMerkezleriGuncelle = () => {
                 type="date"
                 id="gecerlilik_bas"
                 name="gecerlilik_bas"
-                value={isMerkezleriData.gecerlilik_bas}
+                value={gecerlilik_bas}
                 onChange={handleChange}
-                className="form-input"
+                className="form-input bg-gray-100"
+                readOnly
                 required
               />
             </div>
@@ -194,9 +210,10 @@ const IsMerkezleriGuncelle = () => {
                 type="date"
                 id="gecerlilik_bit"
                 name="gecerlilik_bit"
-                value={isMerkezleriData.gecerlilik_bit}
+                value={gecerlilik_bit}
                 onChange={handleChange}
-                className="form-input"
+                className="form-input bg-gray-100"
+                readOnly
                 required
               />
             </div>
@@ -210,7 +227,7 @@ const IsMerkezleriGuncelle = () => {
                 type="text"
                 id="ana_is_merk_tipi"
                 name="ana_is_merk_tipi"
-                value={isMerkezleriData.ana_is_merk_tipi}
+                value={ana_is_merk_tipi}
                 onChange={handleChange}
                 className="form-input"
               />
@@ -225,7 +242,7 @@ const IsMerkezleriGuncelle = () => {
                 type="text"
                 id="ana_is_merk_kodu"
                 name="ana_is_merk_kodu"
-                value={isMerkezleriData.ana_is_merk_kodu}
+                value={ana_is_merk_kodu}
                 onChange={handleChange}
                 className="form-input"
               />
@@ -240,7 +257,7 @@ const IsMerkezleriGuncelle = () => {
                 type="text"
                 id="maliyet_merk_tipi"
                 name="maliyet_merk_tipi"
-                value={isMerkezleriData.maliyet_merk_tipi}
+                value={maliyet_merk_tipi}
                 onChange={handleChange}
                 className="form-input"
               />
@@ -255,7 +272,7 @@ const IsMerkezleriGuncelle = () => {
                 type="text"
                 id="maliyet_merk_kodu"
                 name="maliyet_merk_kodu"
-                value={isMerkezleriData.maliyet_merk_kodu}
+                value={maliyet_merk_kodu}
                 onChange={handleChange}
                 className="form-input"
               />
@@ -270,7 +287,7 @@ const IsMerkezleriGuncelle = () => {
                 type="number"
                 id="gunluk_calisma_suresi"
                 name="gunluk_calisma_suresi"
-                value={isMerkezleriData.gunluk_calisma_suresi}
+                value={gunluk_calisma_suresi}
                 onChange={handleChange}
                 className="form-input"
                 step="0.01"
@@ -288,7 +305,7 @@ const IsMerkezleriGuncelle = () => {
                     type="radio"
                     name="silindi_mi"
                     value="0"
-                    checked={isMerkezleriData.silindi_mi === "0"}
+                    checked={`${silindi_mi}` === "0"}
                     onChange={handleChange}
                     className="mr-2"
                   />
@@ -299,7 +316,7 @@ const IsMerkezleriGuncelle = () => {
                     type="radio"
                     name="silindi_mi"
                     value="1"
-                    checked={isMerkezleriData.silindi_mi === "1"}
+                    checked={`${silindi_mi}` === "1"}
                     onChange={handleChange}
                     className="mr-2"
                   />
@@ -319,7 +336,7 @@ const IsMerkezleriGuncelle = () => {
                     type="radio"
                     name="passif_mi"
                     value="0"
-                    checked={isMerkezleriData.passif_mi === "0"}
+                    checked={`${passif_mi}` === "0"}
                     onChange={handleChange}
                     className="mr-2"
                   />
@@ -330,7 +347,7 @@ const IsMerkezleriGuncelle = () => {
                     type="radio"
                     name="passif_mi"
                     value="1"
-                    checked={isMerkezleriData.passif_mi === "1"}
+                    checked={`${passif_mi}` === "1"}
                     onChange={handleChange}
                     className="mr-2"
                   />
@@ -348,9 +365,9 @@ const IsMerkezleriGuncelle = () => {
                 type="text"
                 id="dil_kodu"
                 name="dil_kodu"
-                value={isMerkezleriData.dil_kodu}
+                value={dil_kodu}
                 onChange={handleChange}
-                className="form-input"
+                className="form-input bg-gray-100"
                 readOnly
                 required
               />
@@ -365,7 +382,7 @@ const IsMerkezleriGuncelle = () => {
                 type="text"
                 id="is_merk_kisa_aciklamasi"
                 name="is_merk_kisa_aciklamasi"
-                value={isMerkezleriData.is_merk_kisa_aciklamasi}
+                value={is_merk_kisa_aciklamasi}
                 onChange={handleChange}
                 className="form-input"
               />
@@ -380,9 +397,10 @@ const IsMerkezleriGuncelle = () => {
                 type="text"
                 id="opr_kodu"
                 name="opr_kodu"
-                value={isMerkezleriData.opr_kodu}
+                value={opr_kodu}
                 onChange={handleChange}
-                className="form-input"
+                className="form-input bg-gray-100"
+                readOnly
               />
             </div>
 

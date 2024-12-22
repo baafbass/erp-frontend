@@ -184,7 +184,7 @@ function App() {
       <Route path="/IsMerkezleri" element={<IsMerkezleri />} />
       <Route path="/IsMerkezleri-olustur" element={<IsMerkezleriOlustur />} />
       <Route
-        path="/IsMerkezleri-guncelle/:is_merk_tipi/:firma_kodu/:is_merk_kodu/:gecer_bas/:gecer_bit/:dil_kodu/:opr_kodu"
+        path="/IsMerkezleri-guncelle/:is_merk_tipi/:firma_kodu/:is_merk_kodu/:gecerlilik_bas/:gecerlilik_bit/:dil_kodu/:opr_kodu"
         element={<IsMerkezleriGuncelle />}
       />
 

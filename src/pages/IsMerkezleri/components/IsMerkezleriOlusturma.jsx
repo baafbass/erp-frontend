@@ -70,8 +70,8 @@ const IsMerkezleriOlustur = () => {
           await axios.get("/dil"),
         ]);
         setFirmalar(firmalarResponse.data.firmalar);
-        setIsMerkTipiler(isMerkTiplerResponse.data.ismerkezleri);
-        setMaliyetMerkTipiler(maliyetMerkResponse.data.maliyetmerkezleri);
+        setIsMerkTipiler(isMerkTiplerResponse.data.isMerkezleri);
+        setMaliyetMerkTipiler(maliyetMerkResponse.data.maliyetMerkezleri);
         setOperaTipleri(operaTiplerResponse.data.operasyonlar);
         setDiller(dillerResponse.data.diller);
       } catch (error) {
@@ -92,7 +92,7 @@ const IsMerkezleriOlustur = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/IsMerkezleri", isMerkezleriData);
+      const response = await axios.post("/is-merkezleri", isMerkezleriData);
       if (response.data.status === "OK") {
         navigate("/IsMerkezleri");
       }
