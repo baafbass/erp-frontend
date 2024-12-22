@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -8,19 +8,21 @@ import {
   faHome,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAxios } from "../../../shared/hooks/axios-hook";
-import FirmaSilme from "./components/firmaSilme";
+import firmaSilme from "./components/firmaSilme";
 
 const FirmaPage = () => {
   const [companies, setCompanies] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
-  const [selectedCompany, setSelectedCompany] = useState(null);
+  const [selectedCompany, setSelectedCompany] = useState({});
+  const tableRef = useRef(null);
+  const dataTableRef = useRef(null);
 
   const axios = useAxios();
   const navigate = useNavigate();
 
   const getAllFirma = async () => {
     try {
-      const response = await axios.get("/firma");
+      const response = await axios.get("/firmalar");
       if (response.data.status === "OK") {
         setCompanies(response.data.firmalar);
       }
@@ -39,21 +41,23 @@ const FirmaPage = () => {
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(`/firma/${selectedCompany}`);
+      const { firma_kodu } = selectedCompany;
+
+      const response = await axios.delete(`/firmalar/${firma_kodu}`);
       if (response.data.status === "OK") {
         setCompanies((prevCompanies) =>
-          prevCompanies.filter((company) => company.COMCODE !== selectedCompany)
+          prevCompanies.filter((company) => company.COMCODE !== firma_kodu)
         );
       }
     } catch (error) {
-      console.error("Error Deleting company", error.message);
+      console.error("Error Deleting Company", error.message);
     } finally {
       setOpenDialog(false);
     }
   };
 
   const handleOpenDialog = (firma_kodu) => {
-    setSelectedCompany(firma_kodu);
+    setSelectedCompany({ firma_kodu });
     setOpenDialog(true);
   };
 
@@ -61,6 +65,43 @@ const FirmaPage = () => {
     setOpenDialog(false);
     setSelectedCompany(null);
   };
+
+  useEffect(() => {
+    const initializeDataTable = () => {
+      if (tableRef.current && !dataTableRef.current && companies.length > 0) {
+        try {
+          dataTableRef.current = window.$(tableRef.current).DataTable({
+            language: {
+              url: "//cdn.datatables.net/plug-ins/1.13.3/i18n/tr.json",
+            },
+            responsive: true,
+            pageLength: 10,
+            dom: "Bfrtip",
+            buttons: ["copy", "excel", "pdf", "print"],
+          });
+        } catch (error) {
+          console.error("Error initializing DataTable:", error);
+        }
+      }
+    };
+
+    const timeoutId = setTimeout(initializeDataTable, 100);
+
+    return () => {
+      clearTimeout(timeoutId);
+      if (dataTableRef.current) {
+        try {
+          const table = dataTableRef.current;
+          if (table.destroy && typeof table.destroy === "function") {
+            table.destroy();
+          }
+          dataTableRef.current = null;
+        } catch (error) {
+          console.error("Error destroying DataTable:", error);
+        }
+      }
+    };
+  }, [companies]);
 
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-start pt-8">
@@ -83,11 +124,11 @@ const FirmaPage = () => {
           </div>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full border-collapse">
+          <table ref={tableRef} className="w-full border-collapse">
             <thead>
               <tr className="bg-gray-200">
-                <th className="px-4 py-2 text-left">Kod</th>
-                <th className="px-4 py-2 text-left">Ad</th>
+                <th className="px-4 py-2 text-left">Firma Kodu</th>
+                <th className="px-4 py-2 text-left">Firma Adı</th>
                 <th className="px-4 py-2 text-left">Adres 1</th>
                 <th className="px-4 py-2 text-left">Adres 2</th>
                 <th className="px-4 py-2 text-left">Şehir</th>
@@ -96,26 +137,25 @@ const FirmaPage = () => {
               </tr>
             </thead>
             <tbody>
-              {companies.map((company, index) => (
-                <tr key={index} className="border-b">
+              {companies.map((company) => (
+                <tr key={company.COMCODE} className="border-b">
                   <td className="px-4 py-2">{company.COMCODE}</td>
-                  <td className="px-4 py-2">{company.COMTEXT}</td>
+                  <td className="px-4 py-2 font-medium">{company.COMTEXT}</td>
                   <td className="px-4 py-2">{company.ADDRESS1}</td>
                   <td className="px-4 py-2">{company.ADDRESS2}</td>
                   <td className="px-4 py-2">{company.CITYCODE}</td>
                   <td className="px-4 py-2">{company.COUNTRYCODE}</td>
                   <td className="px-4 py-2 flex justify-center space-x-2">
                     <button
+                      className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded"
                       onClick={() => handleEdit(company.COMCODE)}
-                      className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-1 px-2 rounded-lg transition-colors duration-300 flex items-center"
                     >
                       <FontAwesomeIcon icon={faEdit} className="mr-1" />
                       Düzenle
                     </button>
-
                     <button
+                      className="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded"
                       onClick={() => handleOpenDialog(company.COMCODE)}
-                      className="bg-red-500 hover:bg-red-700 text-white font-medium py-1 px-2 rounded-lg transition-colors duration-300 flex items-center"
                     >
                       <FontAwesomeIcon icon={faTrash} className="mr-1" />
                       Sil
@@ -127,7 +167,7 @@ const FirmaPage = () => {
           </table>
         </div>
       </div>
-      <FirmaSilme
+      <firmaSilme
         openDialog={openDialog}
         handleCloseDialog={handleCloseDialog}
         handleDelete={handleDelete}
