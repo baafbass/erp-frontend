@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -14,6 +14,8 @@ const DilPage = () => {
   const [languages, setLanguages] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedLanguage, setSelectedLanguage] = useState({});
+  const tableRef = useRef(null);
+  const dataTableRef = useRef(null);
 
   const axios = useAxios();
   const navigate = useNavigate();
@@ -34,6 +36,72 @@ const DilPage = () => {
     getAllDil();
   }, []);
 
+  useEffect(() => {
+    const initializeDataTable = () => {
+      if (tableRef.current && !dataTableRef.current && languages.length >= 0) {
+        try {
+          dataTableRef.current = window.$(tableRef.current).DataTable({
+            language: {
+              url: "//cdn.datatables.net/plug-ins/1.13.3/i18n/tr.json",
+            },
+            responsive: true,
+            pageLength: 10,
+            lengthMenu: [
+              [5, 10, 25, 50, -1],
+              [5, 10, 25, 50, "Tümü"],
+            ],
+            dom: "Blfrtip",
+            buttons: [
+              {
+                extend: "copy",
+                text: "Kopyala",
+                className:
+                  "bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mx-1",
+              },
+              {
+                extend: "excel",
+                text: "Excel",
+                title: "Firma Listesi",
+                className:
+                  "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-1",
+              },
+              {
+                extend: "pdf",
+                text: "PDF",
+                title: "Firma Listesi",
+                className:
+                  "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mx-1",
+              },
+              {
+                extend: "print",
+                text: "Yazdır",
+                title: "Firma Listesi",
+                className:
+                  "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-1",
+              },
+            ],
+          });
+        } catch (error) {
+          console.error("DataTable başlatma hatası:", error);
+        }
+      }
+    };
+
+    const timeoutId = setTimeout(initializeDataTable, 100);
+
+    return () => {
+      clearTimeout(timeoutId);
+      if (dataTableRef.current) {
+        try {
+          dataTableRef.current.destroy();
+          dataTableRef.current = null;
+        } catch (error) {
+          console.error("DataTable silme hatası:", error);
+        }
+      }
+    };
+  }, [languages]);
+
   const handleEdit = (dil_kodu, firma_kodu) => {
     navigate(`/dil-guncelle/${dil_kodu}/${firma_kodu}`);
   };
@@ -44,6 +112,10 @@ const DilPage = () => {
 
       const response = await axios.delete(`/dil/${dil_kodu}/${firma_kodu}`);
       if (response.data.status === "OK") {
+        if (dataTableRef.current) {
+          dataTableRef.current.destroy();
+          dataTableRef.current = null;
+        }
         setLanguages((prevlanguages) =>
           prevlanguages.filter(
             (language) =>
@@ -89,7 +161,7 @@ const DilPage = () => {
           </div>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full border-collapse">
+          <table ref={tableRef} className="w-full border-collapse">
             <thead>
               <tr className="bg-gray-200">
                 <th className="px-4 py-2 text-left">Firma Kodu</th>

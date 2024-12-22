@@ -54,7 +54,7 @@ const IsMerkezleriGuncelle = () => {
   const getIsMerkezleriBilgileri = async () => {
     try {
       const response = await axios.get(
-        `/IsMerkezleri/${firma_kodu}/${is_merk_tipi}/${is_merk_kodu}/${gecerlilik_bas}/${gecerlilik_bit}/${dil_kodu}`
+        `/IsMerkezleri/${firma_kodu}/${is_merk_tipi}/${is_merk_kodu}/${gecerlilik_bas}/${gecerlilik_bit}/${dil_kodu}/${opr_kodu}`
       );
       if (response.data.status === "OK") {
         const data = response.data.isMerkezleri;
