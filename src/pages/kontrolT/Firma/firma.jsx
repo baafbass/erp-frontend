@@ -8,7 +8,7 @@ import {
   faHome,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAxios } from "../../../shared/hooks/axios-hook";
-import firmaSilme from "./components/firmaSilme";
+import FirmaSilme from "./components/firmaSilme";
 
 const FirmaPage = () => {
   const [companies, setCompanies] = useState([]);
@@ -22,7 +22,7 @@ const FirmaPage = () => {
 
   const getAllFirma = async () => {
     try {
-      const response = await axios.get("/firmalar");
+      const response = await axios.get("/firma");
       if (response.data.status === "OK") {
         setCompanies(response.data.firmalar);
       }
@@ -43,7 +43,7 @@ const FirmaPage = () => {
     try {
       const { firma_kodu } = selectedCompany;
 
-      const response = await axios.delete(`/firmalar/${firma_kodu}`);
+      const response = await axios.delete(`/firma/${firma_kodu}`);
       if (response.data.status === "OK") {
         setCompanies((prevCompanies) =>
           prevCompanies.filter((company) => company.COMCODE !== firma_kodu)
@@ -167,7 +167,7 @@ const FirmaPage = () => {
           </table>
         </div>
       </div>
-      <firmaSilme
+      <FirmaSilme
         openDialog={openDialog}
         handleCloseDialog={handleCloseDialog}
         handleDelete={handleDelete}

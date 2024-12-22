@@ -77,8 +77,6 @@ const MalzemeBilgileriOlustur = () => {
           await axios.get('/rota'),
           await axios.get('/dil')
           ])
-         
-         console.log(dillerResponse)
          setFirmalar(firmalarResponse.data.firmalar)
          setMalzemeTipiler(malzemeTiplerResponse.data.malzemeler)
          setBirimler(birimlerResponse.data.transformedBirimler)
@@ -334,7 +332,6 @@ const MalzemeBilgileriOlustur = () => {
                   Brüt Ağırlık Birim
                 </label>
                 <select
-                  type="text"
                   id="brut_agirlik_birimi"
                   name="brut_agirlik_birimi"
                   value={brut_agirlik_birimi}
@@ -344,7 +341,7 @@ const MalzemeBilgileriOlustur = () => {
                 <option value="">Seçiniz</option>
                 {birimler.map((birim) => (
                   <option key={birim.DOCTYPE} value={birim.UNITCODE}>
-                    {birim.COMCODE}  {birim.UNITCODE}
+                    {birim.COMCODE} {birim.UNITCODE}
                   </option>
                 ))}
                 </select>

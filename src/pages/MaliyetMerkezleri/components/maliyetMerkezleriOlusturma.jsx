@@ -199,14 +199,14 @@ const MaliyetMerkezleriOlusturma = () => {
               </label>
               <input
                 type="text"
-                id="ana_maliyet_merk_kodu"
-                name="ana_maliyet_merk_kodu"
-                value={ana_maliyet_merk_kodu}
+                id="ana_maliyet_merk_tipi"
+                name="ana_maliyet_merk_tipi"
+                value={ana_maliyet_merk_tipi}
                 onChange={handleChange}
                 className="form-input"
                 required
                 maxLength={25}
-                placeholder="Ana maliyet merkezi kodu girin"
+                placeholder="Ana maliyet merkezi tipi girin"
               />
             </div>
 
@@ -331,7 +331,7 @@ const MaliyetMerkezleriOlusturma = () => {
             {/* Malzeme Uzun Açıklaması */}
             <div className="form-group md:col-span-3">
               <label htmlFor="maliyet_merk_uzun_aciklamasi" className="form-label">
-                Maliyet_merk Uzun Açıklaması
+                Maliyet Merkezi Uzun Açıklaması
               </label>
               <textarea
                 id="maliyet_merk_uzun_aciklamasi"

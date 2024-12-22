@@ -55,7 +55,7 @@ const MaliyetMerkeziGuncelle = () => {
     try {
       const response = await axios.put(`/maliyet-merkezi`, maliyetMerkeziData);
       if (response.data.status === "OK") {
-        navigate("/maliyet_merkezi");
+        navigate("/maliyet-merkezi");
       } else {
         alert("Güncelleme sırasında bir hata oluştu");
         console.log(response);

@@ -60,7 +60,7 @@ const MaliyetMerkezleri = () => {
       } = selectedCostCenter;
 
       const response = await axios.delete(
-        `/maliyet_merkezleri/${firma_kodu}/${maliyet_merk_tipi}/${maliyet_merk_kodu}/${gecerlilik_bas}/${gecerlilik_bit}/${dil_kodu}`
+        `/maliyet-merkezleri/${firma_kodu}/${maliyet_merk_tipi}/${maliyet_merk_kodu}/${gecerlilik_bas}/${gecerlilik_bit}/${dil_kodu}`
       );
 
       if (response.data.status === "OK") {
@@ -140,8 +140,9 @@ const MaliyetMerkezleri = () => {
                 <th className="px-4 py-2 text-left">Geçerlilik Başlangıç</th>
                 <th className="px-4 py-2 text-left">Geçerlilik Bitiş</th>
                 <th className="px-4 py-2 text-left">Dil Kodu</th>
-                <th className="px-4 py-2 text-left">Kısa açıklama</th>
-                <th className="px-4 py-2 text-left">Uzun açıklama</th>
+                <th className="px-4 py-2 text-left">Silindi mi?</th>
+                <th className="px-4 py-2 text-left">Passif mi?</th>
+                <th className="px-4 py-2 text-center">İşlemler</th>
               </tr>
             </thead>
             <tbody>
@@ -153,8 +154,8 @@ const MaliyetMerkezleri = () => {
                   <td className="px-4 py-2">{costCenter.CCMDOCFROM}</td>
                   <td className="px-4 py-2">{costCenter.CCMDOCUNTIL}</td>
                   <td className="px-4 py-2">{costCenter.LANCODE}</td>
-                  <td className="px-4 py-2">{costCenter.CCMSTEXT}</td>
-                  <td className="px-4 py-2">{costCenter.CCMLTEXT}</td>
+                  <td className="px-4 py-2">{costCenter.ISDELETED}</td>
+                  <td className="px-4 py-2">{costCenter.ISPASSIVE}</td>
                   <td className="px-4 py-2 flex justify-center space-x-2">
                     <button
                       onClick={() =>

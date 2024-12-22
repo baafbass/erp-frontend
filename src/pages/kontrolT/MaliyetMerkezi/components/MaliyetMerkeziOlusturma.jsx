@@ -40,7 +40,7 @@ const MaliyetMerkeziOlustur = () => {
     try {
       const response = await axios.post("/maliyet-merkezi", maliyetMerkeziData);
       if (response.data.status === "OK") {
-        navigate("/maliyet_merkezi");
+        navigate("/maliyet-merkezi");
       }
     } catch (error) {
       console.log("message:", error);
