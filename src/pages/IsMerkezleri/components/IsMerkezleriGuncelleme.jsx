@@ -1,35 +1,81 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useAxios } from "../../../shared/hooks/axios-hook";
+import { Card, CardHeader, CardContent } from "@mui/material";
+import "../../FormStyles.css";
 
-const birimFields = {
+const IsMerkezleriFields = {
   firma_kodu: "",
-  birim_kodu: "",
-  birim_adi: "",
-  ana_agirlik_birimi: "",
-  ana_birim_kodu: "",
+  is_merk_tipi: "",
+  is_merk_kodu: "",
+  gecerlilik_bas: "",
+  gecerlilik_bit: "",
+  ana_is_merk_tipi: "",
+  ana_is_merk_kodu: "",
+  maliyet_merk_tipi: "",
+  maliyet_merk_kodu: "",
+  gunluk_calisma_suresi: "",
+  silindi_mi: "",
+  passif_mi: "",
+  dil_kodu: "",
+  is_merk_kisa_aciklamasi: "",
+  is_merk_uzun_aciklamasi: "",
+  opr_kodu: "",
 };
 
-const BirimGuncelle = () => {
-  const { birim_kodu, firma_kodu } = useParams();
-  const [birimData, setBirimData] = useState(birimFields);
-  const { birim_adi, ana_agirlik_birimi, ana_birim_kodu } = birimData;
+const IsMerkezleriGuncelle = () => {
+  const {
+    firma_kodu,
+    is_merk_tipi,
+    is_merk_kodu,
+    gecerlilik_bas,
+    gecerlilik_bit,
+    dil_kodu,
+    opr_kodu,
+  } = useParams();
+
+  const [isMerkezleriData, setIsMerkezleriData] = useState(IsMerkezleriFields);
+
+  const {
+    ana_is_merk_tipi,
+    ana_is_merk_kodu,
+    maliyet_merk_tipi,
+    maliyet_merk_kodu,
+    gunluk_calisma_suresi,
+    silindi_mi,
+    passif_mi,
+    is_merk_kisa_aciklamasi,
+    is_merk_uzun_aciklamasi,
+  } = isMerkezleriData;
 
   const axios = useAxios();
   const navigate = useNavigate();
 
-  const getBirim = async () => {
+  const getIsMerkezleriBilgileri = async () => {
     try {
-      const response = await axios.get(`/birim/${birim_kodu}/${firma_kodu}`);
+      const response = await axios.get(
+        `/IsMerkezleri/${firma_kodu}/${is_merk_tipi}/${is_merk_kodu}/${gecerlilik_bas}/${gecerlilik_bit}/${dil_kodu}`
+      );
       if (response.data.status === "OK") {
-        const birimData = response.data.birim;
+        const data = response.data.isMerkezleri;
 
-        setBirimData({
-          birim_kodu: birimData.UNITCODE,
-          birim_adi: birimData.UNITTEXT,
-          ana_agirlik_birimi: birimData.ISMAINUNIT,
-          ana_birim_kodu: birimData.MAINUNITCODE,
-          firma_kodu: birimData.COMCODE,
+        setIsMerkezleriData({
+          firma_kodu: data.COMCODE,
+          is_merk_tipi: data.WCMDOCTYPE,
+          is_merk_kodu: data.WCMDOCNUM,
+          gecerlilik_bas: data.WCMDOCFROM,
+          gecerlilik_bit: data.WCMDOCUNTIL,
+          ana_is_merk_tipi: data.MAINWCMDOCTYPE,
+          ana_is_merk_kodu: data.MAINWCMDOCNUM,
+          maliyet_merk_tipi: data.CCMDOCTYPE,
+          maliyet_merk_kodu: data.CCMDOCNUM,
+          gunluk_calisma_suresi: data.WORKTIME,
+          silindi_mi: data.ISDELETED,
+          passif_mi: data.ISPASSIVE,
+          dil_kodu: data.LANCODE,
+          is_merk_kisa_aciklamasi: data.WCMSTEXT,
+          is_merk_uzun_aciklamasi: data.WCMLTEXT,
+          opr_kodu: data.OPRDOCTYPE,
         });
       }
     } catch (error) {
@@ -38,155 +84,344 @@ const BirimGuncelle = () => {
   };
 
   useEffect(() => {
-    getBirim();
+    getIsMerkezleriBilgileri();
   }, []);
 
   const handleChange = (e) => {
-    const { name, value } = e.target;
-    setBirimData({
-      ...birimData,
-      [name]: value,
-    });
+    const { name, value, type, checked } = e.target;
+    setIsMerkezleriData((prevState) => ({
+      ...prevState,
+      [name]: type === "checkbox" ? (checked ? "1" : "0") : value,
+    }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put(`/birim`, birimData);
+      const response = await axios.put("/IsMerkezleri", isMerkezleriData);
       if (response.data.status === "OK") {
-        navigate("/birim");
-      } else {
-        alert("Güncelleme sırasında bir hata oluştu");
-        console.log(response);
+        navigate("/IsMerkezleri");
       }
     } catch (error) {
-      console.error("Submit error: ", error.message);
+      console.log("message:", error);
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex justify-center items-start pt-8">
-      <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-4xl">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
-          Birim Bilgilerini Güncelle
-        </h1>
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 font-medium mb-2"
-            htmlFor="firma_kodu"
-          >
-            Firma Kodu
-          </label>
-          <input
-            type="text"
-            id="firma_kodu"
-            name="firma_kodu"
-            value={firma_kodu}
-            readOnly
-            className="w-full px-3 py-2 border rounded-lg bg-gray-100"
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 font-medium mb-2"
-            htmlFor="birim_kodu"
-          >
-            Birim Kodu
-          </label>
-          <input
-            type="text"
-            id="birim_kodu"
-            name="birim_kodu"
-            value={birim_kodu}
-            onChange={handleChange}
-            readOnly
-            className="w-full px-3 py-2 border rounded-lg bg-gray-100"
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 font-medium mb-2"
-            htmlFor="birim_adi"
-          >
-            Birim Adı
-          </label>
-          <input
-            type="text"
-            id="birim_adi"
-            name="birim_adi"
-            value={birim_adi}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-lg"
-          />
-        </div>
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 font-medium mb-2"
-            htmlFor="ana_agirlik_birimi"
-          >
-            Ana Ağırlık Birimi mi?
-          </label>
-          <div className="flex gap-4">
-            <label className="flex items-center">
+    <Card sx={{ boxShadow: 3, borderRadius: 2, padding: 2 }}>
+      <CardHeader
+        title="İş Merkezleri Güncelleme"
+        titleTypographyProps={{
+          fontSize: "1.5rem",
+          fontWeight: "bold",
+          sx: { textAlign: "center" },
+        }}
+      />
+      <CardContent>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="grid md:grid-cols-3 gap-6">
+            {/* Firma Kodu */}
+            <div className="form-group">
+              <label htmlFor="firma_kodu" className="form-label">
+                Firma Kodu
+              </label>
               <input
-                type="radio"
-                id="ana_agirlik_birimi"
-                name="ana_agirlik_birimi"
-                value="0"
-                checked={birimData.ana_agirlik_birimi === "0"}
+                type="text"
+                id="firma_kodu"
+                name="firma_kodu"
+                value={isMerkezleriData.firma_kodu}
                 onChange={handleChange}
-                className="mr-2"
+                className="form-input bg-gray-100"
+                readOnly
+                required
               />
-              0 (Hayır)
-            </label>
-            <label className="flex items-center">
-              <input
-                type="radio"
-                id="ana_agirlik_birimi"
-                name="ana_agirlik_birimi"
-                value="1"
-                checked={birimData.ana_agirlik_birimi === "1"}
-                onChange={handleChange}
-                className="mr-2"
-              />
-              1 (Evet)
-            </label>
-          </div>
-        </div>
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 font-medium mb-2"
-            htmlFor="ana_birim_kodu"
-          >
-            Ana Birim Kodu
-          </label>
-          <input
-            type="text"
-            id="ana_birim_kodu"
-            name="ana_birim_kodu"
-            value={ana_birim_kodu}
-            onChange={handleChange}
-            className="w-full px-3 py-2 border rounded-lg"
-          />
-        </div>
+            </div>
 
-        <div className="flex justify-between">
-          <button
-            onClick={handleSubmit}
-            className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300"
-          >
-            Güncelle
-          </button>
-          <button
-            onClick={() => navigate("/birim")}
-            className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300"
-          >
-            İptal
-          </button>
-        </div>
-      </div>
-    </div>
+            {/* İş Merkezi Tipi */}
+            <div className="form-group">
+              <label htmlFor="is_merk_tipi" className="form-label">
+                İş Merkezi Tipi
+              </label>
+              <input
+                type="text"
+                id="is_merk_tipi"
+                name="is_merk_tipi"
+                value={isMerkezleriData.is_merk_tipi}
+                onChange={handleChange}
+                className="form-input"
+                required
+              />
+            </div>
+
+            {/* İş Merkezi Kodu */}
+            <div className="form-group">
+              <label htmlFor="is_merk_kodu" className="form-label">
+                İş Merkezi Kodu
+              </label>
+              <input
+                type="text"
+                id="is_merk_kodu"
+                name="is_merk_kodu"
+                value={isMerkezleriData.is_merk_kodu}
+                onChange={handleChange}
+                className="form-input"
+                required
+              />
+            </div>
+
+            {/* Geçerlilik Başlangıç */}
+            <div className="form-group">
+              <label htmlFor="gecerlilik_bas" className="form-label">
+                Geçerlilik Başlangıç
+              </label>
+              <input
+                type="date"
+                id="gecerlilik_bas"
+                name="gecerlilik_bas"
+                value={isMerkezleriData.gecerlilik_bas}
+                onChange={handleChange}
+                className="form-input"
+                required
+              />
+            </div>
+
+            {/* Geçerlilik Bitiş */}
+            <div className="form-group">
+              <label htmlFor="gecerlilik_bit" className="form-label">
+                Geçerlilik Bitiş
+              </label>
+              <input
+                type="date"
+                id="gecerlilik_bit"
+                name="gecerlilik_bit"
+                value={isMerkezleriData.gecerlilik_bit}
+                onChange={handleChange}
+                className="form-input"
+                required
+              />
+            </div>
+
+            {/* Ana İş Merkezi Tipi */}
+            <div className="form-group">
+              <label htmlFor="ana_is_merk_tipi" className="form-label">
+                Ana İş Merkezi Tipi
+              </label>
+              <input
+                type="text"
+                id="ana_is_merk_tipi"
+                name="ana_is_merk_tipi"
+                value={isMerkezleriData.ana_is_merk_tipi}
+                onChange={handleChange}
+                className="form-input"
+              />
+            </div>
+
+            {/* Ana İş Merkezi Kodu */}
+            <div className="form-group">
+              <label htmlFor="ana_is_merk_kodu" className="form-label">
+                Ana İş Merkezi Kodu
+              </label>
+              <input
+                type="text"
+                id="ana_is_merk_kodu"
+                name="ana_is_merk_kodu"
+                value={isMerkezleriData.ana_is_merk_kodu}
+                onChange={handleChange}
+                className="form-input"
+              />
+            </div>
+
+            {/* Maliyet Merkezi Tipi */}
+            <div className="form-group">
+              <label htmlFor="maliyet_merk_tipi" className="form-label">
+                Maliyet Merkezi Tipi
+              </label>
+              <input
+                type="text"
+                id="maliyet_merk_tipi"
+                name="maliyet_merk_tipi"
+                value={isMerkezleriData.maliyet_merk_tipi}
+                onChange={handleChange}
+                className="form-input"
+              />
+            </div>
+
+            {/* Maliyet Merkezi Kodu */}
+            <div className="form-group">
+              <label htmlFor="maliyet_merk_kodu" className="form-label">
+                Maliyet Merkezi Kodu
+              </label>
+              <input
+                type="text"
+                id="maliyet_merk_kodu"
+                name="maliyet_merk_kodu"
+                value={isMerkezleriData.maliyet_merk_kodu}
+                onChange={handleChange}
+                className="form-input"
+              />
+            </div>
+
+            {/* Günlük Çalışma Süresi */}
+            <div className="form-group">
+              <label htmlFor="gunluk_calisma_suresi" className="form-label">
+                Günlük Çalışma Süresi (Saat)
+              </label>
+              <input
+                type="number"
+                id="gunluk_calisma_suresi"
+                name="gunluk_calisma_suresi"
+                value={isMerkezleriData.gunluk_calisma_suresi}
+                onChange={handleChange}
+                className="form-input"
+                step="0.01"
+              />
+            </div>
+
+            {/* Silindi Mi */}
+            <div>
+              <label className="block text-gray-700 font-medium mb-2">
+                Silindi Mi?
+              </label>
+              <div className="flex gap-4">
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="silindi_mi"
+                    value="0"
+                    checked={isMerkezleriData.silindi_mi === "0"}
+                    onChange={handleChange}
+                    className="mr-2"
+                  />
+                  Hayır
+                </label>
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="silindi_mi"
+                    value="1"
+                    checked={isMerkezleriData.silindi_mi === "1"}
+                    onChange={handleChange}
+                    className="mr-2"
+                  />
+                  Evet
+                </label>
+              </div>
+            </div>
+
+            {/* Passif Mi */}
+            <div>
+              <label className="block text-gray-700 font-medium mb-2">
+                Passif Mi?
+              </label>
+              <div className="flex gap-4">
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="passif_mi"
+                    value="0"
+                    checked={isMerkezleriData.passif_mi === "0"}
+                    onChange={handleChange}
+                    className="mr-2"
+                  />
+                  Hayır
+                </label>
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="passif_mi"
+                    value="1"
+                    checked={isMerkezleriData.passif_mi === "1"}
+                    onChange={handleChange}
+                    className="mr-2"
+                  />
+                  Evet
+                </label>
+              </div>
+            </div>
+
+            {/* Dil Kodu */}
+            <div className="form-group">
+              <label htmlFor="dil_kodu" className="form-label">
+                Dil Kodu
+              </label>
+              <input
+                type="text"
+                id="dil_kodu"
+                name="dil_kodu"
+                value={isMerkezleriData.dil_kodu}
+                onChange={handleChange}
+                className="form-input"
+                readOnly
+                required
+              />
+            </div>
+
+            {/* İş Merkezi Kısa Açıklaması */}
+            <div className="form-group">
+              <label htmlFor="is_merk_kisa_aciklamasi" className="form-label">
+                İş Merkezi Kısa Açıklaması
+              </label>
+              <input
+                type="text"
+                id="is_merk_kisa_aciklamasi"
+                name="is_merk_kisa_aciklamasi"
+                value={isMerkezleriData.is_merk_kisa_aciklamasi}
+                onChange={handleChange}
+                className="form-input"
+              />
+            </div>
+
+            {/* Operasyon Kodu */}
+            <div className="form-group">
+              <label htmlFor="opr_kodu" className="form-label">
+                Operasyon Kodu
+              </label>
+              <input
+                type="text"
+                id="opr_kodu"
+                name="opr_kodu"
+                value={isMerkezleriData.opr_kodu}
+                onChange={handleChange}
+                className="form-input"
+              />
+            </div>
+
+            {/* İş Merkezi Uzun Açıklaması */}
+            <div className="form-group md:col-span-3">
+              <label htmlFor="is_merk_uzun_aciklamasi" className="form-label">
+                İş Merkezi Uzun Açıklaması
+              </label>
+              <textarea
+                id="is_merk_uzun_aciklamasi"
+                name="is_merk_uzun_aciklamasi"
+                value={isMerkezleriData.is_merk_uzun_aciklamasi}
+                onChange={handleChange}
+                className="form-input"
+                rows={4}
+              />
+            </div>
+
+            <div className="flex justify-between md:col-span-3">
+              <button
+                type="submit"
+                className="bg-indigo-600 hover:bg-indigo-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300"
+              >
+                Güncelle
+              </button>
+              <Link to="/IsMerkezleri">
+                <button
+                  type="button"
+                  className="bg-red-600 hover:bg-red-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300"
+                >
+                  Listeye Dön
+                </button>
+              </Link>
+            </div>
+          </div>
+        </form>
+      </CardContent>
+    </Card>
   );
 };
 
-export default BirimGuncelle;
+export default IsMerkezleriGuncelle;
