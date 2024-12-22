@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -16,6 +16,8 @@ const IsMerkezleriPage = () => {
   const [costcenters, setCostCenters] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedCostCenter, setselectedCostCenter] = useState();
+  const tableRef = useRef(null);
+  const dataTableRef = useRef(null);
 
   const axios = useAxios();
   const navigate = useNavigate();
@@ -31,17 +33,79 @@ const IsMerkezleriPage = () => {
     }
   };
 
-  const openDetails = (costcenter) => {
-    setselectedCostCenter(costcenter);
-  };
-
-  const closeDetails = () => {
-    setselectedCostCenter(null);
-  };
-
   useEffect(() => {
     getAllIsMerkezleri();
   }, []);
+
+  useEffect(() => {
+    const initializeDataTable = () => {
+      if (
+        tableRef.current &&
+        !dataTableRef.current &&
+        costcenters.length >= 0
+      ) {
+        try {
+          dataTableRef.current = window.$(tableRef.current).DataTable({
+            language: {
+              url: "//cdn.datatables.net/plug-ins/1.13.3/i18n/tr.json",
+            },
+            responsive: true,
+            pageLength: 10,
+            lengthMenu: [
+              [5, 10, 25, 50, -1],
+              [5, 10, 25, 50, "Tümü"],
+            ],
+            dom: "Blfrtip",
+            buttons: [
+              {
+                extend: "copy",
+                text: "Kopyala",
+                className:
+                  "bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mx-1",
+              },
+              {
+                extend: "excel",
+                text: "Excel",
+                title: "Rota Listesi",
+                className:
+                  "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-1",
+              },
+              {
+                extend: "pdf",
+                text: "PDF",
+                title: "Rota Listesi",
+                className:
+                  "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mx-1",
+              },
+              {
+                extend: "print",
+                text: "Yazdır",
+                title: "Rota Listesi",
+                className:
+                  "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-1",
+              },
+            ],
+          });
+        } catch (error) {
+          console.error("DataTable başlatma hatası:", error);
+        }
+      }
+    };
+
+    const timeoutId = setTimeout(initializeDataTable, 100);
+
+    return () => {
+      clearTimeout(timeoutId);
+      if (dataTableRef.current) {
+        try {
+          dataTableRef.current.destroy();
+          dataTableRef.current = null;
+        } catch (error) {
+          console.error("DataTable silme hatası:", error);
+        }
+      }
+    };
+  }, [costcenters]);
 
   const handleEdit = (
     firma_kodu,
@@ -73,6 +137,10 @@ const IsMerkezleriPage = () => {
         `/IsMerkezleri/${is_merk_tipi}/${firma_kodu}/${is_merk_kodu}/${gecer_bas}/${gecer_bit}/${dil_kodu}/${opr_kodu}`
       );
       if (response.data.status === "OK") {
+        if (dataTableRef.current) {
+          dataTableRef.current.destroy();
+          dataTableRef.current = null;
+        }
         setCostCenters((prevcostcenters) =>
           prevcostcenters.filter(
             (costcenter) =>
@@ -140,7 +208,7 @@ const IsMerkezleriPage = () => {
           </div>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full border-collapse">
+          <table ref={tableRef} className="w-full border-collapse">
             <thead>
               <tr className="bg-gray-200">
                 <th className="px-4 py-2 text-left">Firma Kodu</th>
@@ -201,13 +269,6 @@ const IsMerkezleriPage = () => {
                     >
                       <FontAwesomeIcon icon={faTrash} className="mr-1" />
                     </button>
-
-                    <button
-                      onClick={() => openDetails(costcenter)}
-                      className="text-blue-500 hover:text-blue-700 transition-colors duration-300"
-                    >
-                      <FontAwesomeIcon icon={faInfoCircle} />
-                    </button>
                   </td>
                 </tr>
               ))}
@@ -220,30 +281,6 @@ const IsMerkezleriPage = () => {
         handleCloseDialog={handleCloseDialog}
         handleDelete={handleDelete}
       />
-
-      {selectedCostCenter && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto relative">
-            <button
-              onClick={closeDetails}
-              className="absolute top-4 right-4 text-gray-600 hover:text-gray-900"
-            >
-              <FontAwesomeIcon icon={faTimes} size="2x" />
-            </button>
-            <h2 className="text-2xl font-bold mb-4 text-center">
-              Maliyet Merkezi Detayları
-            </h2>
-            <div className="grid grid-cols-2 gap-4">
-              {Object.entries(selectedCostCenter).map(([key, value]) => (
-                <div key={key} className="bg-gray-100 p-3 rounded">
-                  <span className="font-semibold text-gray-700">{key}: </span>
-                  <span>{value}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      )}
     </div>
   );
 };

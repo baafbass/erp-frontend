@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -14,6 +14,8 @@ const UrunAgaclariPage = () => {
   const [productTrees, setProductTrees] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedProductTree, setSelectedProductTree] = useState();
+  const tableRef = useRef(null);
+  const dataTableRef = useRef(null);
 
   const axios = useAxios();
   const navigate = useNavigate();
@@ -32,6 +34,76 @@ const UrunAgaclariPage = () => {
   useEffect(() => {
     getAllUrunAgaclari();
   }, []);
+
+  useEffect(() => {
+    const initializeDataTable = () => {
+      if (
+        tableRef.current &&
+        !dataTableRef.current &&
+        productTrees.length >= 0
+      ) {
+        try {
+          dataTableRef.current = window.$(tableRef.current).DataTable({
+            language: {
+              url: "//cdn.datatables.net/plug-ins/1.13.3/i18n/tr.json",
+            },
+            responsive: true,
+            pageLength: 10,
+            lengthMenu: [
+              [5, 10, 25, 50, -1],
+              [5, 10, 25, 50, "Tümü"],
+            ],
+            dom: "Blfrtip",
+            buttons: [
+              {
+                extend: "copy",
+                text: "Kopyala",
+                className:
+                  "bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mx-1",
+              },
+              {
+                extend: "excel",
+                text: "Excel",
+                title: "Rota Listesi",
+                className:
+                  "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-1",
+              },
+              {
+                extend: "pdf",
+                text: "PDF",
+                title: "Rota Listesi",
+                className:
+                  "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mx-1",
+              },
+              {
+                extend: "print",
+                text: "Yazdır",
+                title: "Rota Listesi",
+                className:
+                  "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-1",
+              },
+            ],
+          });
+        } catch (error) {
+          console.error("DataTable başlatma hatası:", error);
+        }
+      }
+    };
+
+    const timeoutId = setTimeout(initializeDataTable, 100);
+
+    return () => {
+      clearTimeout(timeoutId);
+      if (dataTableRef.current) {
+        try {
+          dataTableRef.current.destroy();
+          dataTableRef.current = null;
+        } catch (error) {
+          console.error("DataTable silme hatası:", error);
+        }
+      }
+    };
+  }, [productTrees]);
 
   const handleEdit = (
     firma_kodu,
@@ -66,6 +138,11 @@ const UrunAgaclariPage = () => {
       );
 
       if (response.data.status === "OK") {
+        if (dataTableRef.current) {
+          dataTableRef.current.destroy();
+          dataTableRef.current = null;
+        }
+
         setProductTrees((prevProductTrees) =>
           prevProductTrees.filter(
             (tree) =>
@@ -136,7 +213,7 @@ const UrunAgaclariPage = () => {
           </div>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full border-collapse">
+          <table ref={tableRef} className="w-full border-collapse">
             <thead>
               <tr className="bg-gray-200">
                 <th className="px-4 py-2 text-left">Firma Kodu</th>
@@ -149,12 +226,12 @@ const UrunAgaclariPage = () => {
                 <th className="px-4 py-2 text-left">Temel Miktar</th>
                 <th className="px-4 py-2 text-left">Silindi?</th>
                 <th className="px-4 py-2 text-left">Pasif mi?</th>
-                <th className="px-4 py-2 text-left">Çizim Numarası</th>
+                {/* <th className="px-4 py-2 text-left">Çizim Numarası</th>
                 <th className="px-4 py-2 text-left">İçerik Numarası</th>
                 <th className="px-4 py-2 text-left">Bileşen Kodu</th>
                 <th className="px-4 py-2 text-left">Kalem Ürün Ağacı Tipi</th>
                 <th className="px-4 py-2 text-left">Kalem Ürün Ağacı Kodu</th>
-                <th className="px-4 py-2 text-left">Bileşen Miktarı</th>
+                <th className="px-4 py-2 text-left">Bileşen Miktarı</th> */}
                 <th className="px-4 py-2 text-center">İşlemler</th>
               </tr>
             </thead>
@@ -171,12 +248,12 @@ const UrunAgaclariPage = () => {
                   <td className="px-4 py-2">{tree.QUANTITY}</td>
                   <td className="px-4 py-2">{tree.ISDELETED}</td>
                   <td className="px-4 py-2">{tree.ISPASSIVE}</td>
-                  <td className="px-4 py-2">{tree.DRAWNUM}</td>
+                  {/* <td className="px-4 py-2">{tree.DRAWNUM}</td>
                   <td className="px-4 py-2">{tree.CONTENTNUM}</td>
                   <td className="px-4 py-2">{tree.COMPONENT}</td>
                   <td className="px-4 py-2">{tree.COMPBOMDOCTYPE}</td>
                   <td className="px-4 py-2">{tree.COMPBOMDOCNUM}</td>
-                  <td className="px-4 py-2">{tree.QUANTITY}</td>
+                  <td className="px-4 py-2">{tree.QUANTITY}</td> */}
                   <td className="px-4 py-2 flex justify-center space-x-2">
                     <button
                       onClick={() =>

@@ -227,13 +227,13 @@ const RotalarPage = () => {
                 <th className="px-4 py-2 text-left">Operasyon Numarası</th>
                 <th className="px-4 py-2 text-left">İş Merkezi Tipi</th>
                 <th className="px-4 py-2 text-left">İş Merkezi Kodu</th>
-                <th className="px-4 py-2 text-left">Operasyon Kodu</th>
+                {/* <th className="px-4 py-2 text-left">Operasyon Kodu</th>
                 <th className="px-4 py-2 text-left">Hazırlık Süresi (Saat)</th>
                 <th className="px-4 py-2 text-left">Makine Süresi (Saat)</th>
                 <th className="px-4 py-2 text-left">İşçilik Süresi (Saat)</th>
                 <th className="px-4 py-2 text-left">İçerik Numarası</th>
                 <th className="px-4 py-2 text-left">Bileşen Kodu</th>
-                <th className="px-4 py-2 text-left">Bileşen Miktarı</th>
+                <th className="px-4 py-2 text-left">Bileşen Miktarı</th> */}
                 <th className="px-4 py-2 center">İşlemler</th>
               </tr>
             </thead>
@@ -250,13 +250,13 @@ const RotalarPage = () => {
                   <td className="px-4 py-2">{route.OPRNUM}</td>
                   <td className="px-4 py-2">{route.WCMDOCTYPE}</td>
                   <td className="px-4 py-2">{route.WCMDOCNUM}</td>
-                  <td className="px-4 py-2">{route.OPRDOCTYPE}</td>
+                  {/* <td className="px-4 py-2">{route.OPRDOCTYPE}</td>
                   <td className="px-4 py-2">{route.SETUPTIME}</td>
                   <td className="px-4 py-2">{route.MACHINETIME}</td>
                   <td className="px-4 py-2">{route.LABOURTIME}</td>
                   <td className="px-4 py-2">{route.CONTENTNUM}</td>
                   <td className="px-4 py-2">{route.COMPONENT}</td>
-                  <td className="px-4 py-2">{route.QUANTITY}</td>
+                  <td className="px-4 py-2">{route.QUANTITY}</td> */}
                   <td className="px-4 py-2 flex justify-center space-x-2">
                     <button
                       onClick={() =>
