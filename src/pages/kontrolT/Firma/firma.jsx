@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -13,7 +13,9 @@ import FirmaSilme from "./components/firmaSilme";
 const FirmaPage = () => {
   const [companies, setCompanies] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
-  const [selectedCompany, setSelectedCompany] = useState(null);
+  const [selectedCompany, setSelectedCompany] = useState({});
+  const tableRef = useRef(null);
+  const dataTableRef = useRef(null);
 
   const axios = useAxios();
   const navigate = useNavigate();
@@ -33,27 +35,100 @@ const FirmaPage = () => {
     getAllFirma();
   }, []);
 
+  useEffect(() => {
+    const initializeDataTable = () => {
+      if (tableRef.current && !dataTableRef.current && companies.length >= 0) {
+        try {
+          dataTableRef.current = window.$(tableRef.current).DataTable({
+            language: {
+              url: "//cdn.datatables.net/plug-ins/1.13.3/i18n/tr.json",
+            },
+            responsive: true,
+            pageLength: 10,
+            lengthMenu: [
+              [5, 10, 25, 50, -1],
+              [5, 10, 25, 50, "Tümü"],
+            ],
+            dom: "Blfrtip",
+            buttons: [
+              {
+                extend: "copy",
+                text: "Kopyala",
+                className:
+                  "bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mx-1",
+              },
+              {
+                extend: "excel",
+                text: "Excel",
+                title: "Firma Listesi",
+                className:
+                  "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-1",
+              },
+              {
+                extend: "pdf",
+                text: "PDF",
+                title: "Firma Listesi",
+                className:
+                  "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mx-1",
+              },
+              {
+                extend: "print",
+                text: "Yazdır",
+                title: "Firma Listesi",
+                className:
+                  "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-1",
+              },
+            ],
+          });
+        } catch (error) {
+          console.error("DataTable başlatma hatası:", error);
+        }
+      }
+    };
+
+    const timeoutId = setTimeout(initializeDataTable, 100);
+
+    return () => {
+      clearTimeout(timeoutId);
+      if (dataTableRef.current) {
+        try {
+          dataTableRef.current.destroy();
+          dataTableRef.current = null;
+        } catch (error) {
+          console.error("DataTable silme hatası:", error);
+        }
+      }
+    };
+  }, [companies]);
+
   const handleEdit = (firma_kodu) => {
     navigate(`/firma-guncelle/${firma_kodu}`);
   };
 
   const handleDelete = async () => {
     try {
-      const response = await axios.delete(`/firma/${selectedCompany}`);
+      const { firma_kodu } = selectedCompany;
+
+      const response = await axios.delete(`/firma/${firma_kodu}`);
       if (response.data.status === "OK") {
+        if (dataTableRef.current) {
+          dataTableRef.current.destroy();
+          dataTableRef.current = null;
+        }
+
         setCompanies((prevCompanies) =>
-          prevCompanies.filter((company) => company.COMCODE !== selectedCompany)
+          prevCompanies.filter((company) => company.COMCODE !== firma_kodu)
         );
       }
     } catch (error) {
-      console.error("Error Deleting company", error.message);
+      console.error("Firma Silme Hatası", error.message);
     } finally {
       setOpenDialog(false);
     }
   };
 
   const handleOpenDialog = (firma_kodu) => {
-    setSelectedCompany(firma_kodu);
+    setSelectedCompany({ firma_kodu });
     setOpenDialog(true);
   };
 
@@ -82,12 +157,13 @@ const FirmaPage = () => {
             </Link>
           </div>
         </div>
+
         <div className="overflow-x-auto">
-          <table className="w-full border-collapse">
+          <table ref={tableRef} className="w-full border-collapse">
             <thead>
               <tr className="bg-gray-200">
-                <th className="px-4 py-2 text-left">Kod</th>
-                <th className="px-4 py-2 text-left">Ad</th>
+                <th className="px-4 py-2 text-left">Firma Kodu</th>
+                <th className="px-4 py-2 text-left">Firma Adı</th>
                 <th className="px-4 py-2 text-left">Adres 1</th>
                 <th className="px-4 py-2 text-left">Adres 2</th>
                 <th className="px-4 py-2 text-left">Şehir</th>
@@ -96,10 +172,10 @@ const FirmaPage = () => {
               </tr>
             </thead>
             <tbody>
-              {companies.map((company, index) => (
-                <tr key={index} className="border-b">
+              {companies.map((company) => (
+                <tr key={company.COMCODE} className="border-b">
                   <td className="px-4 py-2">{company.COMCODE}</td>
-                  <td className="px-4 py-2">{company.COMTEXT}</td>
+                  <td className="px-4 py-2 font-medium">{company.COMTEXT}</td>
                   <td className="px-4 py-2">{company.ADDRESS1}</td>
                   <td className="px-4 py-2">{company.ADDRESS2}</td>
                   <td className="px-4 py-2">{company.CITYCODE}</td>
@@ -112,7 +188,6 @@ const FirmaPage = () => {
                       <FontAwesomeIcon icon={faEdit} className="mr-1" />
                       Düzenle
                     </button>
-
                     <button
                       onClick={() => handleOpenDialog(company.COMCODE)}
                       className="bg-red-500 hover:bg-red-700 text-white font-medium py-1 px-2 rounded-lg transition-colors duration-300 flex items-center"
