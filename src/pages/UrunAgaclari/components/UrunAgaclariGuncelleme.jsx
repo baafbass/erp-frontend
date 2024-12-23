@@ -53,16 +53,16 @@ const UrunAgacilariGuncelle = () => {
   const getAllUrunAgaclari = async () => {
     try {
       const response = await axios.get(
-        `/urun_agaci/${firma_kodu}/${urun_agaci_tipi}/${urun_agaci_kodu}/${gecerlilik_bas}/${gecerlilik_bit}/${malzeme_tipi}/${malzeme_kodu}/${icerik_numarasi}`
+        `/urun-agacilari/${firma_kodu}/${urun_agaci_tipi}/${urun_agaci_kodu}/${gecerlilik_bas}/${gecerlilik_bit}/${malzeme_tipi}/${malzeme_kodu}/${icerik_numarasi}`
       );
       if (response.data.status === "OK") {
-        const urunInfo = response.data.urunAgaclari;
+        const urunInfo = response.data.urunAgaci;
         setProductTrees({
           firma_kodu: urunInfo.COMCODE,
           urun_agaci_tipi: urunInfo.BOMDOCTYPE,
           urun_agaci_kodu: urunInfo.BOMDOCNUM,
-          gecerlilik_bas: urunInfo.MATDOCFROM,
-          gecerlilik_bit: urunInfo.MATDOCUNTIL,
+          gecerlilik_bas: urunInfo.BOMDOCFROM,
+          gecerlilik_bit: urunInfo.BOMDOCUNTIL,
           malzeme_tipi: urunInfo.MATDOCTYPE,
           malzeme_kodu: urunInfo.MATDOCNUM,
           temel_miktar: urunInfo.QUANTITY,
@@ -77,7 +77,7 @@ const UrunAgacilariGuncelle = () => {
         });
       }
     } catch (error) {
-      console.log("Error", error.message);
+      console.log("Error", error);
     }
   };
 
@@ -96,7 +96,7 @@ const UrunAgacilariGuncelle = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.put("/urun_agaci", productTreeData);
+      const response = await axios.put("/urun-agacilari", productTreeData);
       if (response.data.status === "OK") {
         navigate("/UrunAgaclari");
       }
@@ -148,7 +148,7 @@ const UrunAgacilariGuncelle = () => {
                 name="urun_agaci_tipi"
                 value={urun_agaci_tipi}
                 onChange={handleChange}
-                className="form-input"
+                className="form-input bg-gray-100"
                 maxLength={4}
                 placeholder="BOM Tipi girin"
               />
@@ -165,7 +165,7 @@ const UrunAgacilariGuncelle = () => {
                 name="urun_agaci_kodu"
                 value={urun_agaci_kodu}
                 onChange={handleChange}
-                className="form-input"
+                className="form-input bg-gray-100"
                 maxLength={25}
                 placeholder="BOM Kodu girin"
               />
@@ -269,7 +269,7 @@ const UrunAgacilariGuncelle = () => {
                     type="radio"
                     name="silindi_mi"
                     value="0"
-                    checked={silindi_mi === "0"}
+                    checked={`${silindi_mi}` === "0"}
                     onChange={handleChange}
                     className="form-radio"
                   />
@@ -280,7 +280,7 @@ const UrunAgacilariGuncelle = () => {
                     type="radio"
                     name="silindi_mi"
                     value="1"
-                    checked={silindi_mi === "1"}
+                    checked={`${silindi_mi}` === "1"}
                     onChange={handleChange}
                     className="form-radio"
                   />
@@ -298,7 +298,7 @@ const UrunAgacilariGuncelle = () => {
                     type="radio"
                     name="passif_mi"
                     value="0"
-                    checked={passif_mi === "0"}
+                    checked={`${passif_mi}` === "0"}
                     onChange={handleChange}
                     className="form-radio"
                   />
@@ -309,7 +309,7 @@ const UrunAgacilariGuncelle = () => {
                     type="radio"
                     name="passif_mi"
                     value="1"
-                    checked={passif_mi === "1"}
+                    checked={`${passif_mi}` === "1"}
                     onChange={handleChange}
                     className="form-radio"
                   />
@@ -346,7 +346,7 @@ const UrunAgacilariGuncelle = () => {
                 name="icerik_numarasi"
                 value={icerik_numarasi}
                 onChange={handleChange}
-                className="form-input"
+                className="form-input bg-gray-100"
                 maxLength={25}
                 placeholder="İçerik numarasını girin"
               />

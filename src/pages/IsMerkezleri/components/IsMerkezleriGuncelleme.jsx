@@ -34,15 +34,6 @@ const IsMerkezleriGuncelle = () => {
     opr_kodu,
   } = useParams();
 
-  console.log(    
-    firma_kodu,
-    is_merk_tipi,
-    is_merk_kodu,
-    gecerlilik_bas,
-    gecerlilik_bit,
-    dil_kodu,
-    opr_kodu,)
-
   const [isMerkezleriData, setIsMerkezleriData] = useState(IsMerkezleriFields);
 
   const {
@@ -62,13 +53,9 @@ const IsMerkezleriGuncelle = () => {
 
   const getIsMerkezleriBilgileri = async () => {
     try {
-<<<<<<< HEAD
+
       const response = await axios.get(`/is-merkezleri/${firma_kodu}/${is_merk_tipi}/${is_merk_kodu}/${gecerlilik_bas}/${gecerlilik_bit}/${dil_kodu}/${opr_kodu}`);
-=======
-      const response = await axios.get(
-        `/IsMerkezleri/${firma_kodu}/${is_merk_tipi}/${is_merk_kodu}/${gecerlilik_bas}/${gecerlilik_bit}/${dil_kodu}/${opr_kodu}`
-      );
->>>>>>> 8c4bc9cf1b954a873c787ea7ee85ccfeebd1f291
+
       if (response.data.status === "OK") {
         const data = response.data.isMerkezi;
 
