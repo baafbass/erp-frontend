@@ -61,6 +61,7 @@ const RotaOlustur = () => {
   const [firmalar, setFirmalar] = useState([]);
   const [urunAgaciTipleri, setUrunAgaciTipleri] = useState([]);
   const [malzemeTipleri, setMalzemeTipleri] = useState([]);
+  const [isMerkTipleri, setIsMerkTipiler] = useState([]);
   const [rotaTipleri, setRotaTipleri] = useState([]);
   const [operaTipleri, setOperaTipleri] = useState([]);
 
@@ -74,12 +75,14 @@ const RotaOlustur = () => {
           firmalarResponse,
           urunAgaciTipleriResponse,
           malzemeTipleriResponse,
+          isMerkTiplerResponse,
           rotaTipleriResponse,
           operaTiplerResponse,
         ] = await Promise.all([
           await axios.get("/firma"),
           await axios.get("/urun-agaci"),
           await axios.get("/malzeme"),
+          await axios.get("/is-merkezi"),
           await axios.get("/rota"),
           await axios.get("/operasyon"),
         ]);
@@ -88,6 +91,7 @@ const RotaOlustur = () => {
         setUrunAgaciTipleri(urunAgaciTipleriResponse.data.urunAgacilari);
         setMalzemeTipleri(malzemeTipleriResponse.data.malzemeler);
         setRotaTipleri(rotaTipleriResponse.data.rotalar);
+        setIsMerkTipiler(isMerkTiplerResponse.data.isMerkezleri);
         setOperaTipleri(operaTiplerResponse.data.operasyonlar);
       } catch (error) {
         console.log("error", error.message);
@@ -182,7 +186,7 @@ const RotaOlustur = () => {
                 type="text"
                 id="urun_agaci_kodu"
                 name="urun_agaci_kodu"
-                value={rotaData.urun_agaci_kodu}
+                value={urun_agaci_kodu}
                 onChange={handleChange}
                 className="form-input"
                 required
@@ -200,7 +204,7 @@ const RotaOlustur = () => {
                 type="date"
                 id="gecerlilik_bas"
                 name="gecerlilik_bas"
-                value={rotaData.gecerlilik_bas}
+                value={gecerlilik_bas}
                 onChange={handleChange}
                 className="form-input"
                 required
@@ -216,7 +220,7 @@ const RotaOlustur = () => {
                 type="date"
                 id="gecerlilik_bit"
                 name="gecerlilik_bit"
-                value={rotaData.gecerlilik_bit}
+                value={gecerlilik_bit}
                 onChange={handleChange}
                 className="form-input"
                 required
@@ -389,7 +393,7 @@ const RotaOlustur = () => {
                 type="text"
                 id="rota_numarasi"
                 name="rota_numarasi"
-                value={rotaData.rota_numarasi}
+                value={rota_numarasi}
                 onChange={handleChange}
                 className="form-input"
                 required
@@ -407,7 +411,7 @@ const RotaOlustur = () => {
                 type="text"
                 id="operasyon_num"
                 name="operasyon_num"
-                value={rotaData.operasyon_num}
+                value={operasyon_num}
                 onChange={handleChange}
                 className="form-input"
                 required
@@ -420,16 +424,21 @@ const RotaOlustur = () => {
               <label htmlFor="is_merk_tipi" className="form-label">
                 İş Merkezi Tipi
               </label>
-              <input
-                type="text"
+              <select
                 id="is_merk_tipi"
                 name="is_merk_tipi"
-                value={rotaData.is_merk_tipi}
+                value={is_merk_tipi}
                 onChange={handleChange}
                 className="form-input"
                 required
-                placeholder="İş merkezi tipi girin"
-              />
+              >
+                <option value="">Seçiniz</option>
+                {isMerkTipleri.map((is_merkezi) => (
+                  <option key={is_merkezi.DOCTYPE} value={is_merkezi.DOCTYPE}>
+                    {is_merkezi.COMCODE} {is_merkezi.DOCTYPE}
+                  </option>
+                ))}
+              </select>
             </div>
 
             {/* İş Merkezi Kodu */}
@@ -441,7 +450,7 @@ const RotaOlustur = () => {
                 type="text"
                 id="is_merk_kodu"
                 name="is_merk_kodu"
-                value={rotaData.is_merk_kodu}
+                value={is_merk_kodu}
                 onChange={handleChange}
                 className="form-input"
                 required
@@ -479,7 +488,7 @@ const RotaOlustur = () => {
                 type="number"
                 id="opr_hazirlik_suresi"
                 name="opr_hazirlik_suresi"
-                value={rotaData.opr_hazirlik_suresi}
+                value={opr_hazirlik_suresi}
                 onChange={handleChange}
                 className="form-input"
                 required
@@ -497,7 +506,7 @@ const RotaOlustur = () => {
                 type="number"
                 id="opr_makine_suresi"
                 name="opr_makine_suresi"
-                value={rotaData.opr_makine_suresi}
+                value={opr_makine_suresi}
                 onChange={handleChange}
                 className="form-input"
                 required
@@ -515,7 +524,7 @@ const RotaOlustur = () => {
                 type="number"
                 id="opr_iscilik_suresi"
                 name="opr_iscilik_suresi"
-                value={rotaData.opr_iscilik_suresi}
+                value={opr_iscilik_suresi}
                 onChange={handleChange}
                 className="form-input"
                 required
@@ -533,7 +542,7 @@ const RotaOlustur = () => {
                 type="text"
                 id="icerik_numarasi"
                 name="icerik_numarasi"
-                value={rotaData.icerik_numarasi}
+                value={icerik_numarasi}
                 onChange={handleChange}
                 className="form-input"
                 placeholder="İçerik numarası girin"
@@ -549,7 +558,7 @@ const RotaOlustur = () => {
                 type="text"
                 id="bilesen_kodu"
                 name="bilesen_kodu"
-                value={rotaData.bilesen_kodu}
+                value={bilesen_kodu}
                 onChange={handleChange}
                 className="form-input"
                 placeholder="Bileşen kodu girin"
@@ -565,7 +574,7 @@ const RotaOlustur = () => {
                 type="number"
                 id="bilesen_miktari"
                 name="bilesen_miktari"
-                value={rotaData.bilesen_miktari}
+                value={bilesen_miktari}
                 onChange={handleChange}
                 className="form-input"
                 placeholder="Miktar"
