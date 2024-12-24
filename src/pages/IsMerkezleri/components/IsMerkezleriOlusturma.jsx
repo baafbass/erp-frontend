@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAxios } from "../../../shared/hooks/axios-hook";
 import { Card, CardHeader, CardContent } from "@mui/material";
@@ -44,8 +44,42 @@ const IsMerkezleriOlustur = () => {
     opr_kodu,
   } = isMerkezleriData;
 
+  const [firmalar, setFirmalar] = useState([]);
+  const [isMerkTipleri, setIsMerkTipiler] = useState([]);
+  const [maliyetMerkTipleri, setMaliyetMerkTipiler] = useState([]);
+  const [operaTipleri, setOperaTipleri] = useState([]);
+  const [diller, setDiller] = useState([]);
+
   const axios = useAxios();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchSupportInfos = async () => {
+      try {
+        const [
+          firmalarResponse,
+          isMerkTiplerResponse,
+          maliyetMerkResponse,
+          operaTiplerResponse,
+          dillerResponse,
+        ] = await Promise.all([
+          await axios.get("/firma"),
+          await axios.get("/is-merkezi"),
+          await axios.get("/maliyet-merkezi"),
+          await axios.get("/operasyon"),
+          await axios.get("/dil"),
+        ]);
+        setFirmalar(firmalarResponse.data.firmalar);
+        setIsMerkTipiler(isMerkTiplerResponse.data.isMerkezleri);
+        setMaliyetMerkTipiler(maliyetMerkResponse.data.maliyetMerkezleri);
+        setOperaTipleri(operaTiplerResponse.data.operasyonlar);
+        setDiller(dillerResponse.data.diller);
+      } catch (error) {
+        console.log("error", error.message);
+      }
+    };
+    fetchSupportInfos();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -58,7 +92,7 @@ const IsMerkezleriOlustur = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/IsMerkezleri", isMerkezleriData);
+      const response = await axios.post("/is-merkezleri", isMerkezleriData);
       if (response.data.status === "OK") {
         navigate("/IsMerkezleri");
       }
@@ -85,17 +119,21 @@ const IsMerkezleriOlustur = () => {
               <label htmlFor="firma_kodu" className="form-label">
                 Firma Kodu
               </label>
-              <input
-                type="text"
+              <select
                 id="firma_kodu"
                 name="firma_kodu"
                 value={firma_kodu}
                 onChange={handleChange}
                 className="form-input"
                 required
-                maxLength={4}
-                placeholder="Firma kodunu girin"
-              />
+              >
+                <option value="">Seçiniz</option>
+                {firmalar.map((firma) => (
+                  <option key={firma.COMCODE} value={firma.COMCODE}>
+                    {firma.COMCODE}
+                  </option>
+                ))}
+              </select>
             </div>
 
             {/* İş Merkezi Tipi */}
@@ -103,17 +141,21 @@ const IsMerkezleriOlustur = () => {
               <label htmlFor="is_merk_tipi" className="form-label">
                 İş Merkezi Tipi
               </label>
-              <input
-                type="text"
+              <select
                 id="is_merk_tipi"
                 name="is_merk_tipi"
                 value={is_merk_tipi}
                 onChange={handleChange}
                 className="form-input"
                 required
-                maxLength={4}
-                placeholder="İş Merkezi tipini girin"
-              />
+              >
+                <option value="">Seçiniz</option>
+                {isMerkTipleri.map((is_merkezi) => (
+                  <option key={is_merkezi.DOCTYPE} value={is_merkezi.DOCTYPE}>
+                    {is_merkezi.COMCODE} {is_merkezi.DOCTYPE}
+                  </option>
+                ))}
+              </select>
             </div>
 
             {/* İş Merkezi Kodu */}
@@ -207,16 +249,24 @@ const IsMerkezleriOlustur = () => {
                 <label htmlFor="maliyet_merk_tipi" className="form-label">
                   Maliyet Merkezi Tipi
                 </label>
-                <input
-                  type="number"
+                <select
                   id="maliyet_merk_tipi"
                   name="maliyet_merk_tipi"
                   value={maliyet_merk_tipi}
                   onChange={handleChange}
                   className="form-input"
-                  maxLength={4}
-                  placeholder="Maliyet Merkezi Tipi"
-                />
+                  required
+                >
+                  <option value="">Seçiniz</option>
+                  {maliyetMerkTipleri.map((maliyet_merkezi) => (
+                    <option
+                      key={maliyet_merkezi.DOCTYPE}
+                      value={maliyet_merkezi.DOCTYPE}
+                    >
+                      {maliyet_merkezi.COMCODE} {maliyet_merkezi.DOCTYPE}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
 
@@ -326,16 +376,20 @@ const IsMerkezleriOlustur = () => {
               <label htmlFor="dil_kodu" className="form-label">
                 Dil Kodu
               </label>
-              <input
-                type="text"
+              <select
                 id="dil_kodu"
                 name="dil_kodu"
                 value={dil_kodu}
                 onChange={handleChange}
                 className="form-input"
-                maxLength={2}
-                placeholder="TR"
-              />
+              >
+                <option value="">Seçiniz</option>
+                {diller.map((dil) => (
+                  <option key={dil.DOCTYPE} value={dil.LANCODE}>
+                    {dil.COMCODE} {dil.LANCODE}
+                  </option>
+                ))}
+              </select>
             </div>
 
             {/* İş Merkezi Kısa Açıklaması */}
@@ -360,16 +414,20 @@ const IsMerkezleriOlustur = () => {
               <label htmlFor="opr_kodu" className="form-label">
                 Operasyon Kodu
               </label>
-              <input
-                type="text"
+              <select
                 id="opr_kodu"
                 name="opr_kodu"
                 value={opr_kodu}
                 onChange={handleChange}
                 className="form-input"
-                maxLength={4}
-                placeholder="Operasyon Kodu"
-              />
+              >
+                <option value="">Seçiniz</option>
+                {operaTipleri.map((operasyon) => (
+                  <option key={operasyon.DOCTYPE} value={operasyon.DOCTYPE}>
+                    {operasyon.COMCODE} {operasyon.DOCTYPE}
+                  </option>
+                ))}
+              </select>
             </div>
 
             {/* İş Merkezi Uzun Açıklaması */}

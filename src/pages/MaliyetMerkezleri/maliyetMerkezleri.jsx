@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -8,16 +8,17 @@ import {
   faHome,
 } from "@fortawesome/free-solid-svg-icons";
 import { useAxios } from "../../shared/hooks/axios-hook";
-import MaliyetMerkezleriSilme from './components/maliyetMerkezleriSilme'
+import MaliyetMerkezleriSilme from "./components/maliyetMerkezleriSilme";
 
 const MaliyetMerkezleri = () => {
+  const [costCenters, setCostCenters] = useState([]);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [selectedCostCenter, setSelectedCostCenter] = useState();
+  const tableRef = useRef(null);
+  const dataTableRef = useRef(null);
 
-   const [costCenters,setCostCenters] = useState([]);
-   const [openDialog, setOpenDialog] = useState(false);
-   const [selectedCostCenter, setSelectedCostCenter] = useState();
-
-   const axios = useAxios();
-   const navigate = useNavigate();
+  const axios = useAxios();
+  const navigate = useNavigate();
 
   const getAllMaliyetMerkezleri = async () => {
     try {
@@ -29,13 +30,82 @@ const MaliyetMerkezleri = () => {
       console.log("Error", error.message);
     }
   };
-   
-   useEffect(() => {
+
+  useEffect(() => {
     getAllMaliyetMerkezleri();
   }, []);
 
+  useEffect(() => {
+    const initializeDataTable = () => {
+      if (
+        tableRef.current &&
+        !dataTableRef.current &&
+        costCenters.length >= 0
+      ) {
+        try {
+          dataTableRef.current = window.$(tableRef.current).DataTable({
+            language: {
+              url: "//cdn.datatables.net/plug-ins/1.13.3/i18n/tr.json",
+            },
+            responsive: true,
+            pageLength: 10,
+            lengthMenu: [
+              [5, 10, 25, 50, -1],
+              [5, 10, 25, 50, "Tümü"],
+            ],
+            dom: "Blfrtip",
+            buttons: [
+              {
+                extend: "copy",
+                text: "Kopyala",
+                className:
+                  "bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mx-1",
+              },
+              {
+                extend: "excel",
+                text: "Excel",
+                title: "Rota Listesi",
+                className:
+                  "bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mx-1",
+              },
+              {
+                extend: "pdf",
+                text: "PDF",
+                title: "Rota Listesi",
+                className:
+                  "bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mx-1",
+              },
+              {
+                extend: "print",
+                text: "Yazdır",
+                title: "Rota Listesi",
+                className:
+                  "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mx-1",
+              },
+            ],
+          });
+        } catch (error) {
+          console.error("DataTable başlatma hatası:", error);
+        }
+      }
+    };
 
-   const handleEdit = (
+    const timeoutId = setTimeout(initializeDataTable, 100);
+
+    return () => {
+      clearTimeout(timeoutId);
+      if (dataTableRef.current) {
+        try {
+          dataTableRef.current.destroy();
+          dataTableRef.current = null;
+        } catch (error) {
+          console.error("DataTable silme hatası:", error);
+        }
+      }
+    };
+  }, [costCenters]);
+
+  const handleEdit = (
     firma_kodu,
     maliyet_merk_tipi,
     maliyet_merk_kodu,
@@ -64,6 +134,11 @@ const MaliyetMerkezleri = () => {
       );
 
       if (response.data.status === "OK") {
+        if (dataTableRef.current) {
+          dataTableRef.current.destroy();
+          dataTableRef.current = null;
+        }
+
         setCostCenters((prevcostcenters) =>
           prevcostcenters.filter(
             (costCenter) =>
@@ -107,9 +182,8 @@ const MaliyetMerkezleri = () => {
     setSelectedCostCenter(null);
   };
 
-
   return (
-       <div className="min-h-screen bg-gray-100 flex justify-center items-start pt-8">
+    <div className="min-h-screen bg-gray-100 flex justify-center items-start pt-8">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-6xl">
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-gray-800">
@@ -131,7 +205,7 @@ const MaliyetMerkezleri = () => {
           </div>
         </div>
         <div className="overflow-x-auto">
-          <table className="w-full border-collapse">
+          <table ref={tableRef} className="w-full border-collapse">
             <thead>
               <tr className="bg-gray-200">
                 <th className="px-4 py-2 text-left">Firma Kodu</th>
@@ -201,9 +275,7 @@ const MaliyetMerkezleri = () => {
         handleDelete={handleDelete}
       />
     </div>
-
-    )
-}
-
+  );
+};
 
 export default MaliyetMerkezleri;

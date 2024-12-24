@@ -47,9 +47,7 @@ const MaliyetMerkezleriGuncelleme = () => {
   const getMaliyetMerkezleri = async () => {
       try{
           const response = await axios.get(`/maliyet-merkezleri/${firma_kodu}/${maliyet_merk_tipi}/${maliyet_merk_kodu}/${gecerlilik_bas}/${gecerlilik_bit}/${dil_kodu}`);
-          console.log(response.data.maliyetMerkezi)
           if(response.data.status === "OK"){
-          	console.log(response.data.maliyetMerkezleri);
           	const maliyetMerkInfo = response.data.maliyetMerkezi;
             setMaliyetMerkData({
             	firma_kodu:maliyetMerkInfo.COMCODE,

@@ -85,7 +85,7 @@ const UrunAgacilariOlustur = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/UrunAgaclari", productTreeData);
+      const response = await axios.post("/urun-agacilari", productTreeData);
       if (response.data.status === "OK") {
         navigate("/UrunAgaclari");
       }
@@ -142,9 +142,12 @@ const UrunAgacilariOlustur = () => {
                 className="form-input"
               >
                 <option value="">Seçiniz</option>
-                {urunAgaciTipleri.map((urunAgaci) => (
-                  <option key={urunAgaci.DOCTYPE} value={urunAgaci.DOCTYPE}>
-                    {urunAgaci.COMCODE} {urunAgaci.DOCTYPE}
+                {urunAgaciTipleri.map((urunAgacilari) => (
+                  <option
+                    key={urunAgacilari.DOCTYPE}
+                    value={urunAgacilari.DOCTYPE}
+                  >
+                    {urunAgacilari.COMCODE} {urunAgacilari.DOCTYPE}
                   </option>
                 ))}
               </select>
@@ -372,16 +375,23 @@ const UrunAgacilariOlustur = () => {
               <label htmlFor="kalem_urun_agaci_tipi" className="form-label">
                 Kalem Ürün Ağacı Tipi
               </label>
-              <input
-                type="text"
+              <select
                 id="kalem_urun_agaci_tipi"
                 name="kalem_urun_agaci_tipi"
                 value={kalem_urun_agaci_tipi}
                 onChange={handleChange}
                 className="form-input"
-                maxLength={4}
-                placeholder="Kalem ürün ağacı tipini girin"
-              />
+              >
+                <option value="">Seçiniz</option>
+                {urunAgaciTipleri.map((urunAgacilari) => (
+                  <option
+                    key={urunAgacilari.DOCTYPE}
+                    value={urunAgacilari.DOCTYPE}
+                  >
+                    {urunAgacilari.COMCODE} {urunAgacilari.DOCTYPE}
+                  </option>
+                ))}
+              </select>
             </div>
 
             {/* Kalem Ürün Ağacı Kodu */}
