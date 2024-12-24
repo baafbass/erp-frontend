@@ -85,7 +85,7 @@ const UrunAgacilariOlustur = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/UrunAgaclari", productTreeData);
+      const response = await axios.post("/urun-agacilari", productTreeData);
       if (response.data.status === "OK") {
         navigate("/UrunAgaclari");
       }
