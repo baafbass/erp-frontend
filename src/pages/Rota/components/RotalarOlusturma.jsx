@@ -61,6 +61,7 @@ const RotaOlustur = () => {
   const [firmalar, setFirmalar] = useState([]);
   const [urunAgaciTipleri, setUrunAgaciTipleri] = useState([]);
   const [malzemeTipleri, setMalzemeTipleri] = useState([]);
+  const [isMerkTipleri, setIsMerkTipiler] = useState([]);
   const [rotaTipleri, setRotaTipleri] = useState([]);
   const [operaTipleri, setOperaTipleri] = useState([]);
 
@@ -74,18 +75,21 @@ const RotaOlustur = () => {
           firmalarResponse,
           urunAgaciTipleriResponse,
           malzemeTipleriResponse,
+          isMerkTiplerResponse,
           rotaTipleriResponse,
           operaTiplerResponse,
         ] = await Promise.all([
           await axios.get("/firma"),
           await axios.get("/urun-agaci-tipi"),
           await axios.get("/malzeme-tipi"),
+          await axios.get("/is-merkezi"),
           await axios.get("/rota-tipi"),
           await axios.get("/operasyon"),
         ]);
         setFirmalar(firmalarResponse.data.firmalar);
         setUrunAgaciTipleri(urunAgaciTipleriResponse.data.tipler);
         setMalzemeTipleri(malzemeTipleriResponse.data.tipler);
+        setIsMerkTipiler(isMerkTiplerResponse.data.isMerkezleri);
         setRotaTipleri(rotaTipleriResponse.data.tipler);
         setOperaTipleri(operaTiplerResponse.data.operasyonlar);
       } catch (error) {
@@ -419,16 +423,21 @@ const RotaOlustur = () => {
               <label htmlFor="is_merk_tipi" className="form-label">
                 İş Merkezi Tipi
               </label>
-              <input
-                type="text"
+              <select
                 id="is_merk_tipi"
                 name="is_merk_tipi"
-                value={rotaData.is_merk_tipi}
+                value={is_merk_tipi}
                 onChange={handleChange}
                 className="form-input"
                 required
-                placeholder="İş merkezi tipi girin"
-              />
+              >
+                <option value="">Seçiniz</option>
+                {isMerkTipleri.map((is_merkezi) => (
+                  <option key={is_merkezi.DOCTYPE} value={is_merkezi.DOCTYPE}>
+                    {is_merkezi.COMCODE} {is_merkezi.DOCTYPE}
+                  </option>
+                ))}
+              </select>
             </div>
 
             {/* İş Merkezi Kodu */}
