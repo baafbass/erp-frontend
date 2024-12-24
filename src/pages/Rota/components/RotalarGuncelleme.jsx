@@ -73,33 +73,33 @@ const RotaGuncelle = () => {
 
   const getRotaBilgileri = async () => {
     try {
-      const response = await axios.get(
-        `/Rotalar/${firma_kodu}/${urun_agaci_tipi}/${urun_agaci_kodu}/${rota_numarasi}/${gecerlilik_bas}/${gecerlilik_bit}/${malzeme_tipi}/${malzeme_kodu}/${rota_tipi}/${opr_numarasi}/${icerik_numarasi}`
-      );
+      const response = await axios.get(`/rotalar/${firma_kodu}/${urun_agaci_tipi}/${urun_agaci_kodu}/${gecerlilik_bas}/${gecerlilik_bit}/${malzeme_tipi}/${malzeme_kodu}/${rota_tipi}/${rota_numarasi}/${opr_numarasi}/${icerik_numarasi}`);
       if (response.data.status === "OK") {
-        const rotaInfo = response.data.rotaBilgileri;
+        const rotaInfo = response.data.rota;
         setRotaData({
           firma_kodu: rotaInfo.COMCODE,
-          urun_agaci_tipi: rotaInfo.ROTDOCTYPE,
-          urun_agaci_kodu: rotaInfo.ROTDOCNUM,
+          urun_agaci_tipi: rotaInfo.BOMDOCTYPE,
+          urun_agaci_kodu: rotaInfo.BOMDOCNUM,
           gecerlilik_bas: rotaInfo.ROTDOCFROM,
           gecerlilik_bit: rotaInfo.ROTDOCUNTIL,
           malzeme_tipi: rotaInfo.MATDOCTYPE,
           malzeme_kodu: rotaInfo.MATDOCNUM,
+          rota_tipi:rotaInfo.ROTDOCTYPE,
+          rota_numarasi:rotaInfo.ROTDOCNUM,
           temel_miktar: rotaInfo.QUANTITY,
           silindi_mi: rotaInfo.ISDELETED,
           passif_mi: rotaInfo.ISPASSIVE,
           cizim_numarasi: rotaInfo.DRAWNUM,
-          operasyon_numarasi: rotaInfo.OPRNUM,
-          maliyet_merkezi_tipi: rotaInfo.WCMDOCTYPE,
-          maliyet_merkezi_kodu: rotaInfo.WCMDOCNUM,
+          operasyon_num: rotaInfo.OPRNUM,
+          is_merk_tipi: rotaInfo.WCMDOCTYPE,
+          is_merk_kodu: rotaInfo.WCMDOCNUM,
           operasyon_kodu: rotaInfo.OPRDOCTYPE,
-          hazirlik_suresi: rotaInfo.SETUPTIME,
-          makine_suresi: rotaInfo.MACHINETIME,
-          iscilik_suresi: rotaInfo.LABOURTIME,
+          opr_hazirlik_suresi: rotaInfo.SETUPTIME,
+          opr_makine_suresi: rotaInfo.MACHINETIME,
+          opr_iscilik_suresi: rotaInfo.LABOURTIME,
           icerik_numarasi: rotaInfo.CONTENTNUM,
-          bileşen_kodu: rotaInfo.COMPONENT,
-          bileşen_miktari: rotaInfo.QUANTITY,
+          bilesen_kodu: rotaInfo.COMPONENT,
+          bilesen_miktari: rotaInfo.QUANTITY,
         });
       }
     } catch (error) {
@@ -153,7 +153,7 @@ const RotaGuncelle = () => {
                 type="text"
                 id="firma_kodu"
                 name="firma_kodu"
-                value={rotaData.firma_kodu}
+                value={firma_kodu}
                 onChange={handleChange}
                 className="form-input bg-gray-100"
                 readOnly
@@ -172,7 +172,7 @@ const RotaGuncelle = () => {
                 type="text"
                 id="urun_agaci_tipi"
                 name="urun_agaci_tipi"
-                value={rotaData.urun_agaci_tipi}
+                value={urun_agaci_tipi}
                 onChange={handleChange}
                 className="form-input bg-gray-100"
                 readOnly
@@ -191,7 +191,7 @@ const RotaGuncelle = () => {
                 type="text"
                 id="urun_agaci_kodu"
                 name="urun_agaci_kodu"
-                value={rotaData.urun_agaci_kodu}
+                value={urun_agaci_kodu}
                 onChange={handleChange}
                 className="form-input bg-gray-100"
                 readOnly
@@ -210,7 +210,7 @@ const RotaGuncelle = () => {
                 type="date"
                 id="gecerlilik_bas"
                 name="gecerlilik_bas"
-                value={rotaData.gecerlilik_bas}
+                value={gecerlilik_bas}
                 onChange={handleChange}
                 className="form-input bg-gray-100"
                 readOnly
@@ -227,7 +227,7 @@ const RotaGuncelle = () => {
                 type="date"
                 id="gecerlilik_bit"
                 name="gecerlilik_bit"
-                value={rotaData.gecerlilik_bit}
+                value={gecerlilik_bit}
                 onChange={handleChange}
                 className="form-input bg-gray-100"
                 readOnly
@@ -244,9 +244,9 @@ const RotaGuncelle = () => {
                 type="text"
                 id="malzeme_tipi"
                 name="malzeme_tipi"
-                value={rotaData.malzeme_tipi}
+                value={malzeme_tipi}
                 onChange={handleChange}
-                className="form-input"
+                className="form-input bg-gray-100"
                 required
                 placeholder="Malzeme tipi girin"
               />
@@ -261,9 +261,9 @@ const RotaGuncelle = () => {
                 type="text"
                 id="malzeme_kodu"
                 name="malzeme_kodu"
-                value={rotaData.malzeme_kodu}
+                value={malzeme_kodu}
                 onChange={handleChange}
-                className="form-input"
+                className="form-input bg-gray-100"
                 required
                 maxLength={25}
                 placeholder="Malzeme kodu girin"
@@ -279,7 +279,7 @@ const RotaGuncelle = () => {
                 type="number"
                 id="temel_miktar"
                 name="temel_miktar"
-                value={rotaData.temel_miktar}
+                value={temel_miktar}
                 onChange={handleChange}
                 className="form-input"
                 required
@@ -298,7 +298,7 @@ const RotaGuncelle = () => {
                     type="radio"
                     name="silindi_mi"
                     value="0"
-                    checked={rotaData.silindi_mi === "0"}
+                    checked={`${silindi_mi}` === "0"}
                     onChange={handleChange}
                     className="mr-2"
                   />
@@ -309,7 +309,7 @@ const RotaGuncelle = () => {
                     type="radio"
                     name="silindi_mi"
                     value="1"
-                    checked={rotaData.silindi_mi === "1"}
+                    checked={`${silindi_mi}` === "1"}
                     onChange={handleChange}
                     className="mr-2"
                   />
@@ -329,7 +329,7 @@ const RotaGuncelle = () => {
                     type="radio"
                     name="passif_mi"
                     value="0"
-                    checked={rotaData.passif_mi === "0"}
+                    checked={`${passif_mi}` === "0"}
                     onChange={handleChange}
                     className="mr-2"
                   />
@@ -340,7 +340,7 @@ const RotaGuncelle = () => {
                     type="radio"
                     name="passif_mi"
                     value="1"
-                    checked={rotaData.passif_mi === "1"}
+                    checked={`${passif_mi}` === "1"}
                     onChange={handleChange}
                     className="mr-2"
                   />
@@ -358,9 +358,9 @@ const RotaGuncelle = () => {
                 type="text"
                 id="rota_tipi"
                 name="rota_tipi"
-                value={rotaData.rota_tipi}
+                value={rota_tipi}
                 onChange={handleChange}
-                className="form-input"
+                className="form-input bg-gray-100"
                 required
                 placeholder="Rota tipi girin"
               />
@@ -375,9 +375,9 @@ const RotaGuncelle = () => {
                 type="text"
                 id="rota_numarasi"
                 name="rota_numarasi"
-                value={rotaData.rota_numarasi}
+                value={rota_numarasi}
                 onChange={handleChange}
-                className="form-input"
+                className="form-input bg-gray-100"
                 required
                 maxLength={25}
                 placeholder="Rota numarası girin"
@@ -393,9 +393,10 @@ const RotaGuncelle = () => {
                 type="text"
                 id="operasyon_num"
                 name="operasyon_num"
-                value={rotaData.operasyon_num}
+                value={operasyon_num}
                 onChange={handleChange}
-                className="form-input"
+                className="form-input bg-gray-100"
+                readOnly
                 required
                 placeholder="Operasyon numarası girin"
               />
@@ -410,7 +411,7 @@ const RotaGuncelle = () => {
                 type="text"
                 id="is_merk_tipi"
                 name="is_merk_tipi"
-                value={rotaData.is_merk_tipi}
+                value={is_merk_tipi}
                 onChange={handleChange}
                 className="form-input"
                 required
@@ -427,7 +428,7 @@ const RotaGuncelle = () => {
                 type="text"
                 id="is_merk_kodu"
                 name="is_merk_kodu"
-                value={rotaData.is_merk_kodu}
+                value={is_merk_kodu}
                 onChange={handleChange}
                 className="form-input"
                 required
@@ -444,7 +445,7 @@ const RotaGuncelle = () => {
                 type="text"
                 id="operasyon_kodu"
                 name="operasyon_kodu"
-                value={rotaData.operasyon_kodu}
+                value={operasyon_kodu}
                 onChange={handleChange}
                 className="form-input"
                 placeholder="Operasyon kodu girin"
@@ -460,7 +461,7 @@ const RotaGuncelle = () => {
                 type="number"
                 id="opr_hazirlik_suresi"
                 name="opr_hazirlik_suresi"
-                value={rotaData.opr_hazirlik_suresi}
+                value={opr_hazirlik_suresi}
                 onChange={handleChange}
                 className="form-input"
                 required
@@ -478,7 +479,7 @@ const RotaGuncelle = () => {
                 type="number"
                 id="opr_makine_suresi"
                 name="opr_makine_suresi"
-                value={rotaData.opr_makine_suresi}
+                value={opr_makine_suresi}
                 onChange={handleChange}
                 className="form-input"
                 required
@@ -496,7 +497,7 @@ const RotaGuncelle = () => {
                 type="number"
                 id="opr_iscilik_suresi"
                 name="opr_iscilik_suresi"
-                value={rotaData.opr_iscilik_suresi}
+                value={opr_iscilik_suresi}
                 onChange={handleChange}
                 className="form-input"
                 required
@@ -514,9 +515,10 @@ const RotaGuncelle = () => {
                 type="text"
                 id="icerik_numarasi"
                 name="icerik_numarasi"
-                value={rotaData.icerik_numarasi}
+                value={icerik_numarasi}
                 onChange={handleChange}
-                className="form-input"
+                className="form-input bg-gray-100"
+                readOnly
                 placeholder="İçerik numarası girin"
               />
             </div>
@@ -530,7 +532,7 @@ const RotaGuncelle = () => {
                 type="text"
                 id="bilesen_kodu"
                 name="bilesen_kodu"
-                value={rotaData.bilesen_kodu}
+                value={bilesen_kodu}
                 onChange={handleChange}
                 className="form-input"
                 placeholder="Bileşen kodu girin"
@@ -546,7 +548,7 @@ const RotaGuncelle = () => {
                 type="number"
                 id="bilesen_miktari"
                 name="bilesen_miktari"
-                value={rotaData.bilesen_miktari}
+                value={bilesen_miktari}
                 onChange={handleChange}
                 className="form-input"
                 placeholder="Miktar"

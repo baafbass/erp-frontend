@@ -78,22 +78,23 @@ const RotaOlustur = () => {
           operaTiplerResponse,
         ] = await Promise.all([
           await axios.get("/firma"),
-          await axios.get("/urun-agaci-tipi"),
-          await axios.get("/malzeme-tipi"),
-          await axios.get("/rota-tipi"),
+          await axios.get("/urun-agaci"),
+          await axios.get("/malzeme"),
+          await axios.get("/rota"),
           await axios.get("/operasyon"),
         ]);
+
         setFirmalar(firmalarResponse.data.firmalar);
-        setUrunAgaciTipleri(urunAgaciTipleriResponse.data.tipler);
-        setMalzemeTipleri(malzemeTipleriResponse.data.tipler);
-        setRotaTipleri(rotaTipleriResponse.data.tipler);
+        setUrunAgaciTipleri(urunAgaciTipleriResponse.data.urunAgacilari);
+        setMalzemeTipleri(malzemeTipleriResponse.data.malzemeler);
+        setRotaTipleri(rotaTipleriResponse.data.rotalar);
         setOperaTipleri(operaTiplerResponse.data.operasyonlar);
       } catch (error) {
         console.log("error", error.message);
       }
     };
     fetchSupportInfos();
-  }, [axios]);
+  }, []);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -106,7 +107,7 @@ const RotaOlustur = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("/Rotalar", rotaData);
+      const response = await axios.post("/rotalar", rotaData);
       if (response.data.status === "OK") {
         navigate("/Rotalar");
       }
