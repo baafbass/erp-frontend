@@ -1,6 +1,10 @@
 import { Routes, Route } from "react-router-dom";
 
+
 import HomePage from "./pages/HomePage";
+
+
+import Login from "./pages/Login";
 
 //KontrolIT
 import Birim from "./pages/kontrolT/Birim/birim";
@@ -75,133 +79,149 @@ import RotalarGuncelle from "./pages/Rota/components/RotalarGuncelleme";
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
+    <>
 
-      <Route path="/birim" element={<Birim />} />
-      <Route path="/dil" element={<Dil />} />
-      <Route path="/firma" element={<Firma />} />
-      <Route path="/is-merkezi" element={<IsMerkezi />} />
-      <Route path="/maliyet-merkezi" element={<MaliyetMerkezi />} />
-      <Route path="/malzeme" element={<Malzeme />} />
-      <Route path="/operasyon" element={<Operasyon />} />
-      <Route path="/rota" element={<Rota />} />
-      <Route path="/sehir" element={<Sehir />} />
-      <Route path="/ulke" element={<Ulke />} />
-      <Route path="/urun_agaci" element={<UrunAgaci />} />
 
-      <Route path="/firma-olustur" element={<FirmaOlustur />} />
-      <Route path="/firma-guncelle/:firma_kodu" element={<FirmaGuncelle />} />
 
-      <Route path="/dil-olustur" element={<DilOlustur />} />
-      <Route
-        path="/dil-guncelle/:dil_kodu/:firma_kodu"
-        element={<DilGuncelle />}
-      />
 
-      <Route path="/birim-olustur" element={<BirimOlustur />} />
-      <Route
-        path="/birim-guncelle/:birim_kodu/:firma_kodu"
-        element={<BirimGuncelle />}
-      />
 
-      <Route path="/ulke-olustur" element={<UlkeOlustur />} />
-      <Route
-        path="/ulke-guncelle/:ulke_kodu/:firma_kodu"
-        element={<UlkeGuncelle />}
-      />
 
-      <Route path="/sehir-olustur" element={<SehirOlustur />} />
-      <Route
-        path="/sehir-guncelle/:sehir_kodu/:firma_kodu"
-        element={<SehirGuncelle />}
-      />
 
-      <Route path="/isMerkezi-olustur" element={<IsMerkeziOlustur />} />
-      <Route
-        path="/isMerkezi-guncelle/:is_merkezi/:firma_kodu"
-        element={<IsMerkeziGuncelle />}
-      />
 
-      <Route path="/malzeme-olustur" element={<MalzemeOlustur />} />
-      <Route
-        path="/malzeme-guncelle/:malzeme/:firma_kodu"
-        element={<MalzemeGuncelle />}
-      />
 
-      <Route path="/rota-olustur" element={<RotaOlustur />} />
-      <Route
-        path="/rota-guncelle/:rota/:firma_kodu"
-        element={<RotaGuncelle />}
-      />
 
-      <Route path="/operasyon-olustur" element={<OperasyonOlustur />} />
-      <Route
-        path="/operasyon-guncelle/:operasyon/:firma_kodu"
-        element={<OperasyonGuncelle />}
-      />
 
-      <Route path="/urunagaci-olustur" element={<UrunAgaciOlustur />} />
-      <Route
-        path="/urunagaci-guncelle/:urun_agaci/:firma_kodu"
-        element={<UrunAgaciGuncelle />}
-      />
+      <Routes>
 
-      <Route
-        path="/maliyet-merkezi-olustur"
-        element={<MaliyetMerkeziOlustur />}
-      />
-      <Route
-        path="/maliyet-merkezi-guncelle/:maliyet_merkezi/:firma_kodu"
-        element={<MaliyetMerkeziGuncelle />}
-      />
+        <Route path="/" element={<Login />} />
+        <Route path="/HomePage" element={<HomePage />} />
 
-      <Route path="/MalzemeBilgileri" element={<MalzemeBilgileri />} />
-      <Route
-        path="/MalzemeBilgileri-olustur"
-        element={<MalzemeBilgileriOlustur />}
-      />
-      <Route
-        path="/MalzemeBilgileri-guncelle/:firma_kodu/:malzeme_tipi/:malzeme_kodu/:gecerlilik_bas/:gecerlilik_bit/:dil_kodu"
-        element={<MalzemeBilgileriGuncelle />}
-      />
-      
 
-      <Route path="/maliyet-merkezleri" element={<MaliyetMerkezleri/>}/>
-      <Route path="/maliyet-merkezleri-olusturma" element={<MaliyetMerkezleriOlusturma/>}/>
-      <Route path="/maliyet-merkezleri-guncelleme/:firma_kodu/:maliyet_merk_tipi/:maliyet_merk_kodu/:gecerlilik_bas/:gecerlilik_bit/:dil_kodu" element={<MaliyetMerkezleriGuncelleme/>}/>
+        <Route path="/birim" element={<Birim />} />
+        <Route path="/dil" element={<Dil />} />
+        <Route path="/firma" element={<Firma />} />
+        <Route path="/is-merkezi" element={<IsMerkezi />} />
+        <Route path="/maliyet-merkezi" element={<MaliyetMerkezi />} />
+        <Route path="/malzeme" element={<Malzeme />} />
+        <Route path="/operasyon" element={<Operasyon />} />
+        <Route path="/rota" element={<Rota />} />
+        <Route path="/sehir" element={<Sehir />} />
+        <Route path="/ulke" element={<Ulke />} />
+        <Route path="/urun_agaci" element={<UrunAgaci />} />
 
-      <Route path="/maliyet-merkezleri" element={<MaliyetMerkezleri />} />
-      <Route
-        path="/maliyet-merkezleri-olusturma"
-        element={<MaliyetMerkezleriOlusturma />}
-      />
-      <Route
-        path="/maliyet-merkezleri-guncelleme/:firma_kodu/:maliyet_merk_tipi/:maliyet_merk_kodu/:gecerlilik_bas/:gecerlilik_bit/:dil_kodu"
-        element={<MaliyetMerkezleriGuncelleme />}
-      />
+        <Route path="/firma-olustur" element={<FirmaOlustur />} />
+        <Route path="/firma-guncelle/:firma_kodu" element={<FirmaGuncelle />} />
 
-      <Route path="/IsMerkezleri" element={<IsMerkezleri />} />
-      <Route path="/IsMerkezleri-olustur" element={<IsMerkezleriOlustur />} />
-      <Route
-        path="/IsMerkezleri-guncelle/:is_merk_tipi/:firma_kodu/:is_merk_kodu/:gecerlilik_bas/:gecerlilik_bit/:dil_kodu/:opr_kodu"
-        element={<IsMerkezleriGuncelle />}
-      />
+        <Route path="/dil-olustur" element={<DilOlustur />} />
+        <Route
+          path="/dil-guncelle/:dil_kodu/:firma_kodu"
+          element={<DilGuncelle />}
+        />
 
-      <Route path="/UrunAgaclari" element={<UrunAgaclari />} />
-      <Route path="/UrunAgaclari-olustur" element={<UrunAgaclariOlustur />} />
-      <Route
-        path="/UrunAgaclari-guncelle/:firma_kodu/:urun_agaci_tipi/:urun_agaci_kodu/:gecerlilik_bas/:gecerlilik_bit/:malzeme_tipi/:malzeme_kodu/:icerik_numarasi"
-        element={<UrunAgaclariGuncelle />}
-      />
+        <Route path="/birim-olustur" element={<BirimOlustur />} />
+        <Route
+          path="/birim-guncelle/:birim_kodu/:firma_kodu"
+          element={<BirimGuncelle />}
+        />
 
-      <Route path="/Rotalar" element={<Rotalar />} />
-      <Route path="/Rotalar-olustur" element={<RotalarOlustur />} />
-      <Route
-        path="/Rotalar-guncelle/:firma_kodu/:urun_agaci_tipi/:urun_agaci_kodu/:gecerlilik_bas/:gecerlilik_bit/:malzeme_tipi/:malzeme_kodu/:rota_tipi/:rota_numarasi/:opr_numarasi/:icerik_numarasi"
-        element={<RotalarGuncelle />}
-      />
-    </Routes>
+        <Route path="/ulke-olustur" element={<UlkeOlustur />} />
+        <Route
+          path="/ulke-guncelle/:ulke_kodu/:firma_kodu"
+          element={<UlkeGuncelle />}
+        />
+
+        <Route path="/sehir-olustur" element={<SehirOlustur />} />
+        <Route
+          path="/sehir-guncelle/:sehir_kodu/:firma_kodu"
+          element={<SehirGuncelle />}
+        />
+
+        <Route path="/isMerkezi-olustur" element={<IsMerkeziOlustur />} />
+        <Route
+          path="/isMerkezi-guncelle/:is_merkezi/:firma_kodu"
+          element={<IsMerkeziGuncelle />}
+        />
+
+        <Route path="/malzeme-olustur" element={<MalzemeOlustur />} />
+        <Route
+          path="/malzeme-guncelle/:malzeme/:firma_kodu"
+          element={<MalzemeGuncelle />}
+        />
+
+        <Route path="/rota-olustur" element={<RotaOlustur />} />
+        <Route
+          path="/rota-guncelle/:rota/:firma_kodu"
+          element={<RotaGuncelle />}
+        />
+
+        <Route path="/operasyon-olustur" element={<OperasyonOlustur />} />
+        <Route
+          path="/operasyon-guncelle/:operasyon/:firma_kodu"
+          element={<OperasyonGuncelle />}
+        />
+
+        <Route path="/urunagaci-olustur" element={<UrunAgaciOlustur />} />
+        <Route
+          path="/urunagaci-guncelle/:urun_agaci/:firma_kodu"
+          element={<UrunAgaciGuncelle />}
+        />
+
+        <Route
+          path="/maliyet-merkezi-olustur"
+          element={<MaliyetMerkeziOlustur />}
+        />
+        <Route
+          path="/maliyet-merkezi-guncelle/:maliyet_merkezi/:firma_kodu"
+          element={<MaliyetMerkeziGuncelle />}
+        />
+
+        <Route path="/MalzemeBilgileri" element={<MalzemeBilgileri />} />
+        <Route
+          path="/MalzemeBilgileri-olustur"
+          element={<MalzemeBilgileriOlustur />}
+        />
+        <Route
+          path="/MalzemeBilgileri-guncelle/:firma_kodu/:malzeme_tipi/:malzeme_kodu/:gecerlilik_bas/:gecerlilik_bit/:dil_kodu"
+          element={<MalzemeBilgileriGuncelle />}
+        />
+
+
+        <Route path="/maliyet-merkezleri" element={<MaliyetMerkezleri />} />
+        <Route path="/maliyet-merkezleri-olusturma" element={<MaliyetMerkezleriOlusturma />} />
+        <Route path="/maliyet-merkezleri-guncelleme/:firma_kodu/:maliyet_merk_tipi/:maliyet_merk_kodu/:gecerlilik_bas/:gecerlilik_bit/:dil_kodu" element={<MaliyetMerkezleriGuncelleme />} />
+
+        <Route path="/maliyet-merkezleri" element={<MaliyetMerkezleri />} />
+        <Route
+          path="/maliyet-merkezleri-olusturma"
+          element={<MaliyetMerkezleriOlusturma />}
+        />
+        <Route
+          path="/maliyet-merkezleri-guncelleme/:firma_kodu/:maliyet_merk_tipi/:maliyet_merk_kodu/:gecerlilik_bas/:gecerlilik_bit/:dil_kodu"
+          element={<MaliyetMerkezleriGuncelleme />}
+        />
+
+        <Route path="/IsMerkezleri" element={<IsMerkezleri />} />
+        <Route path="/IsMerkezleri-olustur" element={<IsMerkezleriOlustur />} />
+        <Route
+          path="/IsMerkezleri-guncelle/:is_merk_tipi/:firma_kodu/:is_merk_kodu/:gecerlilik_bas/:gecerlilik_bit/:dil_kodu/:opr_kodu"
+          element={<IsMerkezleriGuncelle />}
+        />
+
+        <Route path="/UrunAgaclari" element={<UrunAgaclari />} />
+        <Route path="/UrunAgaclari-olustur" element={<UrunAgaclariOlustur />} />
+        <Route
+          path="/UrunAgaclari-guncelle/:firma_kodu/:urun_agaci_tipi/:urun_agaci_kodu/:gecerlilik_bas/:gecerlilik_bit/:malzeme_tipi/:malzeme_kodu/:icerik_numarasi"
+          element={<UrunAgaclariGuncelle />}
+        />
+
+        <Route path="/Rotalar" element={<Rotalar />} />
+        <Route path="/Rotalar-olustur" element={<RotalarOlustur />} />
+        <Route
+          path="/Rotalar-guncelle/:firma_kodu/:urun_agaci_tipi/:urun_agaci_kodu/:gecerlilik_bas/:gecerlilik_bit/:malzeme_tipi/:malzeme_kodu/:rota_tipi/:rota_numarasi/:opr_numarasi/:icerik_numarasi"
+          element={<RotalarGuncelle />}
+        />
+      </Routes>
+    </>
   );
 }
 

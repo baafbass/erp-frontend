@@ -147,7 +147,7 @@ const UrunAgaciPage = () => {
             Ürün Ağacı Bilgileri
           </h1>
           <div className="flex space-x-4">
-            <Link to="/">
+            <Link to="/HomePage">
               <button className="bg-gray-600 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300 flex items-center">
                 <FontAwesomeIcon icon={faHome} className="mr-2" />
                 Ana Sayfa
