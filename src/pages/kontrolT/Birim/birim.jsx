@@ -146,7 +146,7 @@ const BirimPage = () => {
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-gray-800">Birim Bilgileri</h1>
           <div className="flex space-x-4">
-            <Link to="/">
+            <Link to="/HomePage">
               <button className="bg-gray-600 hover:bg-gray-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-300 flex items-center">
                 <FontAwesomeIcon icon={faHome} className="mr-2" />
                 Ana Sayfa
