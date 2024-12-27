@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Lock, User, AlertCircle, LogIn, RefreshCcw } from "lucide-react";
 
 const defaultUser = {
+  //KUllanıcı Bilgileri
   username: "ERP",
   password: "erp123",
 };
