@@ -48,12 +48,13 @@ const FirmaOlustur = () => {
         navigate("/firma");
       }
     } catch (error) {
-      let errorMessage = "Error";
+      let errorMessage = 'Hata oluştu !!';
 
-      if (error.response?.status === 409) {
-        errorMessage = "Bir firma zaten mevcuttur";
-      } else if (error.response?.data?.message) {
-        errorMessage = error.response.data.message;
+      if(error.response.status === 400){
+        errorMessage = 'Gerekli alan doldurmamışsınız !!'
+      }
+      else{
+        errorMessage = 'Böyle bir firma bulunmaktadır !!'
       }
 
       setAlert({
