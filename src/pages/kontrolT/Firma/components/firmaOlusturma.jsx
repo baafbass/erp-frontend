@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAxios } from "../../../../shared/hooks/axios-hook";
+import Alert from "../../../../component/alert";
 
 const firmaFields = {
   firma_kodu: "",
@@ -13,6 +14,12 @@ const firmaFields = {
 
 const FirmaOlustur = () => {
   const [firmaData, setFirmaData] = useState(firmaFields);
+  const [alert, setAlert] = useState({
+    isVisible: false,
+    message: "",
+    type: "error",
+  });
+
   const {
     firma_kodu,
     firma_adi,
@@ -41,13 +48,32 @@ const FirmaOlustur = () => {
         navigate("/firma");
       }
     } catch (error) {
-      console.log("message:", error.message);
+      let errorMessage = "Error";
+
+      if (error.response?.status === 409) {
+        errorMessage = "Bir firma zaten mevcuttur";
+      } else if (error.response?.data?.message) {
+        errorMessage = error.response.data.message;
+      }
+
+      setAlert({
+        isVisible: true,
+        message: errorMessage,
+        type: "error",
+      });
     }
   };
 
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-start pt-8">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-4xl">
+        <Alert
+          isVisible={alert.isVisible}
+          message={alert.message}
+          type={alert.type}
+          onClose={() => setAlert({ ...alert, isVisible: false })}
+        />
+
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
           Yeni Firma Oluştur
         </h1>
