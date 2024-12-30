@@ -1,6 +1,7 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAxios } from "../../../../shared/hooks/axios-hook";
+import Alert from "../../../../component/alert";
 
 const dilFields = {
   firma_kodu: "",
@@ -10,19 +11,24 @@ const dilFields = {
 
 const DilOlustur = () => {
   const [dilData, setDilData] = useState(dilFields);
-  const [firmalar,setFirmalar] = useState([]);
+  const [firmalar, setFirmalar] = useState([]);
+  const [alert, setAlert] = useState({
+    isVisible: false,
+    message: "",
+    type: "error",
+  });
   const { firma_kodu, dil_kodu, dil_adi } = dilData;
 
   const axios = useAxios();
   const navigate = useNavigate();
 
-  useEffect(()=>{
-   const fetchFirmalar = async () => {
-    const firmalarResponse = await axios.get('/firma')
-    setFirmalar(firmalarResponse.data.firmalar);
-   }
-   fetchFirmalar()
-  },[])
+  useEffect(() => {
+    const fetchFirmalar = async () => {
+      const firmalarResponse = await axios.get("/firma");
+      setFirmalar(firmalarResponse.data.firmalar);
+    };
+    fetchFirmalar();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -40,13 +46,31 @@ const DilOlustur = () => {
         navigate("/dil");
       }
     } catch (error) {
-      console.log("message:", error);
+      let errorMessage = "Hata oluştu !!";
+
+      if (error.response.status === 400) {
+        errorMessage = "Gerekli alan doldurmamışsınız !!";
+      } else {
+        errorMessage = "Böyle bir dil bulunmaktadır !!";
+      }
+
+      setAlert({
+        isVisible: true,
+        message: errorMessage,
+        type: "error",
+      });
     }
   };
 
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-start pt-8">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-4xl">
+        <Alert
+          isVisible={alert.isVisible}
+          message={alert.message}
+          type={alert.type}
+          onClose={() => setAlert({ ...alert, isVisible: false })}
+        />
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
           Yeni Dil Oluştur
         </h1>
@@ -65,12 +89,12 @@ const DilOlustur = () => {
               onChange={handleChange}
               className="w-full px-3 py-2 border rounded-lg"
             >
-             <option value="">Seçiniz</option>
-                {firmalar.map((firma) => (
-                  <option key={firma.COMCODE} value={firma.COMCODE}>
-                    {firma.COMCODE}
-                  </option>
-                ))}
+              <option value="">Seçiniz</option>
+              {firmalar.map((firma) => (
+                <option key={firma.COMCODE} value={firma.COMCODE}>
+                  {firma.COMCODE}
+                </option>
+              ))}
             </select>
           </div>
           <div className="mb-4">

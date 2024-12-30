@@ -1,8 +1,9 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAxios } from "../../../shared/hooks/axios-hook";
 import { Card, CardHeader, CardContent } from "@mui/material";
 import "../../FormStyles.css";
+import Alert from "../../../component/alert";
 
 const malzemeFields = {
   firma_kodu: "",
@@ -56,39 +57,51 @@ const MalzemeBilgileriOlustur = () => {
     malzeme_uzun_aciklamasi,
   } = materialData;
 
-  const [firmalar,setFirmalar] = useState([])
-  const [malzemeTipleri,setMalzemeTipiler] = useState([])
-  const [birimler,setBirimler] = useState([]) 
-  const [urunAgaciTipleri,setUrunAgaciTipleri] = useState([])
-  const [rotaTipleri,setRotaTipleri]  = useState([])
-  const [diller,setDiller] = useState([])
+  const [firmalar, setFirmalar] = useState([]);
+  const [malzemeTipleri, setMalzemeTipiler] = useState([]);
+  const [birimler, setBirimler] = useState([]);
+  const [urunAgaciTipleri, setUrunAgaciTipleri] = useState([]);
+  const [rotaTipleri, setRotaTipleri] = useState([]);
+  const [diller, setDiller] = useState([]);
+  const [alert, setAlert] = useState({
+    isVisible: false,
+    message: "",
+    type: "error",
+  });
 
   const axios = useAxios();
   const navigate = useNavigate();
 
-  useEffect(()=>{
-    const fetchSupportInfos = async () =>{
-       try{
-         const [firmalarResponse,malzemeTiplerResponse,birimlerResponse,urunAgaciTiplerResponse,rotaTiplerResponse,dillerResponse] = await Promise.all([
-          await axios.get('/firma'),
-          await axios.get('/malzeme'),
-          await axios.get('/birim'),
-          await axios.get('/urun-agaci'),
-          await axios.get('/rota'),
-          await axios.get('/dil')
-          ])
-         setFirmalar(firmalarResponse.data.firmalar)
-         setMalzemeTipiler(malzemeTiplerResponse.data.malzemeler)
-         setBirimler(birimlerResponse.data.transformedBirimler)
-         setUrunAgaciTipleri(urunAgaciTiplerResponse.data.urunAgacilari)
-         setRotaTipleri(rotaTiplerResponse.data.rotalar)
-         setDiller(dillerResponse.data.diller)
-       } catch(error){
-        console.log('error',error.message);
-       }
-    } 
+  useEffect(() => {
+    const fetchSupportInfos = async () => {
+      try {
+        const [
+          firmalarResponse,
+          malzemeTiplerResponse,
+          birimlerResponse,
+          urunAgaciTiplerResponse,
+          rotaTiplerResponse,
+          dillerResponse,
+        ] = await Promise.all([
+          await axios.get("/firma"),
+          await axios.get("/malzeme"),
+          await axios.get("/birim"),
+          await axios.get("/urun-agaci"),
+          await axios.get("/rota"),
+          await axios.get("/dil"),
+        ]);
+        setFirmalar(firmalarResponse.data.firmalar);
+        setMalzemeTipiler(malzemeTiplerResponse.data.malzemeler);
+        setBirimler(birimlerResponse.data.transformedBirimler);
+        setUrunAgaciTipleri(urunAgaciTiplerResponse.data.urunAgacilari);
+        setRotaTipleri(rotaTiplerResponse.data.rotalar);
+        setDiller(dillerResponse.data.diller);
+      } catch (error) {
+        console.log("error", error.message);
+      }
+    };
     fetchSupportInfos();
-  },[])
+  }, []);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -106,12 +119,30 @@ const MalzemeBilgileriOlustur = () => {
         navigate("/MalzemeBilgileri");
       }
     } catch (error) {
-      console.log("message:", error.response.data.message);
+      let errorMessage = "Hata oluştu !!";
+
+      if (error.response.status === 400) {
+        errorMessage = "Gerekli alan doldurmamışsınız !!";
+      } else {
+        errorMessage = "Böyle bir malzeme bulunmaktadır !!";
+      }
+
+      setAlert({
+        isVisible: true,
+        message: errorMessage,
+        type: "error",
+      });
     }
   };
 
   return (
     <Card sx={{ boxShadow: 3, borderRadius: 2, padding: 2 }}>
+      <Alert
+        isVisible={alert.isVisible}
+        message={alert.message}
+        type={alert.type}
+        onClose={() => setAlert({ ...alert, isVisible: false })}
+      />
       <CardHeader
         title="Malzeme Bilgileri Formu"
         titleTypographyProps={{
@@ -136,7 +167,7 @@ const MalzemeBilgileriOlustur = () => {
                 className="form-input"
                 required
               >
-              <option value="">Seçiniz</option>
+                <option value="">Seçiniz</option>
                 {firmalar.map((firma) => (
                   <option key={firma.COMCODE} value={firma.COMCODE}>
                     {firma.COMCODE}
@@ -158,10 +189,10 @@ const MalzemeBilgileriOlustur = () => {
                 className="form-input"
                 required
               >
-              <option value="">Seçiniz</option>
+                <option value="">Seçiniz</option>
                 {malzemeTipleri.map((malzeme) => (
                   <option key={malzeme.DOCTYPE} value={malzeme.DOCTYPE}>
-                    {malzeme.COMCODE}  {malzeme.DOCTYPE}
+                    {malzeme.COMCODE} {malzeme.DOCTYPE}
                   </option>
                 ))}
               </select>
@@ -257,10 +288,10 @@ const MalzemeBilgileriOlustur = () => {
                 onChange={handleChange}
                 className="form-input"
               >
-              <option value="">Seçiniz</option>
+                <option value="">Seçiniz</option>
                 {birimler.map((birim) => (
                   <option key={birim.DOCTYPE} value={birim.UNITCODE}>
-                    {birim.COMCODE}  {birim.UNITCODE}
+                    {birim.COMCODE} {birim.UNITCODE}
                   </option>
                 ))}
               </select>
@@ -297,12 +328,12 @@ const MalzemeBilgileriOlustur = () => {
                   onChange={handleChange}
                   className="form-input"
                 >
-                <option value="">Seçiniz</option>
-                {birimler.map((birim) => (
-                  <option key={birim.DOCTYPE} value={birim.UNITCODE}>
-                    {birim.COMCODE}  {birim.UNITCODE}
-                  </option>
-                ))}
+                  <option value="">Seçiniz</option>
+                  {birimler.map((birim) => (
+                    <option key={birim.DOCTYPE} value={birim.UNITCODE}>
+                      {birim.COMCODE} {birim.UNITCODE}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -338,12 +369,12 @@ const MalzemeBilgileriOlustur = () => {
                   onChange={handleChange}
                   className="form-input"
                 >
-                <option value="">Seçiniz</option>
-                {birimler.map((birim) => (
-                  <option key={birim.DOCTYPE} value={birim.UNITCODE}>
-                    {birim.COMCODE} {birim.UNITCODE}
-                  </option>
-                ))}
+                  <option value="">Seçiniz</option>
+                  {birimler.map((birim) => (
+                    <option key={birim.DOCTYPE} value={birim.UNITCODE}>
+                      {birim.COMCODE} {birim.UNITCODE}
+                    </option>
+                  ))}
                 </select>
               </div>
             </div>
@@ -401,10 +432,10 @@ const MalzemeBilgileriOlustur = () => {
                 className="form-input"
                 disabled={urun_agaci_var_mi !== "1"}
               >
-              <option value="">Seçiniz</option>
+                <option value="">Seçiniz</option>
                 {urunAgaciTipleri.map((urunAgaci) => (
                   <option key={urunAgaci.DOCTYPE} value={urunAgaci.DOCTYPE}>
-                    {urunAgaci.COMCODE}  {urunAgaci.DOCTYPE}
+                    {urunAgaci.COMCODE} {urunAgaci.DOCTYPE}
                   </option>
                 ))}
               </select>
@@ -483,10 +514,10 @@ const MalzemeBilgileriOlustur = () => {
                 className="form-input"
                 disabled={rota_var_mi !== "1"}
               >
-              <option value="">Seçiniz</option>
+                <option value="">Seçiniz</option>
                 {rotaTipleri.map((rota) => (
                   <option key={rota.DOCTYPE} value={rota.DOCTYPE}>
-                    {rota.COMCODE}  {rota.DOCTYPE}
+                    {rota.COMCODE} {rota.DOCTYPE}
                   </option>
                 ))}
               </select>
@@ -587,7 +618,7 @@ const MalzemeBilgileriOlustur = () => {
                 <option value="">Seçiniz</option>
                 {diller.map((dil) => (
                   <option key={dil.DOCTYPE} value={dil.LANCODE}>
-                    {dil.COMCODE}  {dil.LANCODE}
+                    {dil.COMCODE} {dil.LANCODE}
                   </option>
                 ))}
               </select>

@@ -48,13 +48,12 @@ const FirmaOlustur = () => {
         navigate("/firma");
       }
     } catch (error) {
-      let errorMessage = 'Hata oluştu !!';
+      let errorMessage = "Hata oluştu !!";
 
-      if(error.response.status === 400){
-        errorMessage = 'Gerekli alan doldurmamışsınız !!'
-      }
-      else{
-        errorMessage = 'Böyle bir firma bulunmaktadır !!'
+      if (error.response.status === 400) {
+        errorMessage = "Gerekli alan doldurmamışsınız !!";
+      } else {
+        errorMessage = "Böyle bir firma bulunmaktadır !!";
       }
 
       setAlert({
@@ -74,7 +73,6 @@ const FirmaOlustur = () => {
           type={alert.type}
           onClose={() => setAlert({ ...alert, isVisible: false })}
         />
-
         <h1 className="text-3xl font-bold text-gray-800 mb-6 text-center">
           Yeni Firma Oluştur
         </h1>
