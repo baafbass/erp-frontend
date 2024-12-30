@@ -3,6 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useAxios } from "../../../shared/hooks/axios-hook";
 import { Card, CardHeader, CardContent } from "@mui/material";
 import "../../FormStyles.css";
+import Alert from "../../../component/alert";
 
 const isMerkezleriFields = {
   firma_kodu: "",
@@ -48,6 +49,11 @@ const IsMerkezleriOlustur = () => {
   const [isMerkTipleri, setIsMerkTipiler] = useState([]);
   const [maliyetMerkTipleri, setMaliyetMerkTipiler] = useState([]);
   const [operaTipleri, setOperaTipleri] = useState([]);
+  const [alert, setAlert] = useState({
+    isVisible: false,
+    message: "",
+    type: "error",
+  });
   const [diller, setDiller] = useState([]);
 
   const axios = useAxios();
@@ -97,12 +103,30 @@ const IsMerkezleriOlustur = () => {
         navigate("/IsMerkezleri");
       }
     } catch (error) {
-      console.log("message:", error);
+      let errorMessage = "Hata oluştu !!";
+
+      if (error.response.status === 400) {
+        errorMessage = "Gerekli alan doldurmamışsınız !!";
+      } else {
+        errorMessage = "Böyle bir iş merkezi bulunmaktadır !!";
+      }
+
+      setAlert({
+        isVisible: true,
+        message: errorMessage,
+        type: "error",
+      });
     }
   };
 
   return (
     <Card sx={{ boxShadow: 3, borderRadius: 2, padding: 2 }}>
+      <Alert
+        isVisible={alert.isVisible}
+        message={alert.message}
+        type={alert.type}
+        onClose={() => setAlert({ ...alert, isVisible: false })}
+      />
       <CardHeader
         title="İş Merkezleri Formu"
         titleTypographyProps={{

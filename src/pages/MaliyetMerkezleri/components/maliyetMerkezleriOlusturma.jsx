@@ -1,29 +1,29 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAxios } from "../../../shared/hooks/axios-hook";
 import { Card, CardHeader, CardContent } from "@mui/material";
 import "../../FormStyles.css";
+import Alert from "../../../component/alert";
 
 const maliyetMerkezFields = {
-	firma_kodu:"",
-    maliyet_merk_tipi:"",
-    maliyet_merk_kodu:"",
-    gecerlilik_bas:"",
-    gecerlilik_bit:"",
-    ana_maliyet_merk_tipi:"",
-    ana_maliyet_merk_kodu:"",
-    silindi_mi:"0",
-    passif_mi:"0",
-    dil_kodu:"",
-    maliyet_merk_kisa_aciklamasi:"",
-    maliyet_merk_uzun_aciklamasi:""
-}
+  firma_kodu: "",
+  maliyet_merk_tipi: "",
+  maliyet_merk_kodu: "",
+  gecerlilik_bas: "",
+  gecerlilik_bit: "",
+  ana_maliyet_merk_tipi: "",
+  ana_maliyet_merk_kodu: "",
+  silindi_mi: "0",
+  passif_mi: "0",
+  dil_kodu: "",
+  maliyet_merk_kisa_aciklamasi: "",
+  maliyet_merk_uzun_aciklamasi: "",
+};
 
 const MaliyetMerkezleriOlusturma = () => {
-
-	const [maliyetMerkData,setMaliyetMerkData] = useState(maliyetMerkezFields);
-	const {
-	firma_kodu,
+  const [maliyetMerkData, setMaliyetMerkData] = useState(maliyetMerkezFields);
+  const {
+    firma_kodu,
     maliyet_merk_tipi,
     maliyet_merk_kodu,
     gecerlilik_bas,
@@ -34,35 +34,40 @@ const MaliyetMerkezleriOlusturma = () => {
     passif_mi,
     dil_kodu,
     maliyet_merk_kisa_aciklamasi,
-    maliyet_merk_uzun_aciklamasi
-         } = maliyetMerkData;
+    maliyet_merk_uzun_aciklamasi,
+  } = maliyetMerkData;
 
-    const [firmalar,setFirmalar] = useState([])
-    const [maliyetMerkTipleri,setMaliyetMerkTipiler] = useState([])
-    const [diller,setDiller] = useState([])
+  const [firmalar, setFirmalar] = useState([]);
+  const [maliyetMerkTipleri, setMaliyetMerkTipiler] = useState([]);
+  const [diller, setDiller] = useState([]);
+  const [alert, setAlert] = useState({
+    isVisible: false,
+    message: "",
+    type: "error",
+  });
 
   const axios = useAxios();
   const navigate = useNavigate();
 
-  useEffect(()=>{
-    const fetchSupportInfos = async () =>{
-       try{
-         const [firmalarResponse,maliyetMerkTiplerResponse,dillerResponse] = await Promise.all([
-          await axios.get('/firma'),
-          await axios.get('/maliyet-merkezi'),
-          await axios.get('/dil')
-          ])
-         
-         setFirmalar(firmalarResponse.data.firmalar)
-         setMaliyetMerkTipiler(maliyetMerkTiplerResponse.data.maliyetMerkezleri)
-         setDiller(dillerResponse.data.diller)
-       } catch(error){
-        console.log('error',error.message);
-       }
-    } 
-    fetchSupportInfos();
-  },[])
+  useEffect(() => {
+    const fetchSupportInfos = async () => {
+      try {
+        const [firmalarResponse, maliyetMerkTiplerResponse, dillerResponse] =
+          await Promise.all([
+            await axios.get("/firma"),
+            await axios.get("/maliyet-merkezi"),
+            await axios.get("/dil"),
+          ]);
 
+        setFirmalar(firmalarResponse.data.firmalar);
+        setMaliyetMerkTipiler(maliyetMerkTiplerResponse.data.maliyetMerkezleri);
+        setDiller(dillerResponse.data.diller);
+      } catch (error) {
+        console.log("error", error.message);
+      }
+    };
+    fetchSupportInfos();
+  }, []);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
@@ -80,12 +85,30 @@ const MaliyetMerkezleriOlusturma = () => {
         navigate("/maliyet-merkezleri");
       }
     } catch (error) {
-      console.log("message:", error.response.data.message);
+      let errorMessage = "Hata oluştu !!";
+
+      if (error.response.status === 400) {
+        errorMessage = "Gerekli alan doldurmamışsınız !!";
+      } else {
+        errorMessage = "Böyle bir M.merkezi bulunmaktadır !!";
+      }
+
+      setAlert({
+        isVisible: true,
+        message: errorMessage,
+        type: "error",
+      });
     }
   };
 
   return (
     <Card sx={{ boxShadow: 3, borderRadius: 2, padding: 2 }}>
+      <Alert
+        isVisible={alert.isVisible}
+        message={alert.message}
+        type={alert.type}
+        onClose={() => setAlert({ ...alert, isVisible: false })}
+      />
       <CardHeader
         title="Maliyet Merkezleri Formu"
         titleTypographyProps={{
@@ -110,7 +133,7 @@ const MaliyetMerkezleriOlusturma = () => {
                 className="form-input"
                 required
               >
-              <option value="">Seçiniz</option>
+                <option value="">Seçiniz</option>
                 {firmalar.map((firma) => (
                   <option key={firma.COMCODE} value={firma.COMCODE}>
                     {firma.COMCODE}
@@ -131,16 +154,15 @@ const MaliyetMerkezleriOlusturma = () => {
                 className="form-input"
                 required
               >
-              <option value="">Seçiniz</option>
+                <option value="">Seçiniz</option>
                 {maliyetMerkTipleri.map((maliyetMerk) => (
                   <option key={maliyetMerk.DOCTYPE} value={maliyetMerk.DOCTYPE}>
-                    {maliyetMerk.COMCODE}  {maliyetMerk.DOCTYPE}
+                    {maliyetMerk.COMCODE} {maliyetMerk.DOCTYPE}
                   </option>
                 ))}
               </select>
             </div>
 
-           
             <div className="form-group">
               <label htmlFor="maliyet_merk_kodu" className="form-label">
                 Maliyet Merkezi Kodu
@@ -189,11 +211,7 @@ const MaliyetMerkezleriOlusturma = () => {
               />
             </div>
 
-
-
-
-
-             <div className="form-group">
+            <div className="form-group">
               <label htmlFor="ana_maliyet_merk_tipi" className="form-label">
                 Ana Maliyet Merkezi Tipi
               </label>
@@ -210,7 +228,6 @@ const MaliyetMerkezleriOlusturma = () => {
               />
             </div>
 
-           
             <div className="form-group">
               <label htmlFor="ana_maliyet_merk_kodu" className="form-label">
                 Ana Maliyet Merkezi Kodu
@@ -305,7 +322,7 @@ const MaliyetMerkezleriOlusturma = () => {
                 <option value="">Seçiniz</option>
                 {diller.map((dil) => (
                   <option key={dil.DOCTYPE} value={dil.LANCODE}>
-                    {dil.COMCODE}  {dil.LANCODE}
+                    {dil.COMCODE} {dil.LANCODE}
                   </option>
                 ))}
               </select>
@@ -313,7 +330,10 @@ const MaliyetMerkezleriOlusturma = () => {
 
             {/* Malzeme Kısa Açıklaması */}
             <div className="form-group">
-              <label htmlFor="maliyet_merk_kisa_aciklamasi" className="form-label">
+              <label
+                htmlFor="maliyet_merk_kisa_aciklamasi"
+                className="form-label"
+              >
                 Maliyet Merkezi Kısa Açıklaması
               </label>
               <input
@@ -330,7 +350,10 @@ const MaliyetMerkezleriOlusturma = () => {
 
             {/* Malzeme Uzun Açıklaması */}
             <div className="form-group md:col-span-3">
-              <label htmlFor="maliyet_merk_uzun_aciklamasi" className="form-label">
+              <label
+                htmlFor="maliyet_merk_uzun_aciklamasi"
+                className="form-label"
+              >
                 Maliyet Merkezi Uzun Açıklaması
               </label>
               <textarea
@@ -364,7 +387,7 @@ const MaliyetMerkezleriOlusturma = () => {
         </form>
       </CardContent>
     </Card>
-  );   
-}
+  );
+};
 
 export default MaliyetMerkezleriOlusturma;
