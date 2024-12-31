@@ -218,7 +218,7 @@ const IsMerkezleriPage = () => {
                 <th className="px-4 py-2 text-left">Geçerlilik Başlangıç</th>
                 <th className="px-4 py-2 text-left">Geçerlilik Bitiş</th>
                 <th className="px-4 py-2 text-left">Dil Kodu</th>
-                <th className="px-4 py-2 text-left">Silindi mi?</th>
+                <th className="px-4 py-2 text-left">Ürün Kısa Açıklaması</th>
                 <th className="px-4 py-2 text-left">Passif mi?</th>
                 <th className="px-4 py-2 text-left">Operasyon Kodu</th>
                 <th className="px-4 py-2 text-center">İşlemler</th>
@@ -233,7 +233,7 @@ const IsMerkezleriPage = () => {
                   <td className="px-4 py-2">{costcenter.WCMDOCFROM}</td>
                   <td className="px-4 py-2">{costcenter.WCMDOCUNTIL}</td>
                   <td className="px-4 py-2">{costcenter.LANCODE}</td>
-                  <td className="px-4 py-2">{costcenter.ISDELETED}</td>
+                  <td className="px-4 py-2">{costcenter.WCMSTEXT}</td>
                   <td className="px-4 py-2">{costcenter.ISPASSIVE}</td>
                   <td className="px-4 py-2">{costcenter.OPRDOCTYPE}</td>
                   <td className="px-4 py-2 flex justify-center items-center space-x-2">

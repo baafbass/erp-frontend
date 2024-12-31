@@ -209,7 +209,7 @@ const MalzemeBilgileriPage = () => {
                 <th className="px-4 py-2 text-left">Geçerlilik Başlangıç</th>
                 <th className="px-4 py-2 text-left">Geçerlilik Bitiş</th>
                 <th className="px-4 py-2 text-left">Tedarik Tipi</th>
-                <th className="px-4 py-2 text-left">Silindi?</th>
+                <th className="px-4 py-2 text-left">Malzeme Stok Birimi</th>
                 <th className="px-4 py-2 text-left">Pasif mi?</th>
                 <th className="px-4 py-2 text-center">İşlemler</th>
               </tr>
@@ -223,7 +223,7 @@ const MalzemeBilgileriPage = () => {
                   <td className="px-4 py-2">{material.MATDOCFROM}</td>
                   <td className="px-4 py-2">{material.MATDOCUNTIL}</td>
                   <td className="px-4 py-2">{material.SUPPLYTYPE}</td>
-                  <td className="px-4 py-2">{material.ISDELETED}</td>
+                  <td className="px-4 py-2">{material.STUNIT}</td>
                   <td className="px-4 py-2">{material.ISPASSIVE}</td>
                   <td className="px-4 py-2 flex justify-center space-x-2">
                     <button
@@ -274,3 +274,5 @@ const MalzemeBilgileriPage = () => {
 };
 
 export default MalzemeBilgileriPage;
+
+

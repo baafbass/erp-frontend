@@ -180,7 +180,7 @@ const RotaOlustur = () => {
             {/* Ürün Ağacı Kodu */}
             <div className="form-group">
               <label htmlFor="urun_agaci_kodu" className="form-label">
-                Ürün Ağacı Kodu
+                Rota Kodu
               </label>
               <input
                 type="text"
@@ -191,7 +191,7 @@ const RotaOlustur = () => {
                 className="form-input"
                 required
                 maxLength={25}
-                placeholder="Ürün ağacı kodu girin"
+                placeholder="Rota kodu girin"
               />
             </div>
 
@@ -387,7 +387,7 @@ const RotaOlustur = () => {
             {/* Rota Numarası */}
             <div className="form-group">
               <label htmlFor="rota_numarasi" className="form-label">
-                Rota Numarası
+                Ürün ağacı kodu
               </label>
               <input
                 type="text"
@@ -398,7 +398,7 @@ const RotaOlustur = () => {
                 className="form-input"
                 required
                 maxLength={25}
-                placeholder="Rota numarası girin"
+                placeholder="Ürün ağacı kodu girin"
               />
             </div>
 

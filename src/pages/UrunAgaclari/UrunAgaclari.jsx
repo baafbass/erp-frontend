@@ -224,7 +224,7 @@ const UrunAgaclariPage = () => {
                 <th className="px-4 py-2 text-left">Malzeme Tipi</th>
                 <th className="px-4 py-2 text-left">Malzeme Kodu</th>
                 <th className="px-4 py-2 text-left">Temel Miktar</th>
-                <th className="px-4 py-2 text-left">Silindi?</th>
+                <th className="px-4 py-2 text-left">Bileşen Kodu</th>
                 <th className="px-4 py-2 text-left">Pasif mi?</th>
                 <th className="px-4 py-2 text-center">İşlemler</th>
               </tr>
@@ -240,7 +240,7 @@ const UrunAgaclariPage = () => {
                   <td className="px-4 py-2">{tree.MATDOCTYPE}</td>
                   <td className="px-4 py-2">{tree.MATDOCNUM}</td>
                   <td className="px-4 py-2">{tree.QUANTITY}</td>
-                  <td className="px-4 py-2">{tree.ISDELETED}</td>
+                  <td className="px-4 py-2">{tree.COMPONENT}</td>
                   <td className="px-4 py-2">{tree.ISPASSIVE}</td>
                   <td className="px-4 py-2 flex justify-center space-x-2">
                     <button

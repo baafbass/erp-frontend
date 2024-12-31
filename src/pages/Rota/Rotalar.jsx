@@ -235,7 +235,7 @@ const RotalarPage = () => {
                 <th className="px-4 py-2 text-left">Malzeme Tipi</th>
                 <th className="px-4 py-2 text-left">Malzeme Kodu</th>
                 <th className="px-4 py-2 text-left">Operasyon Numarası</th>
-                <th className="px-4 py-2 text-left">İş Merkezi Tipi</th>
+                <th className="px-4 py-2 text-left">Bileşen Kodu</th>
                 <th className="px-4 py-2 text-left">İş Merkezi Kodu</th>
                 <th className="px-4 py-2 center">İşlemler</th>
               </tr>
@@ -245,13 +245,13 @@ const RotalarPage = () => {
                 <tr key={index} className="border-b">
                   <td className="px-4 py-2">{route.COMCODE}</td>
                   <td className="px-4 py-2">{route.ROTDOCTYPE}</td>
-                  <td className="px-4 py-2">{route.ROTDOCNUM}</td>
+                  <td className="px-4 py-2">{route.BOMDOCNUM}</td>
                   <td className="px-4 py-2">{route.ROTDOCFROM}</td>
                   <td className="px-4 py-2">{route.ROTDOCUNTIL}</td>
                   <td className="px-4 py-2">{route.MATDOCTYPE}</td>
                   <td className="px-4 py-2">{route.MATDOCNUM}</td>
                   <td className="px-4 py-2">{route.OPRNUM}</td>
-                  <td className="px-4 py-2">{route.WCMDOCTYPE}</td>
+                  <td className="px-4 py-2">{route.COMPONENT}</td>
                   <td className="px-4 py-2">{route.WCMDOCNUM}</td>
                   <td className="px-4 py-2 flex justify-center space-x-2">
                     <button
