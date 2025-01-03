@@ -9,6 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useAxios } from "../../../shared/hooks/axios-hook";
 import UrunAgaciSilme from "./components/UrunAgaciSilme";
+import Alert from "../../../component/alert";
 
 const UrunAgaciPage = () => {
   const [boms, setBOMs] = useState([]);
@@ -16,6 +17,11 @@ const UrunAgaciPage = () => {
   const [SelectedBOM, setSelectedBOM] = useState();
   const tableRef = useRef(null);
   const dataTableRef = useRef(null);
+  const [alert, setAlert] = useState({
+    isVisible: false,
+    message: "",
+    type: "error",
+  });
 
   const axios = useAxios();
   const navigate = useNavigate();
@@ -123,7 +129,13 @@ const UrunAgaciPage = () => {
         );
       }
     } catch (error) {
-      console.error("Error Deleting bom", error.message);
+      let errorMessage = "BOM'a bağlı veriler var, önce onları kaldırın !!";
+
+      setAlert({
+        isVisible: true,
+        message: errorMessage,
+        type: "error",
+      });
     } finally {
       setOpenDialog(false);
     }
@@ -142,6 +154,12 @@ const UrunAgaciPage = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-start pt-8">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-6xl">
+        <Alert
+          isVisible={alert.isVisible}
+          message={alert.message}
+          type={alert.type}
+          onClose={() => setAlert({ ...alert, isVisible: false })}
+        />
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-gray-800">
             Ürün Ağacı Bilgileri

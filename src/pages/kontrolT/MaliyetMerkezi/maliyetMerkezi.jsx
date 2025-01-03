@@ -9,6 +9,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useAxios } from "../../../shared/hooks/axios-hook";
 import MaliyetMerkeziSilme from "./components/MaliyetMerkeziSilme";
+import Alert from "../../../component/alert";
 
 const MaliyetMerkeziPage = () => {
   const [costcenters, setCostCenters] = useState([]);
@@ -16,6 +17,11 @@ const MaliyetMerkeziPage = () => {
   const [selectedCostCenter, setSelectedCostCenter] = useState();
   const tableRef = useRef(null);
   const dataTableRef = useRef(null);
+  const [alert, setAlert] = useState({
+    isVisible: false,
+    message: "",
+    type: "error",
+  });
 
   const axios = useAxios();
   const navigate = useNavigate();
@@ -129,7 +135,14 @@ const MaliyetMerkeziPage = () => {
         );
       }
     } catch (error) {
-      console.error("Error Deleting costcenter", error.message);
+      let errorMessage =
+        "Maliyet Merkezine bağlı veriler var, önce onları kaldırın !!";
+
+      setAlert({
+        isVisible: true,
+        message: errorMessage,
+        type: "error",
+      });
     } finally {
       setOpenDialog(false);
     }
@@ -148,6 +161,12 @@ const MaliyetMerkeziPage = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-start pt-8">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-6xl">
+        <Alert
+          isVisible={alert.isVisible}
+          message={alert.message}
+          type={alert.type}
+          onClose={() => setAlert({ ...alert, isVisible: false })}
+        />
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-gray-800">
             Maliyet Merkezi Bilgileri

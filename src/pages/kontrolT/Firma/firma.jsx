@@ -9,11 +9,18 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useAxios } from "../../../shared/hooks/axios-hook";
 import FirmaSilme from "./components/firmaSilme";
+import Alert from "../../../component/alert";
 
 const FirmaPage = () => {
   const [companies, setCompanies] = useState([]);
   const [openDialog, setOpenDialog] = useState(false);
   const [selectedCompany, setSelectedCompany] = useState({});
+  const [alert, setAlert] = useState({
+    isVisible: false,
+    message: "",
+    type: "error",
+  });
+
   const tableRef = useRef(null);
   const dataTableRef = useRef(null);
 
@@ -121,7 +128,15 @@ const FirmaPage = () => {
         );
       }
     } catch (error) {
-      console.error("Firma Silme Hatası", error.message);
+
+      let errorMessage = " Firmaya bağlı veriler var, önce onları kaldırın !!";
+
+      setAlert({
+        isVisible: true,
+        message: errorMessage,
+        type: "error",
+      });
+
     } finally {
       setOpenDialog(false);
     }
@@ -140,6 +155,12 @@ const FirmaPage = () => {
   return (
     <div className="min-h-screen bg-gray-100 flex justify-center items-start pt-8">
       <div className="bg-white shadow-lg rounded-lg p-8 w-full max-w-6xl">
+      <Alert
+          isVisible={alert.isVisible}
+          message={alert.message}
+          type={alert.type}
+          onClose={() => setAlert({ ...alert, isVisible: false })}
+        />
         <div className="flex justify-between items-center mb-6">
           <h1 className="text-3xl font-bold text-gray-800">Firma Bilgileri</h1>
           <div className="flex space-x-4">
